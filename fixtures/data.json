@@ -1,0 +1,4258 @@
+{
+  "workspace": {
+    "id": "wks_vectorlabs",
+    "companyName": "Vector Labs",
+    "product": "Vector Pipeline — a real-time data pipeline platform that replaces batch ETL with streaming ingestion, schema enforcement, and sub-second delivery into warehouses and ML feature stores.",
+    "valueProps": [
+      "Cut data latency from hours to seconds without rewriting existing dbt models",
+      "SOC 2 Type II and HIPAA-ready deployment options",
+      "Usage-based pricing that typically lands 30-40% below Fivetran + Kafka self-managed"
+    ]
+  },
+  "accounts": [
+    {
+      "id": "acc_001",
+      "name": "Northwind Analytics",
+      "domain": "northwindanalytics.com",
+      "industry": "Data Analytics Software",
+      "employeeCount": 420,
+      "stage": "prospecting",
+      "createdAt": "2026-02-11T09:14:00Z",
+      "enrichment": {
+        "summary": "Northwind Analytics sells embedded BI dashboards to mid-market SaaS companies. Engineering blog posts from Q1 2026 describe pain moving off nightly Airflow batch jobs; they are hiring 4 data platform engineers. Their status page showed three data-freshness incidents in May 2026.",
+        "techStack": [
+          "Snowflake",
+          "Airflow",
+          "dbt",
+          "Fivetran",
+          "AWS"
+        ],
+        "signals": [
+          {
+            "type": "hiring",
+            "detail": "4 open Data Platform Engineer roles (posted 2026-06-02)",
+            "confidence": "high"
+          },
+          {
+            "type": "pain",
+            "detail": "Public postmortem: 'stale dashboard data caused by delayed batch loads' (2026-05-19)",
+            "confidence": "high"
+          },
+          {
+            "type": "budget-cycle",
+            "detail": "Fiscal year ends Jan 31; infra budget planning starts Nov",
+            "confidence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acc_002",
+      "name": "Harborview Health",
+      "domain": "harborviewhealth.com",
+      "industry": "Healthcare SaaS",
+      "employeeCount": 1200,
+      "stage": "prospecting",
+      "createdAt": "2026-01-20T15:02:00Z",
+      "enrichment": {
+        "summary": "Harborview Health provides patient-engagement software to hospital systems. HIPAA compliance dominates their vendor evaluations. A May 2026 conference talk by their VP Data described a 'multi-year initiative to get clinical event data into the warehouse in under a minute'.",
+        "techStack": [
+          "BigQuery",
+          "Kafka (self-managed)",
+          "Looker",
+          "GCP"
+        ],
+        "signals": [
+          {
+            "type": "initiative",
+            "detail": "VP Data public talk on sub-minute clinical event pipelines (2026-05-14)",
+            "confidence": "high"
+          },
+          {
+            "type": "compliance",
+            "detail": "HIPAA required for all data vendors; security review averages 6 weeks",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acc_003",
+      "name": "Copperline Logistics",
+      "domain": "copperline.io",
+      "industry": "Freight & Logistics Tech",
+      "employeeCount": 800,
+      "stage": "prospecting",
+      "createdAt": "2026-03-05T11:47:00Z",
+      "enrichment": {
+        "summary": "Copperline runs a freight marketplace matching shippers with carriers. Real-time ETA prediction is their differentiator; their ML team has complained publicly about feature staleness. Currently mid-migration from Redshift to Snowflake.",
+        "techStack": [
+          "Redshift",
+          "Snowflake (migrating)",
+          "Spark",
+          "Airflow",
+          "AWS"
+        ],
+        "signals": [
+          {
+            "type": "migration",
+            "detail": "Redshift → Snowflake migration announced internally, per hiring posts (2026-04)",
+            "confidence": "medium"
+          },
+          {
+            "type": "pain",
+            "detail": "ML lead tweeted about 'features that are 4 hours stale by the time the model sees them' (2026-05-30)",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acc_004",
+      "name": "Bluefin Payments",
+      "domain": "bluefinpay.com",
+      "industry": "Fintech",
+      "employeeCount": 300,
+      "stage": "prospecting",
+      "createdAt": "2026-04-18T08:30:00Z",
+      "enrichment": {
+        "summary": "Bluefin processes card-present payments for restaurants. Fraud detection latency is a board-level topic after a Q1 2026 incident. Small data team (6 people) — favors managed services over self-run infra.",
+        "techStack": [
+          "Postgres",
+          "Debezium",
+          "Kafka (MSK)",
+          "Databricks"
+        ],
+        "signals": [
+          {
+            "type": "incident",
+            "detail": "Q1 2026 fraud losses attributed to 15-minute detection lag (earnings call mention)",
+            "confidence": "high"
+          },
+          {
+            "type": "team-size",
+            "detail": "Data team of 6; prefers managed/vendor solutions",
+            "confidence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acc_005",
+      "name": "Orchard & Vine",
+      "domain": "orchardandvine.com",
+      "industry": "E-commerce",
+      "employeeCount": 150,
+      "stage": "nurture",
+      "createdAt": "2026-02-27T17:55:00Z",
+      "enrichment": {
+        "summary": "Orchard & Vine is a DTC specialty-food marketplace. Data needs are modest (daily batch is fine for them today); they went quiet after a pricing conversation in May. Likely too small for near-term fit.",
+        "techStack": [
+          "Shopify",
+          "BigQuery",
+          "Fivetran"
+        ],
+        "signals": [
+          {
+            "type": "fit-risk",
+            "detail": "Daily batch refresh meets current needs; price-sensitive (May 2026 call)",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acc_006",
+      "name": "Summit Grid Energy",
+      "domain": "summitgrid.com",
+      "industry": "Energy / Utilities Tech",
+      "employeeCount": 2400,
+      "stage": "prospecting",
+      "createdAt": "2026-05-02T10:05:00Z",
+      "enrichment": {
+        "summary": "Summit Grid operates smart-meter infrastructure across three states. IoT telemetry volume (2M meters, 15-min reads) is pushing their batch warehouse loads past SLA. Procurement is slow (9-12 months) but deal sizes are large.",
+        "techStack": [
+          "Snowflake",
+          "Kinesis",
+          "Airflow",
+          "AWS"
+        ],
+        "signals": [
+          {
+            "type": "scale",
+            "detail": "2M smart meters at 15-minute read intervals; batch loads missing SLA (partner intel)",
+            "confidence": "medium"
+          },
+          {
+            "type": "procurement",
+            "detail": "9-12 month procurement cycle; RFP-driven",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acc_007",
+      "name": "Pinebox Software",
+      "domain": "pinebox.dev",
+      "industry": "Developer Tools",
+      "employeeCount": 90,
+      "stage": "prospecting",
+      "createdAt": "2026-06-10T13:40:00Z",
+      "enrichment": {
+        "summary": "Pinebox builds CI observability tooling. A staff engineer signed up for the Vector Pipeline free tier on 2026-06-08 and ran a proof-of-concept ingesting build telemetry. Strong product-qualified signal; small but fast-moving buyer.",
+        "techStack": [
+          "ClickHouse",
+          "Postgres",
+          "GCP"
+        ],
+        "signals": [
+          {
+            "type": "product-qualified",
+            "detail": "Free-tier signup + active PoC by staff engineer Rosa Delgado (2026-06-08)",
+            "confidence": "high"
+          },
+          {
+            "type": "speed",
+            "detail": "Historically signs vendor deals in <30 days (2 prior tools per their blog)",
+            "confidence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acc_008",
+      "name": "Lantern Security",
+      "domain": "lanternsec.com",
+      "industry": "Cybersecurity",
+      "employeeCount": 550,
+      "stage": "prospecting",
+      "createdAt": "2026-03-22T09:00:00Z",
+      "enrichment": {
+        "summary": "Lantern sells SIEM software to mid-market security teams. Their detection pipeline ingests customer log streams; they've blogged about the cost of self-managed Kafka at their scale. Security review is strict (SOC 2 + pen test required of vendors).",
+        "techStack": [
+          "Kafka (self-managed)",
+          "Elasticsearch",
+          "Snowflake",
+          "AWS"
+        ],
+        "signals": [
+          {
+            "type": "cost",
+            "detail": "Blog post: 'we spend 1.5 FTEs babysitting Kafka' (2026-04-22)",
+            "confidence": "high"
+          },
+          {
+            "type": "compliance",
+            "detail": "Vendor security review requires SOC 2 Type II + recent pen test",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acc_009",
+      "name": "Tidewater Insurance",
+      "domain": "tidewaterins.com",
+      "industry": "Insurance",
+      "employeeCount": 2100,
+      "stage": "prospecting",
+      "createdAt": "2026-05-04T10:22:00Z",
+      "enrichment": {
+        "summary": "Tidewater is a mid-market P&C carrier modernizing claims processing. Their 2026 investor deck names 'same-day claims decisioning' as a top-three initiative; the data team publicly presented on nightly mainframe extracts as the bottleneck.",
+        "techStack": [
+          "Oracle",
+          "Informatica",
+          "Snowflake",
+          "Azure"
+        ],
+        "signals": [
+          {
+            "type": "initiative",
+            "detail": "Investor deck names same-day claims decisioning as top-3 priority (2026-Q2)",
+            "confidence": "high"
+          },
+          {
+            "type": "pain",
+            "detail": "Conference talk: nightly mainframe extracts delay claims scoring by 18h (2026-06)",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acc_010",
+      "name": "Kestrel Robotics",
+      "domain": "kestrelrobotics.io",
+      "industry": "Industrial Robotics",
+      "employeeCount": 340,
+      "stage": "prospecting",
+      "createdAt": "2026-05-04T10:22:00Z",
+      "enrichment": {
+        "summary": "Kestrel builds warehouse picking robots. Fleet telemetry runs through a homegrown Kafka cluster; two engineers left in Q2 and their blog mentions 'reducing bespoke infrastructure' as a 2026 goal.",
+        "techStack": [
+          "Kafka",
+          "Postgres",
+          "Databricks",
+          "GCP"
+        ],
+        "signals": [
+          {
+            "type": "pain",
+            "detail": "Blog: 'reducing bespoke infrastructure' after Q2 attrition on the platform team",
+            "confidence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acc_011",
+      "name": "Marchetti Retail Group",
+      "domain": "marchettiretail.com",
+      "industry": "Retail",
+      "employeeCount": 5600,
+      "stage": "prospecting",
+      "createdAt": "2026-05-04T10:22:00Z",
+      "enrichment": {
+        "summary": "Marchetti runs 380 grocery locations. Their CIO announced a real-time inventory program in April 2026; current stack batches point-of-sale data hourly into Redshift.",
+        "techStack": [
+          "Redshift",
+          "Airflow",
+          "Talend",
+          "AWS"
+        ],
+        "signals": [
+          {
+            "type": "initiative",
+            "detail": "CIO announced real-time inventory program (2026-04)",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acc_012",
+      "name": "Meridian Telecom",
+      "domain": "meridiantelecom.com",
+      "industry": "Telecommunications",
+      "employeeCount": 7400,
+      "stage": "prospecting",
+      "createdAt": "2025-11-03T09:15:00Z",
+      "enrichment": {
+        "summary": "Regional mobile and fixed-line operator, ~7,400 employees, 4.1M subscribers across eleven western states. Mid-flight on 'Horizon', a two-year replacement of their billing and mediation stack; a company-wide change freeze protects the cutover. Network and subscriber data still moves in nightly batch windows that were sized for a smaller subscriber base — revenue assurance has flagged the overrun twice in public filings. Buying is committee-driven: security review, architecture review, and procurement all gate anything above $250k.",
+        "techStack": [
+          "Oracle Exadata",
+          "Informatica PowerCenter",
+          "Hadoop (Cloudera, on-prem)",
+          "Kafka (self-managed, 0.11 and 3.x clusters)",
+          "Snowflake",
+          "Airflow",
+          "dbt",
+          "Amdocs mediation",
+          "Splunk",
+          "GCP (partial migration)"
+        ],
+        "signals": [
+          {
+            "type": "initiative",
+            "detail": "'Horizon' billing and mediation replacement, cutover scheduled 2026-09; change freeze in force until it lands",
+            "confidence": "high"
+          },
+          {
+            "type": "pain",
+            "detail": "Nightly CDR mediation batch overruns the 06:00 revenue-assurance cutoff about twice a week (Q2 filing, risk factors)",
+            "confidence": "high"
+          },
+          {
+            "type": "hiring",
+            "detail": "Six open roles on the data platform team, all streaming-adjacent (Kafka, Flink, real-time SRE)",
+            "confidence": "medium"
+          },
+          {
+            "type": "org",
+            "detail": "Data platform moved under the CTO in January 2026, out of IT",
+            "confidence": "high"
+          },
+          {
+            "type": "vendor",
+            "detail": "Informatica renewal comes up March 2027; FinOps has an internal mandate to cut ETL spend 20%",
+            "confidence": "medium"
+          },
+          {
+            "type": "compliance",
+            "detail": "CPNI handling means any vendor touching subscriber data goes through a full security review",
+            "confidence": "high"
+          }
+        ]
+      }
+    }
+  ],
+  "prospects": [
+    {
+      "id": "pro_001",
+      "accountId": "acc_001",
+      "firstName": "Maya",
+      "lastName": "Chen",
+      "title": "Engineering Manager, Data Platform",
+      "email": "maya.chen@northwindanalytics.com",
+      "phone": "+1-303-555-0142",
+      "linkedinUrl": "https://linkedin.com/in/maya-chen-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-06-24T16:10:00Z",
+      "enrichment": {
+        "notes": "Promoted to Engineering Manager, Data Platform in January 2026. Now manages the 5-person team that owns Airflow and the Snowflake loads. Wrote the May 2026 postmortem on stale dashboard data.",
+        "signals": [
+          {
+            "type": "promotion",
+            "detail": "IC Data Engineer → Engineering Manager, Data Platform (2026-01)",
+            "confidence": "high"
+          },
+          {
+            "type": "authored-postmortem",
+            "detail": "Author of the 2026-05-19 data-freshness postmortem",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_002",
+      "accountId": "acc_001",
+      "firstName": "Derek",
+      "lastName": "Osei",
+      "title": "VP of Engineering",
+      "email": "derek.osei@northwindanalytics.com",
+      "phone": "+1-303-555-0177",
+      "linkedinUrl": "https://linkedin.com/in/derek-osei-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Owns platform + product engineering. Public speaker on build-vs-buy for data infra; skeptical of vendor lock-in per a March 2026 podcast.",
+        "signals": [
+          {
+            "type": "objection-risk",
+            "detail": "Voiced vendor lock-in concerns on Data Stack Podcast (2026-03)",
+            "confidence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_003",
+      "accountId": "acc_001",
+      "firstName": "Priya",
+      "lastName": "Raman",
+      "title": "Senior Analytics Engineer",
+      "email": "priya.raman@northwindanalytics.com",
+      "phone": "+1-303-555-0155",
+      "linkedinUrl": "https://linkedin.com/in/priya-raman-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-07-01T18:32:00Z",
+      "enrichment": {
+        "notes": "Owns the dbt project. Attended the Vector Labs 'streaming dbt' webinar in May 2026 and asked two questions about incremental model compatibility.",
+        "signals": [
+          {
+            "type": "engagement",
+            "detail": "Attended webinar, asked about dbt incremental compatibility (2026-05)",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_004",
+      "accountId": "acc_002",
+      "firstName": "Alicia",
+      "lastName": "Fontaine",
+      "title": "VP of Data",
+      "email": "alicia.fontaine@harborviewhealth.com",
+      "phone": "+1-617-555-0190",
+      "linkedinUrl": "https://linkedin.com/in/alicia-fontaine-fake",
+      "timezone": "America/New_York",
+      "status": "open",
+      "lastContactedAt": "2026-07-08T14:00:00Z",
+      "enrichment": {
+        "notes": "Gave the May 2026 conference talk on sub-minute clinical event pipelines. Replied to our June email asking for a HIPAA compliance overview before agreeing to a call.",
+        "signals": [
+          {
+            "type": "champion-potential",
+            "detail": "Publicly committed to the exact initiative Vector Pipeline serves",
+            "confidence": "high"
+          },
+          {
+            "type": "blocker",
+            "detail": "Requires HIPAA documentation before meeting (email 2026-07-08)",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_005",
+      "accountId": "acc_002",
+      "firstName": "Tom",
+      "lastName": "Ridgeway",
+      "title": "Director of Data Engineering",
+      "email": "tom.ridgeway@harborviewhealth.com",
+      "phone": "+1-617-555-0121",
+      "linkedinUrl": "https://linkedin.com/in/tom-ridgeway-fake",
+      "timezone": "America/New_York",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Runs the self-managed Kafka cluster Harborview wants to move off. Reports to Alicia Fontaine.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_006",
+      "accountId": "acc_002",
+      "firstName": "Grace",
+      "lastName": "Liu",
+      "title": "Compliance Program Manager",
+      "email": "grace.liu@harborviewhealth.com",
+      "phone": "+1-617-555-0163",
+      "linkedinUrl": "https://linkedin.com/in/grace-liu-fake",
+      "timezone": "America/New_York",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Owns vendor security reviews. Gatekeeper for the HIPAA documentation step Alicia mentioned.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_007",
+      "accountId": "acc_003",
+      "firstName": "Dana",
+      "lastName": "Northwood",
+      "title": "Head of Machine Learning",
+      "email": "dana.northwood@copperline.io",
+      "phone": "+1-312-555-0118",
+      "linkedinUrl": "https://linkedin.com/in/dana-northwood-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": "2026-06-12T15:45:00Z",
+      "enrichment": {
+        "notes": "Owns ETA-prediction models. Publicly complained about 4-hour-stale features. Attended the March webinar under a personal email, matched later.",
+        "signals": [
+          {
+            "type": "pain",
+            "detail": "Tweeted about stale ML features (2026-05-30)",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_008",
+      "accountId": "acc_003",
+      "firstName": "Victor",
+      "lastName": "Salazar",
+      "title": "Staff Data Engineer",
+      "email": "victor.salazar@copperline.io",
+      "phone": "+1-312-555-0187",
+      "linkedinUrl": "https://linkedin.com/in/victor-salazar-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Tech lead on the Redshift → Snowflake migration. Likely evaluator for any pipeline tooling.",
+        "signals": [
+          {
+            "type": "project",
+            "detail": "Leads warehouse migration; evaluating ingestion vendors (hiring post, 2026-04)",
+            "confidence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_009",
+      "accountId": "acc_003",
+      "firstName": "Ingrid",
+      "lastName": "Bauer",
+      "title": "Chief Technology Officer",
+      "email": "ingrid.bauer@copperline.io",
+      "phone": "+1-312-555-0102",
+      "linkedinUrl": "https://linkedin.com/in/ingrid-bauer-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Asked in writing not to be emailed — phone and LinkedIn only.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_010",
+      "accountId": "acc_004",
+      "firstName": "Marcus",
+      "lastName": "Webb",
+      "title": "Head of Data",
+      "email": "marcus.webb@bluefinpay.com",
+      "phone": "+1-212-555-0173",
+      "linkedinUrl": "https://linkedin.com/in/marcus-webb-fake",
+      "timezone": "America/New_York",
+      "status": "open",
+      "lastContactedAt": "2026-07-01T13:20:00Z",
+      "enrichment": {
+        "notes": "Took a discovery call on 2026-07-01 (call_003). Cares about fraud-detection latency; asked for Databricks integration details and pricing at 50TB/month.",
+        "signals": [
+          {
+            "type": "active-deal",
+            "detail": "Discovery call completed 2026-07-01; follow-up owed",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_011",
+      "accountId": "acc_004",
+      "firstName": "Shreya",
+      "lastName": "Patel",
+      "title": "Fraud Analytics Lead",
+      "email": "shreya.patel@bluefinpay.com",
+      "phone": "+1-212-555-0139",
+      "linkedinUrl": "https://linkedin.com/in/shreya-patel-fake",
+      "timezone": "America/New_York",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "End user of fraud models; mentioned by Marcus Webb on the discovery call as the person feeling the latency pain daily.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_012",
+      "accountId": "acc_005",
+      "firstName": "Ben",
+      "lastName": "Corrigan",
+      "title": "Director of Ecommerce Analytics",
+      "email": "ben.corrigan@orchardandvine.com",
+      "phone": "+1-503-555-0166",
+      "linkedinUrl": "https://linkedin.com/in/ben-corrigan-fake",
+      "timezone": "America/Los_Angeles",
+      "status": "nurture",
+      "lastContactedAt": "2026-05-22T20:15:00Z",
+      "enrichment": {
+        "notes": "Went quiet after pricing discussion in May 2026. Said to 'check back in Q4 when we plan next year's stack'. Email opt-out set 2026-05-22 at his request; do not email before Q4.",
+        "signals": [
+          {
+            "type": "timing",
+            "detail": "Asked for Q4 2026 re-engagement (call 2026-05-22)",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_013",
+      "accountId": "acc_006",
+      "firstName": "Helena",
+      "lastName": "Vargas",
+      "title": "Director of Grid Analytics",
+      "email": "helena.vargas@summitgrid.com",
+      "phone": "+1-713-555-0125",
+      "linkedinUrl": "https://linkedin.com/in/helena-vargas-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": "2026-06-25T14:30:00Z",
+      "enrichment": {
+        "notes": "Introduced via Snowflake partner team. Interested but flagged that anything real goes through an RFP.",
+        "signals": [
+          {
+            "type": "procurement",
+            "detail": "RFP required for purchases > $100k (call 2026-06-25)",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_014",
+      "accountId": "acc_006",
+      "firstName": "Raj",
+      "lastName": "Mehta",
+      "title": "Principal IoT Architect",
+      "email": "raj.mehta@summitgrid.com",
+      "phone": "+1-713-555-0149",
+      "linkedinUrl": "https://linkedin.com/in/raj-mehta-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Owns the Kinesis ingestion layer for smart-meter telemetry. Technical gatekeeper for any streaming vendor.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_015",
+      "accountId": "acc_007",
+      "firstName": "Rosa",
+      "lastName": "Delgado",
+      "title": "Staff Engineer",
+      "email": "rosa.delgado@pinebox.dev",
+      "phone": "+1-415-555-0158",
+      "linkedinUrl": "https://linkedin.com/in/rosa-delgado-fake",
+      "timezone": "America/Los_Angeles",
+      "status": "open",
+      "lastContactedAt": "2026-07-10T17:05:00Z",
+      "enrichment": {
+        "notes": "Signed up for free tier 2026-06-08, ingesting CI build telemetry in an active proof-of-concept. Replied positively to our check-in on 2026-07-10.",
+        "signals": [
+          {
+            "type": "product-qualified",
+            "detail": "Active free-tier PoC since 2026-06-08",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_016",
+      "accountId": "acc_007",
+      "firstName": "Owen",
+      "lastName": "Park",
+      "title": "Co-founder & CTO",
+      "email": "owen@pinebox.dev",
+      "phone": "+1-415-555-0111",
+      "linkedinUrl": "https://linkedin.com/in/owen-park-fake",
+      "timezone": "America/Los_Angeles",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Economic buyer at Pinebox's size. Signs quickly when an engineer champions internally.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_017",
+      "accountId": "acc_008",
+      "firstName": "Felix",
+      "lastName": "Andersson",
+      "title": "VP of Platform Engineering",
+      "email": "felix.andersson@lanternsec.com",
+      "phone": "+1-512-555-0182",
+      "linkedinUrl": "https://linkedin.com/in/felix-andersson-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": "2026-07-02T16:40:00Z",
+      "enrichment": {
+        "notes": "Author of the 'we spend 1.5 FTEs babysitting Kafka' blog post. Took a cold call on 2026-07-02 (call_005) and agreed to see SOC 2 docs.",
+        "signals": [
+          {
+            "type": "pain",
+            "detail": "Publicly documented Kafka operational cost (2026-04-22)",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_018",
+      "accountId": "acc_008",
+      "firstName": "Naomi",
+      "lastName": "Fields",
+      "title": "Director of Detection Engineering",
+      "email": "naomi.fields@lanternsec.com",
+      "phone": "+1-512-555-0134",
+      "linkedinUrl": "https://linkedin.com/in/naomi-fields-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Her team consumes the log streams; would be the primary internal user of faster ingestion.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_019",
+      "accountId": "acc_009",
+      "firstName": "Camille",
+      "lastName": "Boudreaux",
+      "title": "Head of Claims Analytics",
+      "email": "camille.boudreaux@tidewaterins.com",
+      "phone": "+1-816-555-0198",
+      "linkedinUrl": "https://linkedin.com/in/camille-boudreaux-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Presented at a June 2026 insurance-data conference on nightly mainframe extracts delaying claims scoring by 18 hours. Owns the claims data mart.",
+        "signals": [
+          {
+            "type": "pain",
+            "detail": "Public talk on 18h claims-scoring delay (2026-06)",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_020",
+      "accountId": "acc_009",
+      "firstName": "Desmond",
+      "lastName": "Ihejirika",
+      "title": "Director of Enterprise Architecture",
+      "email": "desmond.i@tidewaterins.com",
+      "phone": "+1-816-555-0203",
+      "linkedinUrl": "https://linkedin.com/in/desmond-ihejirika-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Gatekeeper for any new data infrastructure vendor. Requires a security review before pilots.",
+        "signals": [
+          {
+            "type": "process",
+            "detail": "Owns vendor security review gate",
+            "confidence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_021",
+      "accountId": "acc_010",
+      "firstName": "Ana",
+      "lastName": "Kovacs",
+      "title": "Head of Platform",
+      "email": "ana.kovacs@kestrelrobotics.io",
+      "phone": "+1-734-555-0111",
+      "linkedinUrl": "https://linkedin.com/in/ana-kovacs-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Inherited the homegrown Kafka cluster after two platform engineers left in Q2 2026. Wrote the 'reducing bespoke infrastructure' blog post.",
+        "signals": [
+          {
+            "type": "pain",
+            "detail": "Owns Kafka cluster after Q2 attrition; authored infra-reduction post",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_022",
+      "accountId": "acc_011",
+      "firstName": "Gerald",
+      "lastName": "Whitfield",
+      "title": "VP of Data & Insights",
+      "email": "gerald.whitfield@marchettiretail.com",
+      "phone": "+1-312-555-0166",
+      "linkedinUrl": "https://linkedin.com/in/gerald-whitfield-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": null,
+      "enrichment": {
+        "notes": "Named owner of the CIO's real-time inventory program. Evaluating build-vs-buy for streaming point-of-sale ingestion this fiscal year.",
+        "signals": [
+          {
+            "type": "initiative",
+            "detail": "Owns real-time inventory program; build-vs-buy eval in flight",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_023",
+      "accountId": "acc_012",
+      "firstName": "Nadia",
+      "lastName": "Kaur",
+      "title": "Senior Director, Data Platform Engineering",
+      "email": "nadia.kaur@meridiantelecom.com",
+      "phone": "+1-303-555-2000",
+      "linkedinUrl": "https://linkedin.com/in/nadia-kaur-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-06-19T20:04:00Z",
+      "enrichment": {
+        "notes": "Owns the mediation and warehouse feeds under the CTO org. Ran a working session with us on 2026-06-18 (call_059) about the nightly CDR batch. Practitioner, not a slide audience. What she committed to and when is in the call record, not here.",
+        "signals": [
+          {
+            "type": "active-deal",
+            "detail": "Working session 2026-06-18; timing constrained by the Horizon change freeze",
+            "confidence": "high"
+          },
+          {
+            "type": "authority",
+            "detail": "Signs off on data platform architecture; budget above $250k goes to the CTO",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_024",
+      "accountId": "acc_012",
+      "firstName": "Elliot",
+      "lastName": "Nunes",
+      "title": "Director, OSS Engineering",
+      "email": "elliot.nunes@meridiantelecom.com",
+      "phone": "+1-303-555-2007",
+      "linkedinUrl": "https://linkedin.com/in/elliot-nunes-fake",
+      "timezone": "America/Denver",
+      "status": "nurture",
+      "lastContactedAt": "2026-05-12T18:56:00Z",
+      "enrichment": {
+        "notes": "Left Meridian Telecom on 2026-06-05 for Halstead Networks (VP Engineering). The POC scoping document he asked for in April was never delivered and the thread is dead — Meridian has not backfilled the role, and OSS work has been absorbed by Serge Beaulieu's architecture group.",
+        "signals": [
+          {
+            "type": "job-change",
+            "detail": "Departed Meridian Telecom 2026-06-05; now VP Engineering at Halstead Networks",
+            "confidence": "high"
+          },
+          {
+            "type": "stale-thread",
+            "detail": "April POC scoping request is dead; no owner at Meridian picked it up",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_025",
+      "accountId": "acc_012",
+      "firstName": "Anton",
+      "lastName": "Petrov",
+      "title": "VP, Network Engineering",
+      "email": "anton.petrov@meridiantelecom.com",
+      "phone": "+1-303-555-2014",
+      "linkedinUrl": "https://linkedin.com/in/anton-petrov-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-08-04T18:04:00Z",
+      "enrichment": {
+        "notes": "Senior sponsor on paper, but everything on this thread since July has been vendor-security paperwork routed through him. Has never discussed the mediation work with us directly.",
+        "signals": [
+          {
+            "type": "process",
+            "detail": "Routes vendor security questionnaires; not a technical evaluator on our use case",
+            "confidence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_026",
+      "accountId": "acc_012",
+      "firstName": "Marisol",
+      "lastName": "Vega",
+      "title": "Principal Engineer, Mediation & CDR",
+      "email": "marisol.vega@meridiantelecom.com",
+      "phone": "+1-303-555-2021",
+      "linkedinUrl": "https://linkedin.com/in/marisol-vega-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-07-29T18:00:00Z",
+      "enrichment": {
+        "notes": "Wrote the current mediation batch job. Skeptical of streaming claims; wants to see a parallel run before anything is cut over.",
+        "signals": [
+          {
+            "type": "champion-candidate",
+            "detail": "Deepest technical knowledge of the CDR pipeline",
+            "confidence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_027",
+      "accountId": "acc_012",
+      "firstName": "Hank",
+      "lastName": "Delacroix",
+      "title": "Director, Revenue Assurance",
+      "email": "hank.delacroix@meridiantelecom.com",
+      "phone": "+1-303-555-2028",
+      "linkedinUrl": "https://linkedin.com/in/hank-delacroix-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-07-02T17:45:00Z",
+      "enrichment": {
+        "notes": "Owns the 06:00 cutoff that the batch overruns. The pain is his, the budget is not.",
+        "signals": [
+          {
+            "type": "pain-owner",
+            "detail": "Reports the mediation overrun to the CFO monthly",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro_028",
+      "accountId": "acc_012",
+      "firstName": "Yuki",
+      "lastName": "Tanabe",
+      "title": "Staff Data Engineer, Network Analytics",
+      "email": "yuki.tanabe@meridiantelecom.com",
+      "phone": "+1-303-555-2035",
+      "linkedinUrl": "https://linkedin.com/in/yuki-tanabe-fake",
+      "timezone": "America/Los_Angeles",
+      "status": "open",
+      "lastContactedAt": "2026-07-11T21:38:00Z",
+      "enrichment": {
+        "notes": "Runs the Airflow DAGs that fan out from the mediation feed. Answered a cold email once with a technical question about schema drift.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_029",
+      "accountId": "acc_012",
+      "firstName": "Bassam",
+      "lastName": "Haddad",
+      "title": "Head of Billing Systems",
+      "email": "bassam.haddad@meridiantelecom.com",
+      "phone": "+1-303-555-2042",
+      "linkedinUrl": "https://linkedin.com/in/bassam-haddad-fake",
+      "timezone": "America/Denver",
+      "status": "nurture",
+      "lastContactedAt": "2026-07-10T22:27:00Z",
+      "enrichment": {
+        "notes": "Consumed entirely by the Horizon cutover until September. Polite, unavailable.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_030",
+      "accountId": "acc_012",
+      "firstName": "Colette",
+      "lastName": "Marchand",
+      "title": "Director, Enterprise Data Governance",
+      "email": "colette.marchand@meridiantelecom.com",
+      "phone": "+1-303-555-2049",
+      "linkedinUrl": "https://linkedin.com/in/colette-marchand-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": "2026-08-05T20:00:00Z",
+      "enrichment": {
+        "notes": "Cares about lineage and CPNI handling more than latency. Would need to bless any new data path.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_031",
+      "accountId": "acc_012",
+      "firstName": "Theo",
+      "lastName": "Lindqvist",
+      "title": "Manager, Streaming Platform",
+      "email": "theo.lindqvist@meridiantelecom.com",
+      "phone": "+1-303-555-2056",
+      "linkedinUrl": "https://linkedin.com/in/theo-lindqvist-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-04-30T14:45:00Z",
+      "enrichment": {
+        "notes": "Runs the two Kafka clusters, one of them still on 0.11. Has an internal proposal to consolidate them.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_032",
+      "accountId": "acc_012",
+      "firstName": "Rania",
+      "lastName": "Fahmy",
+      "title": "Senior Manager, Customer Experience Analytics",
+      "email": "rania.fahmy@meridiantelecom.com",
+      "phone": "+1-303-555-2063",
+      "linkedinUrl": "https://linkedin.com/in/rania-fahmy-fake",
+      "timezone": "America/New_York",
+      "status": "open",
+      "lastContactedAt": "2026-05-16T21:03:00Z",
+      "enrichment": {
+        "notes": "Waits on next-day data for churn dashboards. Downstream of the mediation feed without knowing it.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_033",
+      "accountId": "acc_012",
+      "firstName": "Douglas",
+      "lastName": "Pemberton",
+      "title": "VP, IT Infrastructure",
+      "email": "douglas.pemberton@meridiantelecom.com",
+      "phone": "+1-303-555-2070",
+      "linkedinUrl": "https://linkedin.com/in/douglas-pemberton-fake",
+      "timezone": "America/Denver",
+      "status": "nurture",
+      "lastContactedAt": "2026-04-28T17:10:00Z",
+      "enrichment": {
+        "notes": "Data platform moved out of his org in January; he is no longer the decision maker here.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_034",
+      "accountId": "acc_012",
+      "firstName": "Imani",
+      "lastName": "Blackwood",
+      "title": "Director, Cybersecurity Architecture",
+      "email": "imani.blackwood@meridiantelecom.com",
+      "phone": "+1-303-555-2077",
+      "linkedinUrl": "https://linkedin.com/in/imani-blackwood-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-08-04T20:15:00Z",
+      "enrichment": {
+        "notes": "Gates every vendor that touches subscriber data. Thorough, slow, not hostile.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_035",
+      "accountId": "acc_012",
+      "firstName": "Serge",
+      "lastName": "Beaulieu",
+      "title": "Principal Architect, OSS/BSS",
+      "email": "serge.beaulieu@meridiantelecom.com",
+      "phone": "+1-303-555-2084",
+      "linkedinUrl": "https://linkedin.com/in/serge-beaulieu-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-08-08T20:38:00Z",
+      "enrichment": {
+        "notes": "Absorbed the OSS work after Elliot Nunes left. Has not engaged with us yet.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_036",
+      "accountId": "acc_012",
+      "firstName": "Wendy",
+      "lastName": "Alcorn",
+      "title": "Senior Procurement Manager",
+      "email": "wendy.alcorn@meridiantelecom.com",
+      "phone": "+1-303-555-2091",
+      "linkedinUrl": "https://linkedin.com/in/wendy-alcorn-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-07-08T17:30:00Z",
+      "enrichment": {
+        "notes": "Runs the RFP process for anything above $250k. Asked for a standard rate card.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_037",
+      "accountId": "acc_012",
+      "firstName": "Kwame",
+      "lastName": "Adjei",
+      "title": "Manager, Data Engineering (Roaming)",
+      "email": "kwame.adjei@meridiantelecom.com",
+      "phone": "+1-303-555-2098",
+      "linkedinUrl": "https://linkedin.com/in/kwame-adjei-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": "2026-06-24T22:00:00Z",
+      "enrichment": {
+        "notes": "Roaming records arrive from partners on a 24-hour lag; he has half-built a streaming workaround.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_038",
+      "accountId": "acc_012",
+      "firstName": "Fiona",
+      "lastName": "McTavish",
+      "title": "Lead SRE, Data Platform",
+      "email": "fiona.mctavish@meridiantelecom.com",
+      "phone": "+1-303-555-2105",
+      "linkedinUrl": "https://linkedin.com/in/fiona-mctavish-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-04-12T16:40:00Z",
+      "enrichment": {
+        "notes": "Pages when the nightly batch overruns. Keeps a spreadsheet of every overrun since March.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_039",
+      "accountId": "acc_012",
+      "firstName": "Ravi",
+      "lastName": "Chandrasekaran",
+      "title": "Director, ML Engineering",
+      "email": "ravi.chandrasekaran@meridiantelecom.com",
+      "phone": "+1-303-555-2112",
+      "linkedinUrl": "https://linkedin.com/in/ravi-chandrasekaran-fake",
+      "timezone": "America/Los_Angeles",
+      "status": "open",
+      "lastContactedAt": "2026-05-06T15:45:00Z",
+      "enrichment": {
+        "notes": "Building a feature store; blocked on feature freshness measured in hours.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_040",
+      "accountId": "acc_012",
+      "firstName": "Bettina",
+      "lastName": "Gruber",
+      "title": "Senior Analyst, Revenue Assurance",
+      "email": "bettina.gruber@meridiantelecom.com",
+      "phone": "+1-303-555-2119",
+      "linkedinUrl": "https://linkedin.com/in/bettina-gruber-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-07-20T22:12:00Z",
+      "enrichment": {
+        "notes": "Reconciles CDR counts by hand when the batch lands late.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_041",
+      "accountId": "acc_012",
+      "firstName": "Nolan",
+      "lastName": "Ferreira",
+      "title": "Manager, Network Performance",
+      "email": "nolan.ferreira@meridiantelecom.com",
+      "phone": "+1-303-555-2126",
+      "linkedinUrl": "https://linkedin.com/in/nolan-ferreira-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-07-25T15:12:00Z",
+      "enrichment": {
+        "notes": "Wants per-cell telemetry in minutes, not hours. Small budget of his own.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_042",
+      "accountId": "acc_012",
+      "firstName": "Sasha",
+      "lastName": "Dunning",
+      "title": "Product Manager, Data Products",
+      "email": "sasha.dunning@meridiantelecom.com",
+      "phone": "+1-303-555-2133",
+      "linkedinUrl": "https://linkedin.com/in/sasha-dunning-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": "2026-06-13T22:03:00Z",
+      "enrichment": {
+        "notes": "Writes the internal roadmap for data products. Useful map of who owns what.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_043",
+      "accountId": "acc_012",
+      "firstName": "Hiroshi",
+      "lastName": "Nakamura",
+      "title": "Staff Engineer, Kafka Platform",
+      "email": "hiroshi.nakamura@meridiantelecom.com",
+      "phone": "+1-303-555-2140",
+      "linkedinUrl": "https://linkedin.com/in/hiroshi-nakamura-fake",
+      "timezone": "America/Los_Angeles",
+      "status": "open",
+      "lastContactedAt": "2026-08-06T20:00:00Z",
+      "enrichment": {
+        "notes": "Maintains the legacy 0.11 cluster. Wary of anything that adds another broker to babysit.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_044",
+      "accountId": "acc_012",
+      "firstName": "Talia",
+      "lastName": "Okonjo",
+      "title": "Director, Customer Data Platform",
+      "email": "talia.okonjo@meridiantelecom.com",
+      "phone": "+1-303-555-2147",
+      "linkedinUrl": "https://linkedin.com/in/talia-okonjo-fake",
+      "timezone": "America/New_York",
+      "status": "open",
+      "lastContactedAt": "2026-06-05T20:38:00Z",
+      "enrichment": {
+        "notes": "Owns the CDP that ingests subscriber events downstream of mediation.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_045",
+      "accountId": "acc_012",
+      "firstName": "Emmett",
+      "lastName": "Boyle",
+      "title": "Senior Manager, FinOps",
+      "email": "emmett.boyle@meridiantelecom.com",
+      "phone": "+1-303-555-2154",
+      "linkedinUrl": "https://linkedin.com/in/emmett-boyle-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-07-30T19:27:00Z",
+      "enrichment": {
+        "notes": "Holds the 20% ETL cost reduction mandate. Reads every vendor invoice line.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_046",
+      "accountId": "acc_012",
+      "firstName": "Sigrid",
+      "lastName": "Halvorsen",
+      "title": "Manager, Data Quality",
+      "email": "sigrid.halvorsen@meridiantelecom.com",
+      "phone": "+1-303-555-2161",
+      "linkedinUrl": "https://linkedin.com/in/sigrid-halvorsen-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-07-20T22:27:00Z",
+      "enrichment": {
+        "notes": "Chases schema drift between mediation output and the warehouse.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_047",
+      "accountId": "acc_012",
+      "firstName": "Percy",
+      "lastName": "Nkemelu",
+      "title": "Analytics Engineer, Marketing",
+      "email": "percy.nkemelu@meridiantelecom.com",
+      "phone": "+1-303-555-2168",
+      "linkedinUrl": "https://linkedin.com/in/percy-nkemelu-fake",
+      "timezone": "America/Chicago",
+      "status": "nurture",
+      "lastContactedAt": "2026-06-17T20:27:00Z",
+      "enrichment": {
+        "notes": "dbt user, far downstream. Interested but has no say.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_048",
+      "accountId": "acc_012",
+      "firstName": "Dahlia",
+      "lastName": "Rosenberg",
+      "title": "Director, Regulatory Reporting",
+      "email": "dahlia.rosenberg@meridiantelecom.com",
+      "phone": "+1-303-555-2175",
+      "linkedinUrl": "https://linkedin.com/in/dahlia-rosenberg-fake",
+      "timezone": "America/New_York",
+      "status": "open",
+      "lastContactedAt": "2026-06-10T21:20:00Z",
+      "enrichment": {
+        "notes": "Files state-level reports built on the same nightly extract.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_049",
+      "accountId": "acc_012",
+      "firstName": "Curtis",
+      "lastName": "Yeoh",
+      "title": "Senior Engineer, Telemetry Collection",
+      "email": "curtis.yeoh@meridiantelecom.com",
+      "phone": "+1-303-555-2182",
+      "linkedinUrl": "https://linkedin.com/in/curtis-yeoh-fake",
+      "timezone": "America/Los_Angeles",
+      "status": "open",
+      "lastContactedAt": "2026-06-16T22:10:00Z",
+      "enrichment": {
+        "notes": "Owns collectors at the network edge. Skeptical of cloud-hosted anything.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_050",
+      "accountId": "acc_012",
+      "firstName": "Amara",
+      "lastName": "Diallo",
+      "title": "VP, Digital Channels",
+      "email": "amara.diallo@meridiantelecom.com",
+      "phone": "+1-303-555-2189",
+      "linkedinUrl": "https://linkedin.com/in/amara-diallo-fake",
+      "timezone": "America/New_York",
+      "status": "nurture",
+      "lastContactedAt": "2026-07-07T19:03:00Z",
+      "enrichment": {
+        "notes": "App and web org. Adjacent, not a buyer for this.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_051",
+      "accountId": "acc_012",
+      "firstName": "Stefan",
+      "lastName": "Kowalczyk",
+      "title": "Manager, Warehouse Operations",
+      "email": "stefan.kowalczyk@meridiantelecom.com",
+      "phone": "+1-303-555-2196",
+      "linkedinUrl": "https://linkedin.com/in/stefan-kowalczyk-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-07-22T16:38:00Z",
+      "enrichment": {
+        "notes": "Runs the Snowflake loads that wait on the batch. Has opinions about the 04:00 window.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_052",
+      "accountId": "acc_012",
+      "firstName": "Junie",
+      "lastName": "Alvarado",
+      "title": "Staff Analyst, Churn Modeling",
+      "email": "junie.alvarado@meridiantelecom.com",
+      "phone": "+1-303-555-2203",
+      "linkedinUrl": "https://linkedin.com/in/junie-alvarado-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": "2026-07-30T16:12:00Z",
+      "enrichment": {
+        "notes": "Retrains churn models on stale features; mentioned a 'day-old truth' problem in a conference talk.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_053",
+      "accountId": "acc_012",
+      "firstName": "Gil",
+      "lastName": "Berkowitz",
+      "title": "Director, Field Operations Systems",
+      "email": "gil.berkowitz@meridiantelecom.com",
+      "phone": "+1-303-555-2210",
+      "linkedinUrl": "https://linkedin.com/in/gil-berkowitz-fake",
+      "timezone": "America/Denver",
+      "status": "nurture",
+      "lastContactedAt": "2026-07-05T17:27:00Z",
+      "enrichment": {
+        "notes": "Dispatch systems. Different budget, different problem.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_054",
+      "accountId": "acc_012",
+      "firstName": "Meiling",
+      "lastName": "Zhou",
+      "title": "Principal Data Scientist, Network Optimization",
+      "email": "meiling.zhou@meridiantelecom.com",
+      "phone": "+1-303-555-2217",
+      "linkedinUrl": "https://linkedin.com/in/meiling-zhou-fake",
+      "timezone": "America/Los_Angeles",
+      "status": "open",
+      "lastContactedAt": "2026-07-26T20:49:00Z",
+      "enrichment": {
+        "notes": "Published on real-time RAN optimisation. Would be a strong technical reference if we land this.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_055",
+      "accountId": "acc_012",
+      "firstName": "Oskar",
+      "lastName": "Lindberg",
+      "title": "Engineer II, Data Platform",
+      "email": "oskar.lindberg@meridiantelecom.com",
+      "phone": "+1-303-555-2224",
+      "linkedinUrl": "https://linkedin.com/in/oskar-lindberg-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-07-11T23:00:00Z",
+      "enrichment": {
+        "notes": "Junior on Nadia Kaur's team; does the on-call rotation for the batch.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_056",
+      "accountId": "acc_012",
+      "firstName": "Aditi",
+      "lastName": "Deshmukh",
+      "title": "Senior Manager, BSS Integration",
+      "email": "aditi.deshmukh@meridiantelecom.com",
+      "phone": "+1-303-555-2231",
+      "linkedinUrl": "https://linkedin.com/in/aditi-deshmukh-fake",
+      "timezone": "America/Chicago",
+      "status": "open",
+      "lastContactedAt": "2026-07-16T21:10:00Z",
+      "enrichment": {
+        "notes": "Integration lead on the Horizon cutover. Everything she owns is frozen until it ships.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_057",
+      "accountId": "acc_012",
+      "firstName": "Roland",
+      "lastName": "Achebe",
+      "title": "Head of Enterprise Architecture",
+      "email": "roland.achebe@meridiantelecom.com",
+      "phone": "+1-303-555-2238",
+      "linkedinUrl": "https://linkedin.com/in/roland-achebe-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-07-23T23:40:00Z",
+      "enrichment": {
+        "notes": "Chairs the architecture review board that any new data path has to clear.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_058",
+      "accountId": "acc_012",
+      "firstName": "Lucia",
+      "lastName": "Ferrari",
+      "title": "Manager, Partner Analytics",
+      "email": "lucia.ferrari@meridiantelecom.com",
+      "phone": "+1-303-555-2245",
+      "linkedinUrl": "https://linkedin.com/in/lucia-ferrari-fake",
+      "timezone": "America/New_York",
+      "status": "open",
+      "lastContactedAt": "2026-07-26T19:40:00Z",
+      "enrichment": {
+        "notes": "Reports on interconnect and roaming partners; lives with the 24-hour lag.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_059",
+      "accountId": "acc_012",
+      "firstName": "Tobias",
+      "lastName": "Wren",
+      "title": "Staff Engineer, Observability",
+      "email": "tobias.wren@meridiantelecom.com",
+      "phone": "+1-303-555-2252",
+      "linkedinUrl": "https://linkedin.com/in/tobias-wren-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": "2026-08-02T15:20:00Z",
+      "enrichment": {
+        "notes": "Splunk owner. Would rather buy nothing new this year.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_060",
+      "accountId": "acc_012",
+      "firstName": "Halima",
+      "lastName": "Yusuf",
+      "title": "Director, Data Science Platforms",
+      "email": "halima.yusuf@meridiantelecom.com",
+      "phone": "+1-303-555-2259",
+      "linkedinUrl": "https://linkedin.com/in/halima-yusuf-fake",
+      "timezone": "America/Los_Angeles",
+      "status": "open",
+      "lastContactedAt": "2026-08-07T17:10:00Z",
+      "enrichment": {
+        "notes": "Ravi Chandrasekaran's peer; owns notebooks and model serving.",
+        "signals": []
+      }
+    }
+  ],
+  "calls": [
+    {
+      "id": "call_001",
+      "prospectId": "pro_012",
+      "accountId": "acc_005",
+      "date": "2026-05-22T20:15:00Z",
+      "durationSec": 540,
+      "disposition": "connected-not-interested-now",
+      "summary": "Pricing discussion with Ben Corrigan. Current daily batch meets their needs; asked to reconnect in Q4 during stack planning.",
+      "transcript": null
+    },
+    {
+      "id": "call_002",
+      "prospectId": "pro_013",
+      "accountId": "acc_006",
+      "date": "2026-06-25T14:30:00Z",
+      "durationSec": 780,
+      "disposition": "connected-positive",
+      "summary": "Intro call with Helena Vargas (Summit Grid). Interested in streaming meter telemetry; anything over $100k goes through RFP. Wants a technical session with Raj Mehta before advancing.",
+      "transcript": null
+    },
+    {
+      "id": "call_003",
+      "prospectId": "pro_010",
+      "accountId": "acc_004",
+      "date": "2026-07-01T13:20:00Z",
+      "durationSec": 1860,
+      "disposition": "connected-positive",
+      "summary": "Discovery call with Marcus Webb (Bluefin). Fraud-detection latency is the driver; asked for Databricks integration details and 50TB/month pricing.",
+      "transcript": [
+        {
+          "speaker": "Rep",
+          "text": "Thanks for making time, Marcus. I saw the Q1 earnings call mention about fraud detection lag — is that still the priority this quarter?"
+        },
+        {
+          "speaker": "Marcus Webb",
+          "text": "It is. Right now transactions land in Postgres, Debezium pushes to MSK, and Databricks picks them up in micro-batches. End to end we're seeing twelve to fifteen minutes before a transaction is scoreable."
+        },
+        {
+          "speaker": "Rep",
+          "text": "And the fraud team needs what, seconds?"
+        },
+        {
+          "speaker": "Marcus Webb",
+          "text": "Shreya's team says anything under thirty seconds changes the game. Card-present fraud runs in bursts — by minute fifteen the burst is over and we've eaten the loss."
+        },
+        {
+          "speaker": "Rep",
+          "text": "That's the exact pattern we built for. Vector Pipeline sits on your Debezium stream and delivers enforced-schema events into Databricks in under a second. No changes to your dbt models downstream."
+        },
+        {
+          "speaker": "Marcus Webb",
+          "text": "What does the Databricks integration actually look like? Delta Live Tables? Structured streaming? We got burned by a vendor that claimed 'native integration' and shipped a JDBC connector."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Fair concern. I'll get you the integration architecture doc — it writes Delta directly, no JDBC. Can I also loop in a solutions engineer for a deeper session with your team?"
+        },
+        {
+          "speaker": "Marcus Webb",
+          "text": "Send the doc first. And I need pricing at fifty terabytes a month before I take anything to finance. We're a six-person data team; if this needs two engineers to babysit, it's a non-starter."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Understood — doc plus 50TB pricing, then a technical session if it holds up. I'll have both to you this week."
+        },
+        {
+          "speaker": "Marcus Webb",
+          "text": "Works. Copy Shreya Patel on the follow-up; she owns the fraud models and she'll pressure-test your latency claims."
+        }
+      ]
+    },
+    {
+      "id": "call_004",
+      "prospectId": "pro_001",
+      "accountId": "acc_001",
+      "date": "2026-06-24T16:10:00Z",
+      "durationSec": 420,
+      "disposition": "connected-neutral",
+      "summary": "First call with Maya Chen (Northwind). She confirmed the team is exploring alternatives to nightly Airflow loads but was in back-to-backs; asked for a summary email she can forward to her team.",
+      "transcript": [
+        {
+          "speaker": "Rep",
+          "text": "Hi Maya, I'm with Vector Labs. I read the postmortem your team published about the stale dashboard incident — sounded painful. Do you have two minutes?"
+        },
+        {
+          "speaker": "Maya Chen",
+          "text": "Barely — I'm between meetings. But yes, that postmortem was mine. The nightly loads are the root of it. We've been asked to propose options this quarter."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Then I'll be brief. We replace nightly batch with streaming ingestion into Snowflake — same dbt models, data lands in seconds. Companies like yours usually pilot on one pipeline in about two weeks."
+        },
+        {
+          "speaker": "Maya Chen",
+          "text": "Okay, that's relevant. Since the reorg I manage the data platform team, so this lands on my desk anyway. Send me something I can forward — short, specific, and mention the dbt compatibility because that'll be the first question."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Will do. One thing — should I address it to you as the platform lead, or is there someone else who owns the Airflow migration?"
+        },
+        {
+          "speaker": "Maya Chen",
+          "text": "It's me. I have five engineers on it. Send it over and I'll route it."
+        }
+      ]
+    },
+    {
+      "id": "call_005",
+      "prospectId": "pro_017",
+      "accountId": "acc_008",
+      "date": "2026-07-02T16:40:00Z",
+      "durationSec": 660,
+      "disposition": "connected-positive",
+      "summary": "Cold call with Felix Andersson (Lantern). His Kafka blog post was the hook. Open to replacing self-managed Kafka for log ingestion if SOC 2 checks out; wants the report before anything else.",
+      "transcript": null
+    },
+    {
+      "id": "call_006",
+      "prospectId": "pro_007",
+      "accountId": "acc_003",
+      "date": "2026-06-12T15:45:00Z",
+      "durationSec": 300,
+      "disposition": "connected-neutral",
+      "summary": "Brief call with Dana Northwood (Copperline). Confirmed feature-staleness pain but deferred to Victor Salazar on tooling until the Snowflake migration lands (target: September).",
+      "transcript": null
+    },
+    {
+      "id": "call_007",
+      "prospectId": "pro_028",
+      "accountId": "acc_012",
+      "date": "2025-11-12T16:40:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "No answer, no voicemail set up. (Yuki Tanabe)",
+      "transcript": null
+    },
+    {
+      "id": "call_008",
+      "prospectId": "pro_032",
+      "accountId": "acc_012",
+      "date": "2025-11-18T21:40:00Z",
+      "durationSec": 24,
+      "disposition": "voicemail",
+      "summary": "Left voicemail referencing the nightly batch overrun. No callback. (Rania Fahmy)",
+      "transcript": null
+    },
+    {
+      "id": "call_009",
+      "prospectId": "pro_033",
+      "accountId": "acc_012",
+      "date": "2025-11-23T19:40:00Z",
+      "durationSec": 31,
+      "disposition": "gatekeeper",
+      "summary": "Reached the desk line; assistant took a message. (Douglas Pemberton)",
+      "transcript": null
+    },
+    {
+      "id": "call_010",
+      "prospectId": "pro_035",
+      "accountId": "acc_012",
+      "date": "2025-11-27T17:20:00Z",
+      "durationSec": 18,
+      "disposition": "wrong-number",
+      "summary": "Number on file rings a decommissioned desk. (Serge Beaulieu)",
+      "transcript": null
+    },
+    {
+      "id": "call_011",
+      "prospectId": "pro_040",
+      "accountId": "acc_012",
+      "date": "2025-12-03T18:20:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "Straight to hold music, gave up after four minutes. (Bettina Gruber)",
+      "transcript": null
+    },
+    {
+      "id": "call_012",
+      "prospectId": "pro_042",
+      "accountId": "acc_012",
+      "date": "2025-12-08T22:00:00Z",
+      "durationSec": 31,
+      "disposition": "voicemail",
+      "summary": "Second voicemail this month; kept it to twenty seconds. (Sasha Dunning)",
+      "transcript": null
+    },
+    {
+      "id": "call_013",
+      "prospectId": "pro_044",
+      "accountId": "acc_012",
+      "date": "2025-12-15T22:20:00Z",
+      "durationSec": 18,
+      "disposition": "connected-not-interested-now",
+      "summary": "Picked up between meetings. Not now, try after the cutover. (Talia Okonjo)",
+      "transcript": null
+    },
+    {
+      "id": "call_014",
+      "prospectId": "pro_045",
+      "accountId": "acc_012",
+      "date": "2025-12-19T19:10:00Z",
+      "durationSec": 12,
+      "disposition": "callback-requested",
+      "summary": "Asked to be called back next quarter, no specific date. (Emmett Boyle)",
+      "transcript": null
+    },
+    {
+      "id": "call_015",
+      "prospectId": "pro_046",
+      "accountId": "acc_012",
+      "date": "2025-12-25T19:40:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "No answer, no voicemail set up. (Sigrid Halvorsen)",
+      "transcript": null
+    },
+    {
+      "id": "call_016",
+      "prospectId": "pro_047",
+      "accountId": "acc_012",
+      "date": "2025-12-28T20:10:00Z",
+      "durationSec": 31,
+      "disposition": "voicemail",
+      "summary": "Left voicemail referencing the nightly batch overrun. No callback. (Percy Nkemelu)",
+      "transcript": null
+    },
+    {
+      "id": "call_017",
+      "prospectId": "pro_048",
+      "accountId": "acc_012",
+      "date": "2026-01-05T22:40:00Z",
+      "durationSec": 18,
+      "disposition": "gatekeeper",
+      "summary": "Reached the desk line; assistant took a message. (Dahlia Rosenberg)",
+      "transcript": null
+    },
+    {
+      "id": "call_018",
+      "prospectId": "pro_049",
+      "accountId": "acc_012",
+      "date": "2026-01-09T19:10:00Z",
+      "durationSec": 18,
+      "disposition": "wrong-number",
+      "summary": "Number on file rings a decommissioned desk. (Curtis Yeoh)",
+      "transcript": null
+    },
+    {
+      "id": "call_019",
+      "prospectId": "pro_050",
+      "accountId": "acc_012",
+      "date": "2026-01-13T23:00:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "Straight to hold music, gave up after four minutes. (Amara Diallo)",
+      "transcript": null
+    },
+    {
+      "id": "call_020",
+      "prospectId": "pro_051",
+      "accountId": "acc_012",
+      "date": "2026-01-19T22:10:00Z",
+      "durationSec": 18,
+      "disposition": "voicemail",
+      "summary": "Second voicemail this month; kept it to twenty seconds. (Stefan Kowalczyk)",
+      "transcript": null
+    },
+    {
+      "id": "call_021",
+      "prospectId": "pro_053",
+      "accountId": "acc_012",
+      "date": "2026-01-26T16:00:00Z",
+      "durationSec": 31,
+      "disposition": "connected-not-interested-now",
+      "summary": "Picked up between meetings. Not now, try after the cutover. (Gil Berkowitz)",
+      "transcript": null
+    },
+    {
+      "id": "call_022",
+      "prospectId": "pro_054",
+      "accountId": "acc_012",
+      "date": "2026-01-30T22:00:00Z",
+      "durationSec": 45,
+      "disposition": "callback-requested",
+      "summary": "Asked to be called back next quarter, no specific date. (Meiling Zhou)",
+      "transcript": null
+    },
+    {
+      "id": "call_023",
+      "prospectId": "pro_055",
+      "accountId": "acc_012",
+      "date": "2026-02-05T23:00:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "No answer, no voicemail set up. (Oskar Lindberg)",
+      "transcript": null
+    },
+    {
+      "id": "call_024",
+      "prospectId": "pro_056",
+      "accountId": "acc_012",
+      "date": "2026-02-08T19:10:00Z",
+      "durationSec": 31,
+      "disposition": "voicemail",
+      "summary": "Left voicemail referencing the nightly batch overrun. No callback. (Aditi Deshmukh)",
+      "transcript": null
+    },
+    {
+      "id": "call_025",
+      "prospectId": "pro_026",
+      "accountId": "acc_012",
+      "date": "2026-02-11T19:00:00Z",
+      "durationSec": 900,
+      "disposition": "connected-positive",
+      "summary": "Intro call with Marisol Vega, who wrote the current mediation batch. Walked the CDR path: collectors → Amdocs mediation → Informatica → Exadata → Snowflake. Says the batch was sized for 2.6M subscribers and they are at 4.1M. Would not commit to anything without a parallel run.",
+      "transcript": [
+        {
+          "speaker": "Rep",
+          "text": "Walk me through where a CDR actually goes today."
+        },
+        {
+          "speaker": "Marisol Vega",
+          "text": "Collectors at the edge write files. They land on a staging cluster, mediation rates and normalises them, Informatica moves the output to Exadata, and a nightly load lifts it into Snowflake. Four hops, three of which I own."
+        },
+        {
+          "speaker": "Rep",
+          "text": "And the batch was sized for a smaller subscriber base."
+        },
+        {
+          "speaker": "Marisol Vega",
+          "text": "It was sized in 2019. We have added a million and a half subscribers and a second brand since."
+        },
+        {
+          "speaker": "Rep",
+          "text": "What would make you believe a streaming path is safe?"
+        },
+        {
+          "speaker": "Marisol Vega",
+          "text": "Counts. If your numbers and my numbers agree to the cent across a month-end, I will believe you. Anything less than that is a demo."
+        },
+        {
+          "speaker": "Rep",
+          "text": "That is a fair bar. Who else has to be in the room?"
+        },
+        {
+          "speaker": "Marisol Vega",
+          "text": "Nadia. It is her budget and her risk. I am the person she asks whether it is real."
+        }
+      ]
+    },
+    {
+      "id": "call_026",
+      "prospectId": "pro_057",
+      "accountId": "acc_012",
+      "date": "2026-02-15T18:20:00Z",
+      "durationSec": 18,
+      "disposition": "gatekeeper",
+      "summary": "Reached the desk line; assistant took a message. (Roland Achebe)",
+      "transcript": null
+    },
+    {
+      "id": "call_027",
+      "prospectId": "pro_058",
+      "accountId": "acc_012",
+      "date": "2026-02-20T17:40:00Z",
+      "durationSec": 45,
+      "disposition": "wrong-number",
+      "summary": "Number on file rings a decommissioned desk. (Lucia Ferrari)",
+      "transcript": null
+    },
+    {
+      "id": "call_028",
+      "prospectId": "pro_059",
+      "accountId": "acc_012",
+      "date": "2026-02-24T19:20:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "Straight to hold music, gave up after four minutes. (Tobias Wren)",
+      "transcript": null
+    },
+    {
+      "id": "call_029",
+      "prospectId": "pro_060",
+      "accountId": "acc_012",
+      "date": "2026-03-01T17:00:00Z",
+      "durationSec": 24,
+      "disposition": "voicemail",
+      "summary": "Second voicemail this month; kept it to twenty seconds. (Halima Yusuf)",
+      "transcript": null
+    },
+    {
+      "id": "call_030",
+      "prospectId": "pro_038",
+      "accountId": "acc_012",
+      "date": "2026-03-04T19:00:00Z",
+      "durationSec": 540,
+      "disposition": "connected-positive",
+      "summary": "Fiona McTavish keeps a spreadsheet of every batch overrun since March. Two to three overruns a week, each one pages her at 05:00. Happy to share numbers, has no budget.",
+      "transcript": null
+    },
+    {
+      "id": "call_031",
+      "prospectId": "pro_025",
+      "accountId": "acc_012",
+      "date": "2026-03-08T17:40:00Z",
+      "durationSec": 45,
+      "disposition": "connected-not-interested-now",
+      "summary": "Picked up between meetings. Not now, try after the cutover. (Anton Petrov)",
+      "transcript": null
+    },
+    {
+      "id": "call_032",
+      "prospectId": "pro_052",
+      "accountId": "acc_012",
+      "date": "2026-03-14T15:10:00Z",
+      "durationSec": 31,
+      "disposition": "callback-requested",
+      "summary": "Asked to be called back next quarter, no specific date. (Junie Alvarado)",
+      "transcript": null
+    },
+    {
+      "id": "call_033",
+      "prospectId": "pro_041",
+      "accountId": "acc_012",
+      "date": "2026-03-17T19:40:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "No answer, no voicemail set up. (Nolan Ferreira)",
+      "transcript": null
+    },
+    {
+      "id": "call_034",
+      "prospectId": "pro_027",
+      "accountId": "acc_012",
+      "date": "2026-03-19T21:00:00Z",
+      "durationSec": 720,
+      "disposition": "connected-positive",
+      "summary": "Hank Delacroix owns the 06:00 revenue-assurance cutoff. When mediation lands late his team reconciles by hand and the day's revenue number is provisional. He reports the overrun to the CFO monthly. Said the fix has to come out of the data platform budget, not his.",
+      "transcript": null
+    },
+    {
+      "id": "call_035",
+      "prospectId": "pro_037",
+      "accountId": "acc_012",
+      "date": "2026-03-23T15:10:00Z",
+      "durationSec": 95,
+      "disposition": "voicemail",
+      "summary": "Left voicemail referencing the nightly batch overrun. No callback. (Kwame Adjei)",
+      "transcript": null
+    },
+    {
+      "id": "call_036",
+      "prospectId": "pro_043",
+      "accountId": "acc_012",
+      "date": "2026-03-30T15:40:00Z",
+      "durationSec": 31,
+      "disposition": "gatekeeper",
+      "summary": "Reached the desk line; assistant took a message. (Hiroshi Nakamura)",
+      "transcript": null
+    },
+    {
+      "id": "call_037",
+      "prospectId": "pro_031",
+      "accountId": "acc_012",
+      "date": "2026-04-03T20:00:00Z",
+      "durationSec": 60,
+      "disposition": "wrong-number",
+      "summary": "Number on file rings a decommissioned desk. (Theo Lindqvist)",
+      "transcript": null
+    },
+    {
+      "id": "call_038",
+      "prospectId": "pro_036",
+      "accountId": "acc_012",
+      "date": "2026-04-07T15:40:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "Straight to hold music, gave up after four minutes. (Wendy Alcorn)",
+      "transcript": null
+    },
+    {
+      "id": "call_039",
+      "prospectId": "pro_038",
+      "accountId": "acc_012",
+      "date": "2026-04-12T16:40:00Z",
+      "durationSec": 24,
+      "disposition": "voicemail",
+      "summary": "Second voicemail this month; kept it to twenty seconds. (Fiona McTavish)",
+      "transcript": null
+    },
+    {
+      "id": "call_040",
+      "prospectId": "pro_024",
+      "accountId": "acc_012",
+      "date": "2026-04-14T20:00:00Z",
+      "durationSec": 1500,
+      "disposition": "connected-positive",
+      "summary": "Elliot Nunes (OSS Engineering) wants a POC on the mediation feed. Asked for a scoping document covering environments, data volumes and a two-week success criterion, to take to his architecture review. Said he could sponsor a small POC budget without procurement.",
+      "transcript": [
+        {
+          "speaker": "Rep",
+          "text": "You mentioned a POC — what would that look like on your side?"
+        },
+        {
+          "speaker": "Elliot Nunes",
+          "text": "OSS has its own lower environment and I can fund a small POC without procurement. Give me a scoping document: environments, volumes, a two-week success criterion. I take it to architecture review and we go."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Two weeks feels short for anything involving CDR counts."
+        },
+        {
+          "speaker": "Elliot Nunes",
+          "text": "Two weeks to prove the pipe works. Counts are Nadia's problem, not mine."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Is she aligned on the POC?"
+        },
+        {
+          "speaker": "Elliot Nunes",
+          "text": "She will be once it works. Send me the scoping doc and let me run my process."
+        }
+      ]
+    },
+    {
+      "id": "call_041",
+      "prospectId": "pro_028",
+      "accountId": "acc_012",
+      "date": "2026-04-19T21:20:00Z",
+      "durationSec": 60,
+      "disposition": "connected-not-interested-now",
+      "summary": "Picked up between meetings. Not now, try after the cutover. (Yuki Tanabe)",
+      "transcript": null
+    },
+    {
+      "id": "call_042",
+      "prospectId": "pro_032",
+      "accountId": "acc_012",
+      "date": "2026-04-25T23:00:00Z",
+      "durationSec": 95,
+      "disposition": "callback-requested",
+      "summary": "Asked to be called back next quarter, no specific date. (Rania Fahmy)",
+      "transcript": null
+    },
+    {
+      "id": "call_043",
+      "prospectId": "pro_033",
+      "accountId": "acc_012",
+      "date": "2026-04-28T17:10:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "No answer, no voicemail set up. (Douglas Pemberton)",
+      "transcript": null
+    },
+    {
+      "id": "call_044",
+      "prospectId": "pro_031",
+      "accountId": "acc_012",
+      "date": "2026-04-30T14:45:00Z",
+      "durationSec": 660,
+      "disposition": "connected-neutral",
+      "summary": "Theo Lindqvist runs both Kafka clusters. Interested in principle; his real problem this year is consolidating 0.11 onto 3.x, and he does not want a new producer writing to either until that is done.",
+      "transcript": null
+    },
+    {
+      "id": "call_045",
+      "prospectId": "pro_035",
+      "accountId": "acc_012",
+      "date": "2026-05-03T22:40:00Z",
+      "durationSec": 12,
+      "disposition": "voicemail",
+      "summary": "Left voicemail referencing the nightly batch overrun. No callback. (Serge Beaulieu)",
+      "transcript": null
+    },
+    {
+      "id": "call_046",
+      "prospectId": "pro_039",
+      "accountId": "acc_012",
+      "date": "2026-05-06T15:45:00Z",
+      "durationSec": 840,
+      "disposition": "connected-positive",
+      "summary": "Ravi Chandrasekaran is building a feature store and is blocked on feature freshness — features are up to 26 hours old at serving time. Cares about the same feed as Nadia Kaur's team, from the other end.",
+      "transcript": null
+    },
+    {
+      "id": "call_047",
+      "prospectId": "pro_040",
+      "accountId": "acc_012",
+      "date": "2026-05-10T20:20:00Z",
+      "durationSec": 60,
+      "disposition": "gatekeeper",
+      "summary": "Reached the desk line; assistant took a message. (Bettina Gruber)",
+      "transcript": null
+    },
+    {
+      "id": "call_048",
+      "prospectId": "pro_042",
+      "accountId": "acc_012",
+      "date": "2026-05-16T19:10:00Z",
+      "durationSec": 95,
+      "disposition": "wrong-number",
+      "summary": "Number on file rings a decommissioned desk. (Sasha Dunning)",
+      "transcript": null
+    },
+    {
+      "id": "call_049",
+      "prospectId": "pro_044",
+      "accountId": "acc_012",
+      "date": "2026-05-19T16:40:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "Straight to hold music, gave up after four minutes. (Talia Okonjo)",
+      "transcript": null
+    },
+    {
+      "id": "call_050",
+      "prospectId": "pro_029",
+      "accountId": "acc_012",
+      "date": "2026-05-20T18:00:00Z",
+      "durationSec": 300,
+      "disposition": "connected-not-interested-now",
+      "summary": "Bassam Haddad is heads-down on the Horizon cutover. Told us plainly that nothing in billing systems moves until it lands, and that this is a company position, not a personal one.",
+      "transcript": null
+    },
+    {
+      "id": "call_051",
+      "prospectId": "pro_045",
+      "accountId": "acc_012",
+      "date": "2026-05-26T21:20:00Z",
+      "durationSec": 45,
+      "disposition": "voicemail",
+      "summary": "Second voicemail this month; kept it to twenty seconds. (Emmett Boyle)",
+      "transcript": null
+    },
+    {
+      "id": "call_052",
+      "prospectId": "pro_023",
+      "accountId": "acc_012",
+      "date": "2026-05-27T18:45:00Z",
+      "durationSec": 1080,
+      "disposition": "connected-positive",
+      "summary": "First real conversation with Nadia Kaur, Senior Director of Data Platform Engineering. Confirmed the mediation feed is hers. Batch window starts 01:15 and is supposed to finish by 05:30; it now finishes past 06:00 about twice a week. She asked what a streaming path would look like alongside the existing job rather than instead of it.",
+      "transcript": [
+        {
+          "speaker": "Rep",
+          "text": "You came up as the owner of the mediation feed — is that right, or am I in the wrong org?"
+        },
+        {
+          "speaker": "Nadia Kaur",
+          "text": "It is mine. It moved under the CTO with the rest of data platform in January."
+        },
+        {
+          "speaker": "Rep",
+          "text": "The Q2 filing mentions a batch overrun in the risk factors. Is that the same pipeline?"
+        },
+        {
+          "speaker": "Nadia Kaur",
+          "text": "It is, and I would rather you had not read that, but yes. CDRs land, mediation rates them overnight, everything downstream waits."
+        },
+        {
+          "speaker": "Rep",
+          "text": "If it ran continuously instead of nightly, what would change for you?"
+        },
+        {
+          "speaker": "Nadia Kaur",
+          "text": "Revenue assurance stops chasing me at six in the morning, and Ravi's models stop training on yesterday. But I am not ripping out Amdocs to find out."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Nobody is asking you to. The interesting version is a parallel path off the same collector output."
+        },
+        {
+          "speaker": "Nadia Kaur",
+          "text": "That is worth an hour. Bring whoever knows the internals, and I will bring Marisol, who will try to break it."
+        }
+      ]
+    },
+    {
+      "id": "call_053",
+      "prospectId": "pro_046",
+      "accountId": "acc_012",
+      "date": "2026-05-30T17:10:00Z",
+      "durationSec": 45,
+      "disposition": "connected-not-interested-now",
+      "summary": "Picked up between meetings. Not now, try after the cutover. (Sigrid Halvorsen)",
+      "transcript": null
+    },
+    {
+      "id": "call_054",
+      "prospectId": "pro_034",
+      "accountId": "acc_012",
+      "date": "2026-06-02T17:30:00Z",
+      "durationSec": 600,
+      "disposition": "connected-neutral",
+      "summary": "Imani Blackwood walked through the vendor security process: CPNI questionnaire, SOC 2 report, pen-test summary, then an architecture review. Six weeks if nothing bounces. Not a yes or a no, a gate.",
+      "transcript": [
+        {
+          "speaker": "Imani Blackwood",
+          "text": "Before you ask: I am not a technical evaluator. I am a gate, and I would rather you understood the gate early."
+        },
+        {
+          "speaker": "Rep",
+          "text": "That is what I called about. What does it consist of?"
+        },
+        {
+          "speaker": "Imani Blackwood",
+          "text": "CPNI questionnaire, your SOC 2 Type II report, a pen-test summary from the last twelve months, then architecture review with Roland's board. Six weeks if nothing bounces back."
+        },
+        {
+          "speaker": "Rep",
+          "text": "And if it bounces?"
+        },
+        {
+          "speaker": "Imani Blackwood",
+          "text": "Then it is however long it takes you to answer, plus six weeks. Most vendors lose a month on the CPNI section because they answer it for a generic customer instead of for subscriber data."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Does starting now help or is the queue the constraint?"
+        },
+        {
+          "speaker": "Imani Blackwood",
+          "text": "The queue is the constraint, and it is full of Horizon vendors. Starting early buys you a position, not a date."
+        }
+      ]
+    },
+    {
+      "id": "call_055",
+      "prospectId": "pro_047",
+      "accountId": "acc_012",
+      "date": "2026-06-05T16:40:00Z",
+      "durationSec": 18,
+      "disposition": "callback-requested",
+      "summary": "Asked to be called back next quarter, no specific date. (Percy Nkemelu)",
+      "transcript": null
+    },
+    {
+      "id": "call_056",
+      "prospectId": "pro_048",
+      "accountId": "acc_012",
+      "date": "2026-06-10T21:20:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "No answer, no voicemail set up. (Dahlia Rosenberg)",
+      "transcript": null
+    },
+    {
+      "id": "call_057",
+      "prospectId": "pro_056",
+      "accountId": "acc_012",
+      "date": "2026-06-11T14:30:00Z",
+      "durationSec": 720,
+      "disposition": "connected-neutral",
+      "summary": "Aditi Deshmukh leads BSS integration on the Horizon cutover. Everything she owns is locked down until it ships and she could not say when that is — 'when billing signs off'. Confirmed the freeze is company-wide, not team-specific.",
+      "transcript": [
+        {
+          "speaker": "Rep",
+          "text": "I keep hearing 'the freeze' from everyone I speak to at Meridian. What is actually frozen?"
+        },
+        {
+          "speaker": "Aditi Deshmukh",
+          "text": "Production changes, new vendors, anything that needs an integration engineer's attention. It is company-wide. My team is entirely inside it."
+        },
+        {
+          "speaker": "Rep",
+          "text": "And it lifts when?"
+        },
+        {
+          "speaker": "Aditi Deshmukh",
+          "text": "When billing signs off on the cutover. I have stopped guessing dates out loud — I was wrong twice and people held me to it."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Is there a version of a conversation that is useful to you before then?"
+        },
+        {
+          "speaker": "Aditi Deshmukh",
+          "text": "Honestly, no. Talk to the data platform side. Their roadmap starts again before mine does."
+        }
+      ]
+    },
+    {
+      "id": "call_058",
+      "prospectId": "pro_049",
+      "accountId": "acc_012",
+      "date": "2026-06-16T22:10:00Z",
+      "durationSec": 12,
+      "disposition": "voicemail",
+      "summary": "Left voicemail referencing the nightly batch overrun. No callback. (Curtis Yeoh)",
+      "transcript": null
+    },
+    {
+      "id": "call_059",
+      "prospectId": "pro_023",
+      "accountId": "acc_012",
+      "date": "2026-06-18T18:45:00Z",
+      "durationSec": 2400,
+      "disposition": "connected-positive",
+      "summary": "Working session with Nadia Kaur and two of her engineers on the mediation feed. Agreed the shape: Vector Pipeline reads the same collector output, runs in parallel with the nightly job for a full billing cycle, and nothing is cut over until counts reconcile to the cent. Nadia was explicit about timing — Meridian is in a change freeze for the Horizon cutover until 2026-09-08 and she does not want a proposal, a POC, or a security review started before then. She asked us to come back the week the freeze lifts with a scoped parallel-run plan for the mediation feed, including what her team would have to staff. Said Marisol Vega would be the technical reviewer.",
+      "transcript": [
+        {
+          "speaker": "Rep",
+          "text": "Thanks for the two hours, Nadia. Before we get into the shape of it — is the batch still overrunning?"
+        },
+        {
+          "speaker": "Nadia Kaur",
+          "text": "Twice a week, sometimes three. It starts at 01:15 and it is supposed to be done by 05:30. Hank's team needs it by six. When it slips, the day's revenue number goes out provisional and somebody writes an email about it."
+        },
+        {
+          "speaker": "Marisol Vega",
+          "text": "The window itself is not the problem. The problem is that the window was sized when we had 2.6 million subscribers."
+        },
+        {
+          "speaker": "Rep",
+          "text": "So the shape we would propose is: we read the same collector output you feed into mediation, stream it with schema enforcement into Snowflake, and run alongside the nightly job for a full billing cycle. Nothing gets cut over until your counts and ours reconcile."
+        },
+        {
+          "speaker": "Marisol Vega",
+          "text": "A full cycle. Not two weeks. I want to see it across a month-end close."
+        },
+        {
+          "speaker": "Nadia Kaur",
+          "text": "That is the right shape. Now the part you are not going to like. We are in a change freeze until the Horizon cutover. Nothing new touches production, and that includes a POC in a lower environment, because my team's attention is the scarce thing, not the environment."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Until when?"
+        },
+        {
+          "speaker": "Nadia Kaur",
+          "text": "The freeze lifts on the eighth of September. Come back to me that week. Not before — if you send me a proposal in August it will sit unread and it will make me think you were not listening."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Understood. What do you want in hand the week it lifts?"
+        },
+        {
+          "speaker": "Nadia Kaur",
+          "text": "A scoped parallel-run plan for the mediation feed. What you need from us, what my team has to staff, how long the overlap runs, and what the exit criteria are. Marisol reviews it before I look at it."
+        },
+        {
+          "speaker": "Marisol Vega",
+          "text": "And be specific about replay. If a collector replays a day, I need to know exactly what your side does with the duplicates."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Parallel-run plan, staffing, overlap duration, exit criteria, replay semantics, to you both the week of the eighth. Anything on security in the meantime?"
+        },
+        {
+          "speaker": "Nadia Kaur",
+          "text": "Do not start it. Imani's queue is full of Horizon vendors and getting in line early buys you nothing. September."
+        }
+      ]
+    },
+    {
+      "id": "call_060",
+      "prospectId": "pro_050",
+      "accountId": "acc_012",
+      "date": "2026-06-21T18:10:00Z",
+      "durationSec": 18,
+      "disposition": "gatekeeper",
+      "summary": "Reached the desk line; assistant took a message. (Amara Diallo)",
+      "transcript": null
+    },
+    {
+      "id": "call_061",
+      "prospectId": "pro_037",
+      "accountId": "acc_012",
+      "date": "2026-06-24T22:00:00Z",
+      "durationSec": 480,
+      "disposition": "connected-positive",
+      "summary": "Kwame Adjei has a half-built streaming workaround for roaming records that arrive on a 24-hour partner lag. Would rather buy than finish it. Small budget, real problem.",
+      "transcript": null
+    },
+    {
+      "id": "call_062",
+      "prospectId": "pro_051",
+      "accountId": "acc_012",
+      "date": "2026-06-26T23:20:00Z",
+      "durationSec": 24,
+      "disposition": "wrong-number",
+      "summary": "Number on file rings a decommissioned desk. (Stefan Kowalczyk)",
+      "transcript": null
+    },
+    {
+      "id": "call_063",
+      "prospectId": "pro_053",
+      "accountId": "acc_012",
+      "date": "2026-06-30T18:00:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "Straight to hold music, gave up after four minutes. (Gil Berkowitz)",
+      "transcript": null
+    },
+    {
+      "id": "call_064",
+      "prospectId": "pro_027",
+      "accountId": "acc_012",
+      "date": "2026-07-02T17:45:00Z",
+      "durationSec": 660,
+      "disposition": "connected-positive",
+      "summary": "Hank Delacroix sent his March-to-June overrun log: 31 late landings in four months, nine of them past 07:00. Said he would happily be quoted internally, and repeated that the budget for a fix is not his.",
+      "transcript": [
+        {
+          "speaker": "Hank Delacroix",
+          "text": "Four months of data: thirty-one late landings, nine past seven in the morning."
+        },
+        {
+          "speaker": "Rep",
+          "text": "What happens downstream on one of the nine?"
+        },
+        {
+          "speaker": "Hank Delacroix",
+          "text": "The daily revenue number goes out marked provisional, my analysts reconcile counts by hand, and I write a paragraph explaining it. Every one of those paragraphs is identical."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Is that paragraph enough to fund a fix?"
+        },
+        {
+          "speaker": "Hank Delacroix",
+          "text": "Not out of my budget. Revenue assurance does not buy pipelines. Nadia's org does, and Nadia has a cutover to survive first."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Would you be quotable internally if she asked?"
+        },
+        {
+          "speaker": "Hank Delacroix",
+          "text": "Quote me all you like. Just do not make it look like I sent you, or the next conversation is about org charts instead of the batch."
+        }
+      ]
+    },
+    {
+      "id": "call_065",
+      "prospectId": "pro_054",
+      "accountId": "acc_012",
+      "date": "2026-07-07T18:20:00Z",
+      "durationSec": 31,
+      "disposition": "voicemail",
+      "summary": "Second voicemail this month; kept it to twenty seconds. (Meiling Zhou)",
+      "transcript": null
+    },
+    {
+      "id": "call_066",
+      "prospectId": "pro_036",
+      "accountId": "acc_012",
+      "date": "2026-07-08T17:30:00Z",
+      "durationSec": 420,
+      "disposition": "connected-neutral",
+      "summary": "Wendy Alcorn (procurement) explained the threshold: anything above $250k goes to a formal RFP with three vendors. Asked for a standard rate card to keep on file. No timeline attached.",
+      "transcript": null
+    },
+    {
+      "id": "call_067",
+      "prospectId": "pro_055",
+      "accountId": "acc_012",
+      "date": "2026-07-11T23:00:00Z",
+      "durationSec": 24,
+      "disposition": "connected-not-interested-now",
+      "summary": "Picked up between meetings. Not now, try after the cutover. (Oskar Lindberg)",
+      "transcript": null
+    },
+    {
+      "id": "call_068",
+      "prospectId": "pro_041",
+      "accountId": "acc_012",
+      "date": "2026-07-15T18:00:00Z",
+      "durationSec": 540,
+      "disposition": "connected-positive",
+      "summary": "Nolan Ferreira wants per-cell performance telemetry in minutes. He has a small tools budget of his own and could buy a narrow deployment without the committee, though it would not touch mediation.",
+      "transcript": null
+    },
+    {
+      "id": "call_069",
+      "prospectId": "pro_056",
+      "accountId": "acc_012",
+      "date": "2026-07-16T21:10:00Z",
+      "durationSec": 24,
+      "disposition": "callback-requested",
+      "summary": "Asked to be called back next quarter, no specific date. (Aditi Deshmukh)",
+      "transcript": null
+    },
+    {
+      "id": "call_070",
+      "prospectId": "pro_052",
+      "accountId": "acc_012",
+      "date": "2026-07-21T19:45:00Z",
+      "durationSec": 480,
+      "disposition": "connected-neutral",
+      "summary": "Junie Alvarado retrains churn models on day-old features and called it 'yesterday's truth' in a talk last year. Interested, no authority, happy to be a reference internally.",
+      "transcript": null
+    },
+    {
+      "id": "call_071",
+      "prospectId": "pro_057",
+      "accountId": "acc_012",
+      "date": "2026-07-23T23:40:00Z",
+      "durationSec": 8,
+      "disposition": "no-answer",
+      "summary": "No answer, no voicemail set up. (Roland Achebe)",
+      "transcript": null
+    },
+    {
+      "id": "call_072",
+      "prospectId": "pro_058",
+      "accountId": "acc_012",
+      "date": "2026-07-26T19:40:00Z",
+      "durationSec": 24,
+      "disposition": "voicemail",
+      "summary": "Left voicemail referencing the nightly batch overrun. No callback. (Lucia Ferrari)",
+      "transcript": null
+    },
+    {
+      "id": "call_073",
+      "prospectId": "pro_026",
+      "accountId": "acc_012",
+      "date": "2026-07-29T18:00:00Z",
+      "durationSec": 1320,
+      "disposition": "connected-neutral",
+      "summary": "Marisol Vega pressure-tested the parallel-run idea: exactly-once semantics on CDR counts, what happens on collector replay, and who owns reconciliation during the overlap. Said she is fine being the technical reviewer when the freeze lifts, and that until then there is nothing to review.",
+      "transcript": [
+        {
+          "speaker": "Marisol Vega",
+          "text": "Exactly-once. Say the words and tell me what you actually do."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Idempotent writes keyed on the collector's record identifier, with a dedup window that covers a full replay day."
+        },
+        {
+          "speaker": "Marisol Vega",
+          "text": "And if a collector replays four days because someone rebuilt a shelf?"
+        },
+        {
+          "speaker": "Rep",
+          "text": "Then the window is too short and we would size it to your worst historical replay. What is that number?"
+        },
+        {
+          "speaker": "Marisol Vega",
+          "text": "Six days, once, in 2024. That is the answer I wanted — you asked instead of telling me it cannot happen."
+        },
+        {
+          "speaker": "Rep",
+          "text": "Is there anything worth starting before September?"
+        },
+        {
+          "speaker": "Marisol Vega",
+          "text": "No. Nadia was clear and she is right. Write the plan, be specific about reconciliation ownership during the overlap, and send it when the freeze lifts."
+        }
+      ]
+    },
+    {
+      "id": "call_074",
+      "prospectId": "pro_059",
+      "accountId": "acc_012",
+      "date": "2026-08-02T15:20:00Z",
+      "durationSec": 31,
+      "disposition": "gatekeeper",
+      "summary": "Reached the desk line; assistant took a message. (Tobias Wren)",
+      "transcript": null
+    },
+    {
+      "id": "call_075",
+      "prospectId": "pro_034",
+      "accountId": "acc_012",
+      "date": "2026-08-04T20:15:00Z",
+      "durationSec": 360,
+      "disposition": "connected-neutral",
+      "summary": "Imani Blackwood confirmed receipt of the security questionnaire and said it sits in the queue behind the Horizon vendors. Nothing moves before September.",
+      "transcript": null
+    },
+    {
+      "id": "call_076",
+      "prospectId": "pro_030",
+      "accountId": "acc_012",
+      "date": "2026-08-05T20:00:00Z",
+      "durationSec": 600,
+      "disposition": "connected-positive",
+      "summary": "Colette Marchand (data governance) wants lineage from collector to warehouse documented before any new path is approved. Not blocking, but she will be asked to sign.",
+      "transcript": null
+    },
+    {
+      "id": "call_077",
+      "prospectId": "pro_043",
+      "accountId": "acc_012",
+      "date": "2026-08-06T20:00:00Z",
+      "durationSec": 300,
+      "disposition": "connected-not-interested-now",
+      "summary": "Hiroshi Nakamura does not want another producer on the 0.11 cluster under any circumstances until the consolidation is done.",
+      "transcript": null
+    },
+    {
+      "id": "call_078",
+      "prospectId": "pro_060",
+      "accountId": "acc_012",
+      "date": "2026-08-07T17:10:00Z",
+      "durationSec": 12,
+      "disposition": "wrong-number",
+      "summary": "Number on file rings a decommissioned desk. (Halima Yusuf)",
+      "transcript": null
+    }
+  ],
+  "emails": [
+    {
+      "id": "em_001",
+      "prospectId": "pro_001",
+      "accountId": "acc_001",
+      "direction": "outbound",
+      "sentAt": "2026-06-18T15:30:00Z",
+      "subject": "Nightly Airflow loads at Northwind — worth 15 minutes?",
+      "body": "Hi Maya — saw the May postmortem on your status page (stale dashboard data, delayed batch loads). We replace nightly Airflow batch jobs with streaming ingestion into Snowflake, usually without touching existing dbt models. Worth 15 minutes to compare notes?",
+      "status": "replied"
+    },
+    {
+      "id": "em_002",
+      "prospectId": "pro_001",
+      "accountId": "acc_001",
+      "direction": "inbound",
+      "sentAt": "2026-06-24T17:02:00Z",
+      "subject": "Re: Nightly Airflow loads at Northwind — worth 15 minutes?",
+      "body": "Good talking today, sorry I was in back-to-backs. Can you send me something short I can forward to my team? Two of them own the Airflow DAGs and they'll be the ones with questions. Also, heads up: my title changed in January — I run the data platform team now, I'm not an IC on it. Worth getting right if this gets forwarded around.",
+      "status": "received"
+    },
+    {
+      "id": "em_003",
+      "prospectId": "pro_009",
+      "accountId": "acc_003",
+      "direction": "outbound",
+      "sentAt": "2026-05-28T14:05:00Z",
+      "subject": "Copperline + Vector Pipeline",
+      "body": "Hi Ingrid — Copperline's ETA models are only as fresh as the pipeline feeding them. We deliver enforced-schema events in under a second. Open to a short intro?",
+      "status": "replied"
+    },
+    {
+      "id": "em_004",
+      "prospectId": "pro_009",
+      "accountId": "acc_003",
+      "direction": "inbound",
+      "sentAt": "2026-06-02T09:41:00Z",
+      "subject": "Re: Copperline + Vector Pipeline",
+      "body": "Please take me off your list, and do not email anyone else here without going through me first. I have asked two other vendors the same thing this month. Consider this an opt-out on the record.",
+      "status": "received"
+    },
+    {
+      "id": "em_005",
+      "prospectId": "pro_010",
+      "accountId": "acc_004",
+      "direction": "outbound",
+      "sentAt": "2026-06-26T16:20:00Z",
+      "subject": "Fraud scoring latency — quick intro?",
+      "body": "Hi Marcus — card-present fraud bursts are over before a 12-minute micro-batch lands. We stream enforced-schema events into Databricks in under a second on top of your existing Debezium setup. 20 minutes next week?",
+      "status": "replied"
+    },
+    {
+      "id": "em_006",
+      "prospectId": "pro_010",
+      "accountId": "acc_004",
+      "direction": "inbound",
+      "sentAt": "2026-07-01T19:44:00Z",
+      "subject": "Re: Fraud scoring latency — quick intro?",
+      "body": "Good call today. Send over (1) how you write to Delta — I need to know it is not a JDBC connector behind the word 'native', and (2) pricing at 50TB/month. CC Shreya Patel, she owns the fraud models. I can't take this to finance without the pricing.",
+      "status": "received"
+    },
+    {
+      "id": "em_007",
+      "prospectId": "pro_007",
+      "accountId": "acc_003",
+      "direction": "outbound",
+      "sentAt": "2026-06-05T13:10:00Z",
+      "subject": "Stale features in ETA models",
+      "body": "Hi Dana — your note about features being four hours stale by the time the model sees them is exactly the problem we solve. Worth comparing notes before your Snowflake work lands?",
+      "status": "opened"
+    },
+    {
+      "id": "em_008",
+      "prospectId": "pro_017",
+      "accountId": "acc_008",
+      "direction": "inbound",
+      "sentAt": "2026-07-02T18:15:00Z",
+      "subject": "SOC 2 report",
+      "body": "As discussed — send the SOC 2 Type II report and I'll route it to our security reviewer. Nothing else moves until that clears.",
+      "status": "received"
+    },
+    {
+      "id": "em_009",
+      "prospectId": "pro_015",
+      "accountId": "acc_007",
+      "direction": "outbound",
+      "sentAt": "2026-07-07T09:30:00Z",
+      "subject": "PoC check-in",
+      "body": "Hi Rosa — checking in on the trial pipeline. Anything blocking the second connector?",
+      "status": "replied"
+    },
+    {
+      "id": "em_010",
+      "prospectId": "pro_012",
+      "accountId": "acc_005",
+      "direction": "inbound",
+      "sentAt": "2026-05-26T11:20:00Z",
+      "subject": "Re: Streaming ingestion for Orchard & Vine",
+      "body": "Following up on our call — please stop emailing me. Take me off the list entirely. If you want to try again in Q4 when we plan the stack, call me. Email is the wrong channel for us.",
+      "status": "received"
+    },
+    {
+      "id": "em_011",
+      "prospectId": "pro_028",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-11-19T17:03:00Z",
+      "subject": "Airflow fan-out from mediation at Meridian",
+      "body": "Yuki — your DAGs start when the batch lands, so a late batch is a late everything. We run a streaming path off the same collector output that feeds mediation, so the schema drift you mentioned would be caught at ingest without touching the nightly job. Worth fifteen minutes?",
+      "status": "sent"
+    },
+    {
+      "id": "em_012",
+      "prospectId": "pro_032",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-11-21T18:27:00Z",
+      "subject": "Re: next-day churn dashboards",
+      "body": "Rania — following up on the note below: your dashboards are reporting yesterday because the feed upstream is nightly. If this is not yours, who owns CX analytics these days?",
+      "status": "sent"
+    },
+    {
+      "id": "em_013",
+      "prospectId": "pro_031",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-11-21T22:03:00Z",
+      "subject": "the streaming platform — one question",
+      "body": "Theo — one question rather than a pitch: does the consolidation have a date on it? Asking because consolidating 0.11 onto 3.x is the kind of project a new producer makes worse.",
+      "status": "opened"
+    },
+    {
+      "id": "em_014",
+      "prospectId": "pro_037",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-11-24T18:12:00Z",
+      "subject": "roaming records on a 24-hour lag",
+      "body": "Kwame — partner records arriving a day late is a different problem from mediation but the same shape. Happy to send the architecture note rather than take a meeting, if that is easier.",
+      "status": "sent"
+    },
+    {
+      "id": "em_015",
+      "prospectId": "pro_040",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-11-25T14:12:00Z",
+      "subject": "Re: revenue assurance",
+      "body": "Bettina — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_016",
+      "prospectId": "pro_046",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2025-11-29T18:03:00Z",
+      "subject": "Re: schema drift into the warehouse",
+      "body": "Thanks — not my area. Colette Marchand owns governance.",
+      "status": "received"
+    },
+    {
+      "id": "em_017",
+      "prospectId": "pro_051",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2025-11-29T21:49:00Z",
+      "subject": "Re: the 04:00 Snowflake load",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_018",
+      "prospectId": "pro_041",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2025-12-02T20:38:00Z",
+      "subject": "Re: network performance",
+      "body": "On network performance: hourly telemetry is fine for reporting and useless for the thing you actually do with it. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_019",
+      "prospectId": "pro_054",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-05T14:03:00Z",
+      "subject": "real-time RAN optimisation — closing the loop",
+      "body": "Meiling — closing the loop on this one. If network optimisation becomes a priority after the cutover, I will be here. No reply needed.",
+      "status": "sent"
+    },
+    {
+      "id": "em_020",
+      "prospectId": "pro_052",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-05T21:38:00Z",
+      "subject": "Following the churn modelling thread",
+      "body": "Junie — you called it yesterday's truth in your talk, which is a better line than anything in our deck. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_021",
+      "prospectId": "pro_045",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-09T18:27:00Z",
+      "subject": "ETL spend at Meridian",
+      "body": "Emmett — a 20% ETL reduction mandate and an Informatica renewal in March 2027 is a squeeze with a date on it. We run a streaming path off the same collector output that feeds mediation, so the licence line comes down rather than the headcount line without touching the nightly job. Worth fifteen minutes?",
+      "status": "sent"
+    },
+    {
+      "id": "em_022",
+      "prospectId": "pro_044",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-11T16:49:00Z",
+      "subject": "Re: subscriber events into the CDP",
+      "body": "Talia — following up on the note below: the CDP is only as current as the feed above it. If this is not yours, who owns the customer data platform these days?",
+      "status": "sent"
+    },
+    {
+      "id": "em_023",
+      "prospectId": "pro_049",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-13T14:03:00Z",
+      "subject": "telemetry collection — one question",
+      "body": "Curtis — one question rather than a pitch: would a read-only tap off the collector output need a change window? Asking because nothing changes at the collector — we read the same output mediation reads.",
+      "status": "opened"
+    },
+    {
+      "id": "em_024",
+      "prospectId": "pro_048",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-14T22:12:00Z",
+      "subject": "state filings off the nightly extract",
+      "body": "Dahlia — your filings are built on the same extract that lands late twice a week. Happy to send the architecture note rather than take a meeting, if that is easier. (delivery failed: mailbox full)",
+      "status": "bounced"
+    },
+    {
+      "id": "em_025",
+      "prospectId": "pro_035",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-15T16:03:00Z",
+      "subject": "Re: OSS architecture",
+      "body": "Serge — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_026",
+      "prospectId": "pro_057",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2025-12-18T13:38:00Z",
+      "subject": "Re: architecture review",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_027",
+      "prospectId": "pro_042",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2025-12-18T18:27:00Z",
+      "subject": "Re: the data products roadmap",
+      "body": "Thanks — not my area. Nadia Kaur owns the platform.",
+      "status": "received"
+    },
+    {
+      "id": "em_028",
+      "prospectId": "pro_060",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2025-12-22T13:38:00Z",
+      "subject": "Re: data science platforms",
+      "body": "On data science platforms: serving day-old features is a platform problem wearing a modelling costume. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_029",
+      "prospectId": "pro_047",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-23T20:03:00Z",
+      "subject": "dbt models downstream — closing the loop",
+      "body": "Percy — closing the loop on this one. If marketing analytics becomes a priority after the cutover, I will be here. No reply needed.",
+      "status": "sent"
+    },
+    {
+      "id": "em_030",
+      "prospectId": "pro_058",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-25T20:38:00Z",
+      "subject": "Following the partner analytics thread",
+      "body": "Lucia — partner reporting on a 24-hour lag makes disputes harder to win. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_031",
+      "prospectId": "pro_055",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-28T15:12:00Z",
+      "subject": "Re: the batch on-call rotation",
+      "body": "Oskar — following up on the note below: you are the one getting paged at 05:00 when the batch runs long. If this is not yours, who owns data platform on-call these days?",
+      "status": "sent"
+    },
+    {
+      "id": "em_032",
+      "prospectId": "pro_059",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-28T21:49:00Z",
+      "subject": "Splunk and pipeline observability at Meridian",
+      "body": "Tobias — we emit into Splunk rather than asking you to look at another console. We run a streaming path off the same collector output that feeds mediation, so your existing dashboards keep working without touching the nightly job. Worth fifteen minutes?",
+      "status": "sent"
+    },
+    {
+      "id": "em_033",
+      "prospectId": "pro_056",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2025-12-31T18:49:00Z",
+      "subject": "BSS integration — one question",
+      "body": "Aditi — one question rather than a pitch: what does your calendar look like after the cutover? Asking because everything you own is frozen until Horizon lands, which is exactly why this is a September conversation.",
+      "status": "opened"
+    },
+    {
+      "id": "em_034",
+      "prospectId": "pro_033",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-01-03T19:27:00Z",
+      "subject": "post-reorg ownership",
+      "body": "Douglas — data platform moved out of your org in January, so this may not be yours any more. Happy to send the architecture note rather than take a meeting, if that is easier.",
+      "status": "sent"
+    },
+    {
+      "id": "em_035",
+      "prospectId": "pro_030",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-01-04T16:27:00Z",
+      "subject": "Re: data governance",
+      "body": "Colette — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_036",
+      "prospectId": "pro_034",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-01-07T14:49:00Z",
+      "subject": "Re: CPNI questionnaire",
+      "body": "Thanks — not my area. Anton Petrov routed the form.",
+      "status": "received"
+    },
+    {
+      "id": "em_037",
+      "prospectId": "pro_043",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-01-09T16:12:00Z",
+      "subject": "Re: the 0.11 cluster",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_038",
+      "prospectId": "pro_053",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-01-09T17:03:00Z",
+      "subject": "Re: field operations",
+      "body": "On field operations: this is probably not yours, and I would rather hear that than keep emailing. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_039",
+      "prospectId": "pro_050",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-01-12T16:49:00Z",
+      "subject": "app and web event data — closing the loop",
+      "body": "Amara — closing the loop on this one. If digital channels becomes a priority after the cutover, I will be here. No reply needed.",
+      "status": "sent"
+    },
+    {
+      "id": "em_040",
+      "prospectId": "pro_029",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-01-13T15:03:00Z",
+      "subject": "Following the billing systems thread",
+      "body": "Bassam — not asking for anything before the cutover — noting we will be useful after it. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_041",
+      "prospectId": "pro_028",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-01-16T18:49:00Z",
+      "subject": "Re: Airflow fan-out from mediation",
+      "body": "Yuki — following up on the note below: your DAGs start when the batch lands, so a late batch is a late everything. If this is not yours, who owns the DAGs downstream of the nightly load these days?",
+      "status": "sent"
+    },
+    {
+      "id": "em_042",
+      "prospectId": "pro_032",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-01-17T19:12:00Z",
+      "subject": "CX analytics — one question",
+      "body": "Rania — one question rather than a pitch: does anyone ask you for same-day churn numbers? Asking because your dashboards are reporting yesterday because the feed upstream is nightly.",
+      "status": "opened"
+    },
+    {
+      "id": "em_043",
+      "prospectId": "pro_031",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-01-21T15:12:00Z",
+      "subject": "Kafka consolidation",
+      "body": "Theo — consolidating 0.11 onto 3.x is the kind of project a new producer makes worse. Happy to send the architecture note rather than take a meeting, if that is easier.",
+      "status": "sent"
+    },
+    {
+      "id": "em_044",
+      "prospectId": "pro_037",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-01-23T17:49:00Z",
+      "subject": "Re: roaming analytics",
+      "body": "Kwame — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_045",
+      "prospectId": "pro_040",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-01-24T21:49:00Z",
+      "subject": "Re: manual CDR reconciliation",
+      "body": "Thanks — not my area. Hank Delacroix owns the cutoff.",
+      "status": "received"
+    },
+    {
+      "id": "em_046",
+      "prospectId": "pro_046",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-01-27T15:12:00Z",
+      "subject": "Re: schema drift into the warehouse",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_047",
+      "prospectId": "pro_051",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-01-29T13:27:00Z",
+      "subject": "Re: warehouse operations",
+      "body": "On warehouse operations: your load window is hostage to whenever mediation finishes. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_048",
+      "prospectId": "pro_041",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-01-29T18:03:00Z",
+      "subject": "per-cell telemetry — closing the loop",
+      "body": "Nolan — closing the loop on this one. If network performance becomes a priority after the cutover, I will be here. No reply needed. (delivery failed: mailbox full)",
+      "status": "bounced"
+    },
+    {
+      "id": "em_049",
+      "prospectId": "pro_054",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-01T14:27:00Z",
+      "subject": "Following the network optimisation thread",
+      "body": "Meiling — your paper argues for closed-loop optimisation, which needs data that does not arrive tomorrow. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_050",
+      "prospectId": "pro_052",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-04T13:03:00Z",
+      "subject": "yesterday's truth at Meridian",
+      "body": "Junie — you called it yesterday's truth in your talk, which is a better line than anything in our deck. We run a streaming path off the same collector output that feeds mediation, so features are minutes old at serving time without touching the nightly job. Worth fifteen minutes? (delivery failed: mailbox full)",
+      "status": "bounced"
+    },
+    {
+      "id": "em_051",
+      "prospectId": "pro_045",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-04T18:12:00Z",
+      "subject": "Re: ETL spend",
+      "body": "Emmett — following up on the note below: a 20% ETL reduction mandate and an Informatica renewal in March 2027 is a squeeze with a date on it. If this is not yours, who owns FinOps these days? (delivery failed: mailbox full)",
+      "status": "bounced"
+    },
+    {
+      "id": "em_052",
+      "prospectId": "pro_044",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-06T22:27:00Z",
+      "subject": "the customer data platform — one question",
+      "body": "Talia — one question rather than a pitch: how stale is the profile a rep sees at the point of contact? Asking because the CDP is only as current as the feed above it.",
+      "status": "opened"
+    },
+    {
+      "id": "em_053",
+      "prospectId": "pro_049",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-09T15:03:00Z",
+      "subject": "collectors at the edge",
+      "body": "Curtis — nothing changes at the collector — we read the same output mediation reads. Happy to send the architecture note rather than take a meeting, if that is easier.",
+      "status": "sent"
+    },
+    {
+      "id": "em_054",
+      "prospectId": "pro_048",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-11T17:03:00Z",
+      "subject": "Re: regulatory reporting",
+      "body": "Dahlia — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_055",
+      "prospectId": "pro_035",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-02-13T21:27:00Z",
+      "subject": "Re: OSS after the reorg",
+      "body": "Thanks — not my area. Roland Achebe chairs architecture review.",
+      "status": "received"
+    },
+    {
+      "id": "em_056",
+      "prospectId": "pro_042",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-02-15T20:12:00Z",
+      "subject": "Re: the data products roadmap",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_057",
+      "prospectId": "pro_057",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-02-16T19:49:00Z",
+      "subject": "Re: enterprise architecture",
+      "body": "On enterprise architecture: anything we do would come to your board eventually, so you may as well see it early. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_058",
+      "prospectId": "pro_060",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-17T18:49:00Z",
+      "subject": "model serving freshness — closing the loop",
+      "body": "Halima — closing the loop on this one. If data science platforms becomes a priority after the cutover, I will be here. No reply needed. (delivery failed: mailbox full)",
+      "status": "bounced"
+    },
+    {
+      "id": "em_059",
+      "prospectId": "pro_047",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-20T21:27:00Z",
+      "subject": "Following the marketing analytics thread",
+      "body": "Percy — your dbt models would not change at all — the same tables arrive sooner. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_060",
+      "prospectId": "pro_058",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-21T17:03:00Z",
+      "subject": "interconnect partner reporting at Meridian",
+      "body": "Lucia — partner reporting on a 24-hour lag makes disputes harder to win. We run a streaming path off the same collector output that feeds mediation, so partner records reconcile same-day without touching the nightly job. Worth fifteen minutes?",
+      "status": "sent"
+    },
+    {
+      "id": "em_061",
+      "prospectId": "pro_059",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-25T15:12:00Z",
+      "subject": "Re: Splunk and pipeline observability",
+      "body": "Tobias — following up on the note below: we emit into Splunk rather than asking you to look at another console. If this is not yours, who owns observability these days?",
+      "status": "sent"
+    },
+    {
+      "id": "em_062",
+      "prospectId": "pro_055",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-25T18:49:00Z",
+      "subject": "data platform on-call — one question",
+      "body": "Oskar — one question rather than a pitch: how many of your pages in the last month were batch overruns? Asking because you are the one getting paged at 05:00 when the batch runs long.",
+      "status": "opened"
+    },
+    {
+      "id": "em_063",
+      "prospectId": "pro_056",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-02-28T16:38:00Z",
+      "subject": "after the Horizon cutover",
+      "body": "Aditi — everything you own is frozen until Horizon lands, which is exactly why this is a September conversation. Happy to send the architecture note rather than take a meeting, if that is easier.",
+      "status": "sent"
+    },
+    {
+      "id": "em_064",
+      "prospectId": "pro_033",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-03-02T15:49:00Z",
+      "subject": "Re: IT infrastructure",
+      "body": "Douglas — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_065",
+      "prospectId": "pro_038",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-03-05T15:56:00Z",
+      "subject": "Overrun log",
+      "body": "Spreadsheet as promised — every overrun since the start of March with the page timestamps. Do not put my name on it in front of Nadia, I would rather she hears the numbers than that I sent them.",
+      "status": "received"
+    },
+    {
+      "id": "em_066",
+      "prospectId": "pro_034",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-03-05T21:49:00Z",
+      "subject": "Re: CPNI questionnaire",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_067",
+      "prospectId": "pro_030",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-03-05T22:27:00Z",
+      "subject": "Re: lineage from collector to warehouse",
+      "body": "Thanks — not my area. Dahlia Rosenberg files the reports.",
+      "status": "received"
+    },
+    {
+      "id": "em_068",
+      "prospectId": "pro_043",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-03-09T13:12:00Z",
+      "subject": "Re: the Kafka platform",
+      "body": "On the Kafka platform: we would not write to 0.11 at all — that cluster is a hostage situation, not an integration point. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_069",
+      "prospectId": "pro_053",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-03-09T13:38:00Z",
+      "subject": "dispatch systems — closing the loop",
+      "body": "Gil — closing the loop on this one. If field operations becomes a priority after the cutover, I will be here. No reply needed.",
+      "status": "sent"
+    },
+    {
+      "id": "em_070",
+      "prospectId": "pro_029",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-03-13T14:12:00Z",
+      "subject": "after Horizon at Meridian",
+      "body": "Bassam — not asking for anything before the cutover — noting we will be useful after it. We run a streaming path off the same collector output that feeds mediation, so billing systems are not in scope for the first phase without touching the nightly job. Worth fifteen minutes?",
+      "status": "sent"
+    },
+    {
+      "id": "em_071",
+      "prospectId": "pro_050",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-03-13T15:27:00Z",
+      "subject": "Following the digital channels thread",
+      "body": "Amara — digital events are a different feed, but the same nightly pattern shows up there. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_072",
+      "prospectId": "pro_028",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-03-15T21:27:00Z",
+      "subject": "the DAGs downstream of the nightly load — one question",
+      "body": "Yuki — one question rather than a pitch: how much of your DAG runtime is waiting on the mediation load? Asking because your DAGs start when the batch lands, so a late batch is a late everything.",
+      "status": "opened"
+    },
+    {
+      "id": "em_073",
+      "prospectId": "pro_032",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-03-17T22:27:00Z",
+      "subject": "next-day churn dashboards",
+      "body": "Rania — your dashboards are reporting yesterday because the feed upstream is nightly. Happy to send the architecture note rather than take a meeting, if that is easier.",
+      "status": "sent"
+    },
+    {
+      "id": "em_074",
+      "prospectId": "pro_027",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-03-20T13:41:00Z",
+      "subject": "Re: 06:00 cutoff",
+      "body": "Attaching March so far: eleven business days, four late landings, two of them past 07:00. I am happy to be quoted internally on this. I am not the person who can buy anything.",
+      "status": "received"
+    },
+    {
+      "id": "em_075",
+      "prospectId": "pro_031",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-03-21T15:27:00Z",
+      "subject": "Re: the streaming platform",
+      "body": "Theo — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_076",
+      "prospectId": "pro_037",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-03-22T16:03:00Z",
+      "subject": "Re: roaming records on a 24-hour lag",
+      "body": "Thanks — not my area. Lucia Ferrari reports on the partner side.",
+      "status": "received"
+    },
+    {
+      "id": "em_077",
+      "prospectId": "pro_040",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-03-25T21:12:00Z",
+      "subject": "Re: manual CDR reconciliation",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_078",
+      "prospectId": "pro_046",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-03-25T21:38:00Z",
+      "subject": "Re: data quality",
+      "body": "On data quality: drift between mediation output and the warehouse gets caught downstream, which is the expensive place. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_079",
+      "prospectId": "pro_041",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-03-29T19:03:00Z",
+      "subject": "Following the network performance thread",
+      "body": "Nolan — hourly telemetry is fine for reporting and useless for the thing you actually do with it. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_080",
+      "prospectId": "pro_051",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-03-29T20:49:00Z",
+      "subject": "the 04:00 Snowflake load — closing the loop",
+      "body": "Stefan — closing the loop on this one. If warehouse operations becomes a priority after the cutover, I will be here. No reply needed.",
+      "status": "sent"
+    },
+    {
+      "id": "em_081",
+      "prospectId": "pro_054",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-03-31T13:03:00Z",
+      "subject": "real-time RAN optimisation at Meridian",
+      "body": "Meiling — your paper argues for closed-loop optimisation, which needs data that does not arrive tomorrow. We run a streaming path off the same collector output that feeds mediation, so the optimisation loop gets current data without touching the nightly job. Worth fifteen minutes?",
+      "status": "sent"
+    },
+    {
+      "id": "em_082",
+      "prospectId": "pro_052",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-03T21:49:00Z",
+      "subject": "Re: yesterday's truth",
+      "body": "Junie — following up on the note below: you called it yesterday's truth in your talk, which is a better line than anything in our deck. If this is not yours, who owns churn modelling these days?",
+      "status": "sent"
+    },
+    {
+      "id": "em_083",
+      "prospectId": "pro_045",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-05T20:27:00Z",
+      "subject": "FinOps — one question",
+      "body": "Emmett — one question rather than a pitch: is the 20% measured against licence cost or total run cost? Asking because a 20% ETL reduction mandate and an Informatica renewal in March 2027 is a squeeze with a date on it.",
+      "status": "opened"
+    },
+    {
+      "id": "em_084",
+      "prospectId": "pro_044",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-05T20:38:00Z",
+      "subject": "subscriber events into the CDP",
+      "body": "Talia — the CDP is only as current as the feed above it. Happy to send the architecture note rather than take a meeting, if that is easier.",
+      "status": "sent"
+    },
+    {
+      "id": "em_085",
+      "prospectId": "pro_049",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-09T15:12:00Z",
+      "subject": "Re: telemetry collection",
+      "body": "Curtis — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_086",
+      "prospectId": "pro_048",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-04-10T17:12:00Z",
+      "subject": "Re: state filings off the nightly extract",
+      "body": "Thanks — not my area. Colette Marchand owns governance.",
+      "status": "received"
+    },
+    {
+      "id": "em_087",
+      "prospectId": "pro_035",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-04-11T15:38:00Z",
+      "subject": "Re: OSS after the reorg",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_088",
+      "prospectId": "pro_042",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-04-14T14:49:00Z",
+      "subject": "Re: data products",
+      "body": "On data products: half the roadmap items assume a feed that updates more than once a day. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_089",
+      "prospectId": "pro_024",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-16T21:17:00Z",
+      "subject": "POC scoping — OSS lower environment",
+      "body": "Elliot — following our call, I am putting together the scoping document: environments, volumes, and a two-week success criterion for the pipe itself. Anything you want in it that I have not listed?",
+      "status": "opened"
+    },
+    {
+      "id": "em_090",
+      "prospectId": "pro_057",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-17T17:12:00Z",
+      "subject": "architecture review — closing the loop",
+      "body": "Roland — closing the loop on this one. If enterprise architecture becomes a priority after the cutover, I will be here. No reply needed.",
+      "status": "sent"
+    },
+    {
+      "id": "em_091",
+      "prospectId": "pro_060",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-19T15:03:00Z",
+      "subject": "Following the data science platforms thread",
+      "body": "Halima — serving day-old features is a platform problem wearing a modelling costume. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_092",
+      "prospectId": "pro_047",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-19T16:12:00Z",
+      "subject": "dbt models downstream at Meridian",
+      "body": "Percy — your dbt models would not change at all — the same tables arrive sooner. We run a streaming path off the same collector output that feeds mediation, so nothing downstream is rewritten without touching the nightly job. Worth fifteen minutes?",
+      "status": "sent"
+    },
+    {
+      "id": "em_093",
+      "prospectId": "pro_058",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-23T15:03:00Z",
+      "subject": "Re: interconnect partner reporting",
+      "body": "Lucia — following up on the note below: partner reporting on a 24-hour lag makes disputes harder to win. If this is not yours, who owns partner analytics these days?",
+      "status": "sent"
+    },
+    {
+      "id": "em_094",
+      "prospectId": "pro_059",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-25T18:49:00Z",
+      "subject": "observability — one question",
+      "body": "Tobias — one question rather than a pitch: would another console be a blocker on its own? Asking because we emit into Splunk rather than asking you to look at another console.",
+      "status": "opened"
+    },
+    {
+      "id": "em_095",
+      "prospectId": "pro_055",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-26T19:12:00Z",
+      "subject": "the batch on-call rotation",
+      "body": "Oskar — you are the one getting paged at 05:00 when the batch runs long. Happy to send the architecture note rather than take a meeting, if that is easier.",
+      "status": "sent"
+    },
+    {
+      "id": "em_096",
+      "prospectId": "pro_056",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-04-27T16:03:00Z",
+      "subject": "Re: BSS integration",
+      "body": "Aditi — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_097",
+      "prospectId": "pro_024",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-04-28T20:56:00Z",
+      "subject": "Re: POC scoping — OSS lower environment",
+      "body": "Add expected throughput per collector and what your side needs from our network team. I want this in front of architecture review in May. Send it to me directly, not to Nadia's team — I will bring them in once it works.",
+      "status": "received"
+    },
+    {
+      "id": "em_098",
+      "prospectId": "pro_033",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-04-29T22:49:00Z",
+      "subject": "Re: post-reorg ownership",
+      "body": "Thanks — not my area. Nadia Kaur owns it now.",
+      "status": "received"
+    },
+    {
+      "id": "em_099",
+      "prospectId": "pro_030",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-05-03T18:38:00Z",
+      "subject": "Re: lineage from collector to warehouse",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_100",
+      "prospectId": "pro_034",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-05-04T15:27:00Z",
+      "subject": "Re: vendor security",
+      "body": "On vendor security: the questionnaire and SOC 2 are with your team; this is not a nudge, just a confirmation. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_101",
+      "prospectId": "pro_043",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-06T17:03:00Z",
+      "subject": "the 0.11 cluster — closing the loop",
+      "body": "Hiroshi — closing the loop on this one. If the Kafka platform becomes a priority after the cutover, I will be here. No reply needed. (delivery failed: mailbox full)",
+      "status": "bounced"
+    },
+    {
+      "id": "em_102",
+      "prospectId": "pro_039",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-05-07T20:56:00Z",
+      "subject": "Re: feature freshness",
+      "body": "26 hours is the p95 from event to servable feature. If that came down to minutes I could retire two of the batch jobs my team maintains. Whose budget that comes from is above my pay grade.",
+      "status": "received"
+    },
+    {
+      "id": "em_103",
+      "prospectId": "pro_053",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-08T19:03:00Z",
+      "subject": "Following the field operations thread",
+      "body": "Gil — this is probably not yours, and I would rather hear that than keep emailing. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_104",
+      "prospectId": "pro_050",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-11T19:27:00Z",
+      "subject": "app and web event data at Meridian",
+      "body": "Amara — digital events are a different feed, but the same nightly pattern shows up there. We run a streaming path off the same collector output that feeds mediation, so channel data lands continuously without touching the nightly job. Worth fifteen minutes?",
+      "status": "sent"
+    },
+    {
+      "id": "em_105",
+      "prospectId": "pro_024",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-12T18:56:00Z",
+      "subject": "Re: POC scoping — OSS lower environment",
+      "body": "Elliot — scoping doc attached, with throughput per collector and the network prerequisites. Happy to walk your architecture review through it. Does the May session still have room?",
+      "status": "sent"
+    },
+    {
+      "id": "em_106",
+      "prospectId": "pro_028",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-13T14:27:00Z",
+      "subject": "Airflow fan-out from mediation",
+      "body": "Yuki — your DAGs start when the batch lands, so a late batch is a late everything. Happy to send the architecture note rather than take a meeting, if that is easier.",
+      "status": "sent"
+    },
+    {
+      "id": "em_107",
+      "prospectId": "pro_029",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-13T21:03:00Z",
+      "subject": "Re: after Horizon",
+      "body": "Bassam — following up on the note below: not asking for anything before the cutover — noting we will be useful after it. If this is not yours, who owns billing systems these days?",
+      "status": "sent"
+    },
+    {
+      "id": "em_108",
+      "prospectId": "pro_032",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-16T21:03:00Z",
+      "subject": "Re: CX analytics",
+      "body": "Rania — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_109",
+      "prospectId": "pro_031",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-05-17T14:49:00Z",
+      "subject": "Re: Kafka consolidation",
+      "body": "Thanks — not my area. Hiroshi Nakamura maintains 0.11.",
+      "status": "received"
+    },
+    {
+      "id": "em_110",
+      "prospectId": "pro_037",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-05-20T21:03:00Z",
+      "subject": "Re: roaming records on a 24-hour lag",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_111",
+      "prospectId": "pro_023",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-21T17:17:00Z",
+      "subject": "Nightly mediation window",
+      "body": "Nadia — your Q2 filing lists the mediation batch overrun as a risk factor, which is an unusually honest thing to put in writing. We run a streaming path off the same collector output that feeds mediation, alongside the nightly job rather than in place of it. Worth twenty minutes?",
+      "status": "replied"
+    },
+    {
+      "id": "em_112",
+      "prospectId": "pro_040",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-05-22T22:03:00Z",
+      "subject": "Re: revenue assurance",
+      "body": "On revenue assurance: reconciling counts by hand after a late batch is a tax nobody budgets for. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_113",
+      "prospectId": "pro_051",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-24T17:27:00Z",
+      "subject": "Following the warehouse operations thread",
+      "body": "Stefan — your load window is hostage to whenever mediation finishes. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_114",
+      "prospectId": "pro_046",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-24T19:27:00Z",
+      "subject": "schema drift into the warehouse — closing the loop",
+      "body": "Sigrid — closing the loop on this one. If data quality becomes a priority after the cutover, I will be here. No reply needed.",
+      "status": "sent"
+    },
+    {
+      "id": "em_115",
+      "prospectId": "pro_023",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-05-26T20:56:00Z",
+      "subject": "Re: Nightly mediation window",
+      "body": "Reading the filing is more homework than most vendors do. Yes to twenty minutes — Wednesday works. Fair warning, we are in a freeze for the Horizon cutover, so this is a conversation about later, not now.",
+      "status": "received"
+    },
+    {
+      "id": "em_116",
+      "prospectId": "pro_041",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-28T21:38:00Z",
+      "subject": "per-cell telemetry at Meridian",
+      "body": "Nolan — hourly telemetry is fine for reporting and useless for the thing you actually do with it. We run a streaming path off the same collector output that feeds mediation, so telemetry lands in minutes without touching the nightly job. Worth fifteen minutes? (delivery failed: mailbox full)",
+      "status": "bounced"
+    },
+    {
+      "id": "em_117",
+      "prospectId": "pro_054",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-30T14:38:00Z",
+      "subject": "Re: real-time RAN optimisation",
+      "body": "Meiling — following up on the note below: your paper argues for closed-loop optimisation, which needs data that does not arrive tomorrow. If this is not yours, who owns network optimisation these days?",
+      "status": "sent"
+    },
+    {
+      "id": "em_118",
+      "prospectId": "pro_052",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-05-30T21:12:00Z",
+      "subject": "churn modelling — one question",
+      "body": "Junie — one question rather than a pitch: how much of the churn lift is lost to stale features? Asking because you called it yesterday's truth in your talk, which is a better line than anything in our deck.",
+      "status": "opened"
+    },
+    {
+      "id": "em_119",
+      "prospectId": "pro_045",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-06-01T16:27:00Z",
+      "subject": "ETL spend",
+      "body": "Emmett — a 20% ETL reduction mandate and an Informatica renewal in March 2027 is a squeeze with a date on it. Happy to send the architecture note rather than take a meeting, if that is easier.",
+      "status": "sent"
+    },
+    {
+      "id": "em_120",
+      "prospectId": "pro_044",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-06-05T20:38:00Z",
+      "subject": "Re: the customer data platform",
+      "body": "Talia — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox. (delivery failed: mailbox full)",
+      "status": "bounced"
+    },
+    {
+      "id": "em_121",
+      "prospectId": "pro_049",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-06-06T20:49:00Z",
+      "subject": "Re: collectors at the edge",
+      "body": "Thanks — not my area. Nolan Ferreira owns performance.",
+      "status": "received"
+    },
+    {
+      "id": "em_122",
+      "prospectId": "pro_048",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-06-07T15:38:00Z",
+      "subject": "Re: state filings off the nightly extract",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_123",
+      "prospectId": "pro_035",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-06-10T20:12:00Z",
+      "subject": "Re: OSS architecture",
+      "body": "On OSS architecture: you picked up the OSS work when Elliot Nunes left, so this may now be yours. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_124",
+      "prospectId": "pro_057",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-06-13T13:12:00Z",
+      "subject": "Following the enterprise architecture thread",
+      "body": "Roland — anything we do would come to your board eventually, so you may as well see it early. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_125",
+      "prospectId": "pro_042",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-06-13T22:03:00Z",
+      "subject": "the data products roadmap — closing the loop",
+      "body": "Sasha — closing the loop on this one. If data products becomes a priority after the cutover, I will be here. No reply needed.",
+      "status": "sent"
+    },
+    {
+      "id": "em_126",
+      "prospectId": "pro_060",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-06-15T19:27:00Z",
+      "subject": "model serving freshness at Meridian",
+      "body": "Halima — serving day-old features is a platform problem wearing a modelling costume. We run a streaming path off the same collector output that feeds mediation, so the platform serves current features without touching the nightly job. Worth fifteen minutes?",
+      "status": "sent"
+    },
+    {
+      "id": "em_127",
+      "prospectId": "pro_047",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-06-17T20:27:00Z",
+      "subject": "Re: dbt models downstream",
+      "body": "Percy — following up on the note below: your dbt models would not change at all — the same tables arrive sooner. If this is not yours, who owns marketing analytics these days?",
+      "status": "sent"
+    },
+    {
+      "id": "em_128",
+      "prospectId": "pro_058",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-06-19T13:03:00Z",
+      "subject": "partner analytics — one question",
+      "body": "Lucia — one question rather than a pitch: how often does a lag turn into a dispute? Asking because partner reporting on a 24-hour lag makes disputes harder to win.",
+      "status": "opened"
+    },
+    {
+      "id": "em_129",
+      "prospectId": "pro_023",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-06-19T16:22:00Z",
+      "subject": "Re: Recap — parallel run on the mediation feed",
+      "body": "That is an accurate recap. Ping me the week of the eighth, not before, and send it to Marisol at the same time.",
+      "status": "received"
+    },
+    {
+      "id": "em_130",
+      "prospectId": "pro_023",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-06-19T20:04:00Z",
+      "subject": "Recap — parallel run on the mediation feed",
+      "body": "Nadia, recapping yesterday so we are all holding the same plan: parallel run off the collector output for a full billing cycle, no cutover until counts reconcile to the cent, Marisol reviews before you do. You asked us to come back the week the freeze lifts on 8 September with a scoped plan covering staffing, overlap duration, exit criteria and replay semantics. Nothing from us before then, including security.",
+      "status": "replied"
+    },
+    {
+      "id": "em_131",
+      "prospectId": "pro_059",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-06-21T13:49:00Z",
+      "subject": "Splunk and pipeline observability",
+      "body": "Tobias — we emit into Splunk rather than asking you to look at another console. Happy to send the architecture note rather than take a meeting, if that is easier.",
+      "status": "sent"
+    },
+    {
+      "id": "em_132",
+      "prospectId": "pro_055",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-06-25T19:27:00Z",
+      "subject": "Re: data platform on-call",
+      "body": "Oskar — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_133",
+      "prospectId": "pro_056",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-06-26T18:27:00Z",
+      "subject": "Re: after the Horizon cutover",
+      "body": "Thanks — not my area. Bassam Haddad runs billing systems.",
+      "status": "received"
+    },
+    {
+      "id": "em_134",
+      "prospectId": "pro_033",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-06-29T21:49:00Z",
+      "subject": "Re: post-reorg ownership",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_135",
+      "prospectId": "pro_030",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-07-01T19:38:00Z",
+      "subject": "Re: data governance",
+      "body": "On data governance: you will be asked to sign off on any new data path, so early sight is worth more than a demo. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_136",
+      "prospectId": "pro_034",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-02T19:49:00Z",
+      "subject": "CPNI questionnaire — closing the loop",
+      "body": "Imani — closing the loop on this one. If vendor security becomes a priority after the cutover, I will be here. No reply needed.",
+      "status": "sent"
+    },
+    {
+      "id": "em_137",
+      "prospectId": "pro_043",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-03T22:49:00Z",
+      "subject": "Following the the Kafka platform thread",
+      "body": "Hiroshi — we would not write to 0.11 at all — that cluster is a hostage situation, not an integration point. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_138",
+      "prospectId": "pro_053",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-05T17:27:00Z",
+      "subject": "dispatch systems at Meridian",
+      "body": "Gil — this is probably not yours, and I would rather hear that than keep emailing. We run a streaming path off the same collector output that feeds mediation, so your systems are untouched without touching the nightly job. Worth fifteen minutes?",
+      "status": "sent"
+    },
+    {
+      "id": "em_139",
+      "prospectId": "pro_050",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-07T19:03:00Z",
+      "subject": "Re: app and web event data",
+      "body": "Amara — following up on the note below: digital events are a different feed, but the same nightly pattern shows up there. If this is not yours, who owns digital channels these days? (delivery failed: mailbox full)",
+      "status": "bounced"
+    },
+    {
+      "id": "em_140",
+      "prospectId": "pro_036",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-07-09T21:22:00Z",
+      "subject": "Standard rate card",
+      "body": "Please send a standard rate card for the file. To be clear, this is administrative — it does not indicate an active procurement process on our side.",
+      "status": "received"
+    },
+    {
+      "id": "em_141",
+      "prospectId": "pro_029",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-10T22:27:00Z",
+      "subject": "billing systems — one question",
+      "body": "Bassam — one question rather than a pitch: when does the freeze actually lift on your side? Asking because not asking for anything before the cutover — noting we will be useful after it.",
+      "status": "opened"
+    },
+    {
+      "id": "em_142",
+      "prospectId": "pro_028",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-11T21:38:00Z",
+      "subject": "Re: the DAGs downstream of the nightly load",
+      "body": "Yuki — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_143",
+      "prospectId": "pro_032",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-07-13T22:27:00Z",
+      "subject": "Re: next-day churn dashboards",
+      "body": "Thanks — not my area. Talia Okonjo owns the CDP side.",
+      "status": "received"
+    },
+    {
+      "id": "em_144",
+      "prospectId": "pro_031",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-07-15T19:38:00Z",
+      "subject": "Re: Kafka consolidation",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_145",
+      "prospectId": "pro_037",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-07-18T13:12:00Z",
+      "subject": "Re: roaming analytics",
+      "body": "On roaming analytics: partner records arriving a day late is a different problem from mediation but the same shape. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_146",
+      "prospectId": "pro_040",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-20T22:12:00Z",
+      "subject": "manual CDR reconciliation — closing the loop",
+      "body": "Bettina — closing the loop on this one. If revenue assurance becomes a priority after the cutover, I will be here. No reply needed.",
+      "status": "sent"
+    },
+    {
+      "id": "em_147",
+      "prospectId": "pro_046",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-20T22:27:00Z",
+      "subject": "Following the data quality thread",
+      "body": "Sigrid — drift between mediation output and the warehouse gets caught downstream, which is the expensive place. I know the freeze covers most of this; I am not asking for anything before it lifts.",
+      "status": "sent"
+    },
+    {
+      "id": "em_148",
+      "prospectId": "pro_051",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-22T16:38:00Z",
+      "subject": "the 04:00 Snowflake load at Meridian",
+      "body": "Stefan — your load window is hostage to whenever mediation finishes. We run a streaming path off the same collector output that feeds mediation, so the warehouse load stops waiting on a batch without touching the nightly job. Worth fifteen minutes?",
+      "status": "sent"
+    },
+    {
+      "id": "em_149",
+      "prospectId": "pro_041",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-25T15:12:00Z",
+      "subject": "Re: per-cell telemetry",
+      "body": "Nolan — following up on the note below: hourly telemetry is fine for reporting and useless for the thing you actually do with it. If this is not yours, who owns network performance these days?",
+      "status": "sent"
+    },
+    {
+      "id": "em_150",
+      "prospectId": "pro_054",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-26T20:49:00Z",
+      "subject": "network optimisation — one question",
+      "body": "Meiling — one question rather than a pitch: what data latency would closed-loop actually need? Asking because your paper argues for closed-loop optimisation, which needs data that does not arrive tomorrow.",
+      "status": "opened"
+    },
+    {
+      "id": "em_151",
+      "prospectId": "pro_052",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-30T16:12:00Z",
+      "subject": "yesterday's truth",
+      "body": "Junie — you called it yesterday's truth in your talk, which is a better line than anything in our deck. Happy to send the architecture note rather than take a meeting, if that is easier. (delivery failed: mailbox full)",
+      "status": "bounced"
+    },
+    {
+      "id": "em_152",
+      "prospectId": "pro_045",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-07-30T19:27:00Z",
+      "subject": "Re: FinOps",
+      "body": "Emmett — checking this is still yours after the January reorg. If it moved under the CTO org, point me at the right person and I will stop cluttering your inbox.",
+      "status": "opened"
+    },
+    {
+      "id": "em_153",
+      "prospectId": "pro_026",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-07-30T21:17:00Z",
+      "subject": "Re: replay semantics",
+      "body": "The number you asked for is six days — one collector, 2024, after a shelf rebuild. Size your dedup window off that, not off the average. Nothing else from me until September.",
+      "status": "received"
+    },
+    {
+      "id": "em_154",
+      "prospectId": "pro_044",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-08-01T14:38:00Z",
+      "subject": "Re: subscriber events into the CDP",
+      "body": "Thanks — not my area. Rania Fahmy runs CX analytics.",
+      "status": "received"
+    },
+    {
+      "id": "em_155",
+      "prospectId": "pro_025",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-08-03T18:04:00Z",
+      "subject": "Vendor security questionnaire — Vector Labs",
+      "body": "Forwarding the CPNI questionnaire and the SOC 2 request from Imani's team. Please return both to security@meridiantelecom.com, not to me. I am the routing address on the form, nothing more.",
+      "status": "received"
+    },
+    {
+      "id": "em_156",
+      "prospectId": "pro_049",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-08-04T14:03:00Z",
+      "subject": "Re: collectors at the edge",
+      "body": "Interesting, but everything here is frozen until the Horizon cutover lands. Try me in the autumn.",
+      "status": "received"
+    },
+    {
+      "id": "em_157",
+      "prospectId": "pro_025",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-08-04T18:04:00Z",
+      "subject": "Re: Vendor security questionnaire — Vector Labs",
+      "body": "Thanks Anton — questionnaire and SOC 2 report returned to security@ this morning. Copying you only so the loop is closed on your side.",
+      "status": "sent"
+    },
+    {
+      "id": "em_158",
+      "prospectId": "pro_048",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-08-05T15:38:00Z",
+      "subject": "Re: regulatory reporting",
+      "body": "On regulatory reporting: your filings are built on the same extract that lands late twice a week. Not something I can act on this quarter.",
+      "status": "received"
+    },
+    {
+      "id": "em_159",
+      "prospectId": "pro_025",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-08-05T19:56:00Z",
+      "subject": "Re: Vendor security questionnaire — Vector Labs",
+      "body": "Received, thanks. Imani's queue is behind the Horizon vendors so do not expect movement this month.",
+      "status": "received"
+    },
+    {
+      "id": "em_160",
+      "prospectId": "pro_035",
+      "accountId": "acc_012",
+      "direction": "outbound",
+      "sentAt": "2026-08-08T20:38:00Z",
+      "subject": "OSS after the reorg — closing the loop",
+      "body": "Serge — closing the loop on this one. If OSS architecture becomes a priority after the cutover, I will be here. No reply needed.",
+      "status": "sent"
+    }
+  ]
+}

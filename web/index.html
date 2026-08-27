@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nooks Prospecting Assistant</title>
+<style>
+  :root {
+    --bg: #0f1117; --panel: #171a23; --border: #2a2f3d;
+    --text: #e6e8ee; --muted: #8b93a7; --accent: #6c8cff;
+    --user-bubble: #24304f; --tool-bg: #131622; --note-bg: #2b2416;
+    --note-border: #6b5620; --warn: #d9a53f; --bad: #ff8080;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.55 -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex; height: 100vh; overflow: hidden;
+  }
+
+  /* ---- left sidebar ---- */
+  #sidebar {
+    width: 270px; flex-shrink: 0; border-right: 1px solid var(--border);
+    background: var(--panel); display: flex; flex-direction: column;
+  }
+  #sidebar .brand {
+    padding: 14px 16px 10px; font-weight: 600; font-size: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  #sidebar .brand .sub { color: var(--muted); font-weight: 400; font-size: 11px; }
+  #newChat {
+    margin: 10px 12px 4px; padding: 8px; border-radius: 8px; cursor: pointer;
+    background: var(--accent); color: #0d1020; font-weight: 600; border: none;
+    font-size: 14px;
+  }
+  #lists { overflow-y: auto; flex: 1; padding-bottom: 12px; }
+  .section-title {
+    padding: 14px 16px 4px; font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .item {
+    padding: 7px 16px; cursor: pointer; font-size: 13px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    border-left: 2px solid transparent; color: var(--text);
+  }
+  .item:hover { background: #1d212d; }
+  .item.active { background: #1d2434; border-left-color: var(--accent); }
+  .item .meta { color: var(--muted); font-size: 11px; display: block; }
+  .item .flag { color: #d9a53f; }
+
+  /* ---- main column ---- */
+  #main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  #messages {
+    flex: 1; overflow-y: auto; padding: 20px; display: flex;
+    flex-direction: column; gap: 14px; max-width: 860px; width: 100%;
+    margin: 0 auto;
+  }
+  .msg-user {
+    align-self: flex-end; background: var(--user-bubble);
+    border-radius: 14px 14px 4px 14px; padding: 10px 14px; max-width: 75%;
+    white-space: pre-wrap;
+  }
+  .msg-assistant { max-width: 100%; white-space: pre-wrap; }
+  .msg-assistant.streaming::after {
+    content: "▍"; color: var(--accent); animation: blink 1s infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .tool-row {
+    background: var(--tool-bg); border: 1px solid var(--border);
+    border-radius: 8px; font-size: 13px; padding: 8px 12px; cursor: pointer;
+    display: flex; gap: 8px; align-items: center; user-select: none;
+  }
+  .tool-row:hover { border-color: var(--accent); }
+  .tool-row.selected { border-color: var(--accent); background: #16203a; }
+  .tool-row .name { color: var(--accent); font-family: ui-monospace, monospace; }
+  .tool-row .args {
+    color: var(--muted); overflow: hidden; text-overflow: ellipsis;
+    white-space: nowrap; flex: 1; font-family: ui-monospace, monospace;
+    font-size: 12px;
+  }
+  .tool-row .size {
+    color: var(--muted); font-size: 11px; flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .tool-row .size.spinner { color: var(--accent); }
+  /* A tool result big enough to be worth noticing, and one worth fixing. */
+  .tool-row .size.warm { color: var(--warn); }
+  .tool-row .size.hot { color: var(--bad); font-weight: 600; }
+
+  /* ---- cost readouts ---- */
+  .turn-cost {
+    color: var(--muted); font-size: 11.5px; display: flex; gap: 14px;
+    flex-wrap: wrap; padding: 6px 2px 2px; border-top: 1px dashed var(--border);
+    font-variant-numeric: tabular-nums;
+  }
+  .turn-cost b { color: var(--text); font-weight: 600; }
+  .turn-cost .warm b { color: var(--warn); }
+  .turn-cost .hot b { color: var(--bad); }
+  #sessionCost {
+    padding: 8px 16px; font-size: 11px; color: var(--muted);
+    border-top: 1px solid var(--border); line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+  }
+  #sessionCost b { color: var(--text); font-weight: 600; }
+
+  .sdr-note {
+    background: var(--note-bg); border: 1px solid var(--note-border);
+    border-radius: 8px; padding: 10px 14px; font-size: 13px;
+  }
+  .sdr-note .label {
+    font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: #d9a53f; display: block; margin-bottom: 4px;
+  }
+  .error {
+    color: #ff8080; border: 1px solid #5a2d2d; background: #241416;
+    border-radius: 8px; padding: 8px 12px; font-size: 13px;
+  }
+  .reloaded {
+    color: var(--muted); font-size: 12px; text-align: center;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .reloaded::before, .reloaded::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  #composer {
+    display: flex; gap: 10px; padding: 14px 20px;
+    border-top: 1px solid var(--border); max-width: 860px; width: 100%;
+    margin: 0 auto;
+  }
+  #composer input {
+    flex: 1; background: var(--panel); border: 1px solid var(--border);
+    color: var(--text); border-radius: 10px; padding: 11px 14px; font-size: 15px;
+  }
+  #composer input:focus { outline: none; border-color: var(--accent); }
+  #composer input:disabled { opacity: 0.5; }
+  #composer button {
+    background: var(--accent); color: #0d1020; font-weight: 600; border: none;
+    border-radius: 10px; padding: 0 20px; cursor: pointer; font-size: 15px;
+  }
+  #composer button:disabled { opacity: 0.5; cursor: default; }
+
+  /* ---- right inspector ---- */
+  #inspector {
+    width: 0; flex-shrink: 0; border-left: 1px solid var(--border);
+    background: var(--panel); display: flex; flex-direction: column;
+    transition: width 0.15s ease; overflow: hidden;
+  }
+  #inspector.open { width: min(44vw, 640px); }
+  #inspector header {
+    display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+    border-bottom: 1px solid var(--border); flex-shrink: 0;
+  }
+  #inspector header .tool-name {
+    font-family: ui-monospace, monospace; color: var(--accent); font-size: 14px;
+  }
+  #inspector header .tool-size { color: var(--muted); font-size: 12px; flex: 1; }
+  #inspector header button {
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 6px; padding: 2px 10px; cursor: pointer; font-size: 13px;
+  }
+  #inspector header button:hover { color: var(--text); }
+  #inspectorBody { overflow-y: auto; flex: 1; padding: 0 16px 24px; }
+  #inspectorBody h4 {
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); margin: 18px 0 6px;
+  }
+  #inspectorBody pre {
+    margin: 0; background: var(--tool-bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px; font-size: 12px; line-height: 1.5;
+    white-space: pre-wrap; word-break: break-word;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; color: var(--text);
+  }
+</style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div class="brand">Nooks Prospecting Assistant
+    <span class="sub">mock workspace: Vector Labs</span>
+  </div>
+  <button id="newChat">+ New chat</button>
+  <div id="lists">
+    <div class="section-title">Chats</div>
+    <div id="chatList"></div>
+  </div>
+  <div id="sessionCost">this session: nothing sent yet</div>
+</nav>
+
+<div id="main">
+  <div id="messages"></div>
+  <form id="composer">
+    <input id="input" placeholder="Ask about your accounts, prospects, outreach…" autocomplete="off" autofocus />
+    <button id="send" type="submit">Send</button>
+  </form>
+</div>
+
+<aside id="inspector">
+  <header>
+    <span class="tool-name"></span>
+    <span class="tool-size"></span>
+    <button id="closeInspector">✕ close</button>
+  </header>
+  <div id="inspectorBody">
+    <h4>Input</h4><pre id="inspIn"></pre>
+    <h4>Output</h4><pre id="inspOut"></pre>
+  </div>
+</aside>
+
+<script>
+const messagesEl = document.getElementById('messages');
+const composer = document.getElementById('composer');
+const input = document.getElementById('input');
+const sendBtn = document.getElementById('send');
+const inspector = document.getElementById('inspector');
+
+let sessionId = crypto.randomUUID();
+let selectedRow = null;
+
+// Thresholds for colouring a cost readout. Not a rule the agent obeys — just
+// the point at which a payload is worth looking at, and the point at which it
+// is the most expensive thing in the turn.
+const WARM_TOKENS = 8000;
+const HOT_TOKENS = 20000;
+
+/** Running cost for the browser session, across every chat. */
+const session = { turns: 0, inputTokens: 0, outputTokens: 0, durationMs: 0 };
+
+// ---------- chats ----------
+
+const chats = new Map(); // sessionId -> { title, turns }
+
+function refreshSidebar(activeId) {
+  const el = document.getElementById('chatList');
+  el.innerHTML = '';
+  for (const [id, chat] of [...chats.entries()].reverse()) {
+    const div = document.createElement('div');
+    div.className = 'item' + (id === activeId ? ' active' : '');
+    div.innerHTML = '<span class="meta"></span>';
+    div.insertBefore(document.createTextNode(chat.title), div.firstChild);
+    div.querySelector('.meta').textContent =
+      chat.turns + ' turn' + (chat.turns === 1 ? '' : 's');
+    el.appendChild(div);
+  }
+}
+
+document.getElementById('newChat').onclick = () => {
+  sessionId = crypto.randomUUID();
+  messagesEl.innerHTML = '';
+  closeInspector();
+  refreshSidebar(sessionId);
+  input.focus();
+};
+
+// ---------- live reload ----------
+
+// The server restarts on every save under src/, which wipes its in-memory chat
+// sessions. Rather than let the next message continue a conversation the server
+// has forgotten, start a new one and say so — the transcript above stays on
+// screen so you can read the last draft while the new code loads.
+(function live() {
+  let bootId = null;
+  const source = new EventSource('/api/live');
+  source.onmessage = (e) => {
+    const event = JSON.parse(e.data);
+    if (event.type === 'reload') { location.reload(); return; }
+    if (event.type !== 'hello') return;
+    if (bootId === null) { bootId = event.bootId; return; }
+    if (event.bootId === bootId) return;   // same process, just a dropped socket
+    bootId = event.bootId;
+    sessionId = crypto.randomUUID();
+    const el = document.createElement('div');
+    el.className = 'reloaded';
+    el.textContent = 'server reloaded — new chat, your changes are live';
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    refreshSidebar(sessionId);
+  };
+})();
+
+// ---------- rendering ----------
+
+function addUserBubble(text) {
+  const el = document.createElement('div');
+  el.className = 'msg-user';
+  el.textContent = text;
+  messagesEl.appendChild(el);
+}
+
+function addAssistantEl() {
+  const el = document.createElement('div');
+  el.className = 'msg-assistant streaming';
+  messagesEl.appendChild(el);
+  return el;
+}
+
+function addToolRow(event) {
+  const row = document.createElement('div');
+  row.className = 'tool-row';
+  row.innerHTML =
+    '<span class="name"></span><span class="args"></span>' +
+    '<span class="size spinner">running…</span>';
+  row.querySelector('.name').textContent = event.toolName;
+  row.querySelector('.args').textContent = JSON.stringify(event.input ?? {});
+  row.dataset.input = JSON.stringify(event.input ?? null, null, 2);
+  row.dataset.output = '(no output yet)';
+  row.dataset.tool = event.toolName;
+  row.onclick = () => openInspector(row);
+  messagesEl.appendChild(row);
+  return row;
+}
+
+/**
+ * Close out a tool row with what the call cost.
+ *
+ * The size, the estimated tokens and the wall-clock are all on the row, because
+ * "how expensive was that query" should not require opening anything. A result
+ * big enough to dominate the turn's context is coloured, so it is visible from
+ * across the room.
+ */
+function finishToolRow(row, event) {
+  if (!row) return;
+  row.dataset.output = JSON.stringify(event.output ?? null, null, 2);
+  const m = event.metrics ?? { bytes: 0, estTokens: 0, durationMs: 0 };
+  row.dataset.metrics =
+    formatBytes(m.bytes) + ' · ≈' + formatTokens(m.estTokens) +
+    ' tokens · ' + formatDuration(m.durationMs);
+
+  const size = row.querySelector('.size');
+  size.classList.remove('spinner');
+  size.classList.toggle('warm', m.estTokens >= WARM_TOKENS && m.estTokens < HOT_TOKENS);
+  size.classList.toggle('hot', m.estTokens >= HOT_TOKENS);
+  size.textContent = row.dataset.metrics;
+  if (row === selectedRow) fillInspector(row);
+}
+
+/** What the whole turn cost, appended under the reply. */
+function addTurnCost(metrics) {
+  const el = document.createElement('div');
+  el.className = 'turn-cost';
+  const toolShare = metrics.inputTokens
+    ? Math.round((metrics.toolResultTokens / metrics.inputTokens) * 100)
+    : 0;
+  const heat =
+    metrics.inputTokens >= HOT_TOKENS ? 'hot'
+      : metrics.inputTokens >= WARM_TOKENS ? 'warm' : '';
+  const cell = (label, value, cls) =>
+    '<span class="' + (cls || '') + '">' + label + ' <b>' + value + '</b></span>';
+
+  el.innerHTML =
+    cell('tokens in', formatTokens(metrics.inputTokens), heat) +
+    cell('out', formatTokens(metrics.outputTokens)) +
+    cell('model calls', metrics.modelCalls) +
+    cell('tool output', '≈' + formatTokens(metrics.toolResultTokens) +
+      ' (' + toolShare + '% of input)') +
+    cell('latency', formatDuration(metrics.durationMs));
+  messagesEl.appendChild(el);
+
+  session.turns += 1;
+  session.inputTokens += metrics.inputTokens;
+  session.outputTokens += metrics.outputTokens;
+  session.durationMs += metrics.durationMs;
+  document.getElementById('sessionCost').innerHTML =
+    'this session: <b>' + session.turns + '</b> turn' +
+    (session.turns === 1 ? '' : 's') + ' · <b>' +
+    formatTokens(session.inputTokens) + '</b> in / <b>' +
+    formatTokens(session.outputTokens) + '</b> out · <b>' +
+    formatDuration(session.durationMs) + '</b>';
+}
+
+function addError(message) {
+  const el = document.createElement('div');
+  el.className = 'error';
+  el.textContent = message;
+  messagesEl.appendChild(el);
+}
+
+function formatBytes(n) {
+  return n > 1024 ? (n / 1024).toFixed(1) + ' KB' : n + ' B';
+}
+
+// Token counts are estimated server-side at four characters per token; see
+// src/usage.ts. The provider's exact numbers are the per-turn "tokens in/out".
+function formatTokens(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+  return String(n);
+}
+
+function formatDuration(ms) {
+  if (ms >= 60000) return Math.floor(ms / 60000) + 'm ' + Math.round((ms % 60000) / 1000) + 's';
+  if (ms >= 1000) return (ms / 1000).toFixed(1) + ' s';
+  return Math.round(ms) + ' ms';
+}
+
+// ---------- inspector ----------
+
+function openInspector(row) {
+  if (selectedRow) selectedRow.classList.remove('selected');
+  selectedRow = row;
+  row.classList.add('selected');
+  fillInspector(row);
+  inspector.classList.add('open');
+}
+
+function fillInspector(row) {
+  inspector.querySelector('.tool-name').textContent = row.dataset.tool;
+  inspector.querySelector('.tool-size').textContent =
+    row.dataset.metrics || row.querySelector('.size').textContent;
+  document.getElementById('inspIn').textContent = row.dataset.input;
+  document.getElementById('inspOut').textContent = row.dataset.output;
+}
+
+function closeInspector() {
+  inspector.classList.remove('open');
+  if (selectedRow) selectedRow.classList.remove('selected');
+  selectedRow = null;
+}
+document.getElementById('closeInspector').onclick = closeInspector;
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeInspector();
+});
+
+// ---------- chat ----------
+
+composer.onsubmit = async (e) => {
+  e.preventDefault();
+  const text = input.value.trim();
+  if (!text || sendBtn.disabled) return;
+  input.value = '';
+  sendBtn.disabled = true;
+
+  addUserBubble(text);
+  const chat = chats.get(sessionId) ?? { title: text.slice(0, 64), turns: 0 };
+  chat.turns += 1;
+  chats.set(sessionId, chat);
+
+  let assistantEl = null;
+  const rows = new Map();
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId, message: text }),
+    });
+    if (!res.ok || !res.body) throw new Error('HTTP ' + res.status);
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const frames = buffer.split('\n\n');
+      buffer = frames.pop();
+      for (const frame of frames) {
+        const line = frame.split('\n').find((l) => l.startsWith('data: '));
+        if (!line) continue;
+        const event = JSON.parse(line.slice(6));
+        if (event.type === 'text') {
+          if (!assistantEl) assistantEl = addAssistantEl();
+          assistantEl.textContent += event.delta;
+        } else if (event.type === 'tool-call') {
+          assistantEl = null; // next text starts a fresh block
+          rows.set(event.toolCallId, addToolRow(event));
+        } else if (event.type === 'tool-result') {
+          finishToolRow(rows.get(event.toolCallId), event);
+        } else if (event.type === 'error') {
+          addError(event.message);
+        } else if (event.type === 'usage') {
+          if (assistantEl) assistantEl.classList.remove('streaming');
+          addTurnCost(event.metrics);
+        } else if (event.type === 'done' && assistantEl) {
+          assistantEl.classList.remove('streaming');
+        }
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+    }
+  } catch (err) {
+    addError(String(err));
+  } finally {
+    if (assistantEl) assistantEl.classList.remove('streaming');
+    sendBtn.disabled = false;
+    input.focus();
+    refreshSidebar(sessionId);
+  }
+};
+
+refreshSidebar();
+</script>
+</body>
+</html>
