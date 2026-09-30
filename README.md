@@ -1,4 +1,4 @@
-# Nooks Prospecting Assistant
+# Nooks Email Agent
 
 An AI agent that drafts emails for revenue teams. It runs against a mock
 Nooks data layer (`fixtures/data.json`) for a fictional customer, **Vector Labs**.
