@@ -1,22 +1,16 @@
 # Nooks Prospecting Assistant
 
-An AI agent that drafts outbound email for sales reps. It runs against a mock
-Nooks data layer (`fixtures/data.json`) for a fictional seller, **Vector Labs**.
+An AI agent that drafts emails for revenue teams. It runs against a mock
+Nooks data layer (`fixtures/data.json`) for a fictional customer, **Vector Labs**.
 
 It shipped, reps are using it, and three complaints have come back. **Your job is
-to work them.**
-
-No sales background is needed. Everything the domain requires is the object
-graph below, and domain questions to your interviewer are free.
+to address them and make the agent better.**
 
 ## The data model
 
-Vector Labs sells a data pipeline platform. Its **SDRs** (sales development
-reps) do *outbound*: pick companies worth selling to, find the right humans
-inside them, call and email those humans. The assistant in this repo is the tool
-an SDR talks to while doing that — it reads their book of business and **drafts
-the outreach**. A human sends it, so nothing here touches a real inbox, but the
-draft goes out under the rep's name.
+Vector Labs sells a data pipeline platform. The assistant in this repo is the tool
+a seller for Vector Labs talks to while doing that — it reads their book of business and **drafts
+emails**. 
 
 Four records:
 
