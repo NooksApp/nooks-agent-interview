@@ -71,7 +71,7 @@ order worth reading them:
 | `src/tools/get-account.ts` | The agent's only tool: an account, the people at it, and their call and email history. |
 | `src/agent.ts` | The loop — what the model is given for a turn, how the turn runs, and how it gets measured. |
 | `src/nooksClient.mock.ts` | Read-only in-memory data layer over `fixtures/data.json`. Stands in for the Nooks API. |
-| `src/types.ts` | The four record types, field by field. |
+| `src/types.ts` | The four record types, field by field, including sync metadata. |
 | `src/usage.ts` | What the cost numbers mean — which are exact and which are estimates. |
 
 Plus `fixtures/data.json`, which is the data itself: read it freely, it's the
@@ -79,7 +79,10 @@ only way to know what the agent *should* have said.
 
 **Everything else is plumbing** — `src/server.ts` and `web/index.html` are the
 dev server and the chat page, `src/model.ts` and `src/env.ts` are credentials.
-You shouldn't need to read or change any of it, and nothing in these tickets is
+The one thing worth knowing about `src/server.ts` is that it keeps each chat's
+message history and passes all of it to `runAgentTurn`; what the model actually
+sees from that history is decided in `buildTurnInput`. Beyond that you
+shouldn't need to read or change any of it, and nothing in these tickets is
 hiding there.
 
 ## The three tickets
@@ -98,23 +101,34 @@ Reproduce it, find out why, and fix it. Start with this query in the chat UI:
 > Meridian Telecom — Nadia Kaur asked us to come back to her when their change
 > freeze lifts. Draft that follow-up.
 
-### 2. "The emails are too long"
+### 2. "It emailed the wrong version of her"
 
-A few reps say the drafts are verbose — three paragraphs where two sentences would do,
-and a lot of restating things the reader already knows. They edit every draft
-down before sending, which defeats the point.
+A rep on Meridian Telecom asked for an intro email to Marisol Vega. The draft
+used a title Marisol hasn't had in a year and went to an address that bounced.
+The rep says Marisol's details are right in the CRM.
 
-### 3. "It's too expensive"
+> Draft Marisol Vega at Meridian an intro to the parallel-run plan for the
+> mediation feed.
 
-Finance ran the numbers on the pilot. Per drafted email, the agent costs too much.
+Find out where the wrong details came from and fix it. Assume this isn't the
+only person it happens to.
 
-Make it cheaper for the agent to generate an email. Discuss why and what potential tradeoffs you are making.
+### 3. "It mixed up two of my accounts"
+
+A rep drafted an email for Northwind Analytics, then — in the same chat — asked
+for one to Harborview Health. The Harborview draft mentioned Airflow and a
+dashboard-freshness incident. Harborview runs neither.
+
+Reproduce it in the chat UI with those two requests in that order. Fix it
+without breaking the follow-ups reps rely on, like "make that shorter" or
+"send the same angle to her colleague."
 
 ## Ground rules
 
 - Read anything, change anything in `src/` or `web/`.
 - **Don't edit `fixtures/data.json`.** It's the workspace's data, not a config
-  file — the bug reports are about the agent, not about the records.
+  file. It comes from a CRM sync and is as messy as production data — handle
+  bad records in code, not by cleaning up the file.
 - `nooksClient.mock.ts` stands in for the Nooks API. You *may* change it, but
   call it out — in production that's another team's service, and "fix it in the
   API" is a different proposal from "fix it in our agent."
