@@ -48,7 +48,7 @@ npm install
 npm run dev              # http://localhost:3100 — the chat UI reps use
 ```
 
-Copy `.env.example` to `.env` and set the `INTERVIEW_GATEWAY_URL` +
+Edit `.env` and set the `INTERVIEW_GATEWAY_URL` +
 `INTERVIEW_TOKEN` your interviewer gave you (or your own `ANTHROPIC_API_KEY`).
 `AGENT_MODEL` overrides which model drafts.
 
@@ -79,10 +79,7 @@ only way to know what the agent *should* have said.
 
 **Everything else is plumbing** — `src/server.ts` and `web/index.html` are the
 dev server and the chat page, `src/model.ts` and `src/env.ts` are credentials.
-The one thing worth knowing about `src/server.ts` is that it keeps each chat's
-message history and passes all of it to `runAgentTurn`; what the model actually
-sees from that history is decided in `buildTurnInput`. Beyond that you
-shouldn't need to read or change any of it, and nothing in these tickets is
+You shouldn't need to read or change any of it, and nothing in these tickets is
 hiding there.
 
 ## The three tickets
@@ -113,15 +110,14 @@ The rep says Marisol's details are right in the CRM.
 Find out where the wrong details came from and fix it. Assume this isn't the
 only person it happens to.
 
-### 3. "It mixed up two of my accounts"
+### 3. "It won't use my CTA"
 
-A rep drafted an email for Northwind Analytics, then — in the same chat — asked
-for one to Harborview Health. The Harborview draft mentioned Airflow and a
-dashboard-freshness incident. Harborview runs neither.
+One rep consistently complains that the agent ends every draft with a
+different call to action. They want every email to close with the same line:
 
-Reproduce it in the chat UI with those two requests in that order. Fix it
-without breaking the follow-ups reps rely on, like "make that shorter" or
-"send the same angle to her colleague."
+> Let me know when you have 15 minutes to chat.
+
+How would you fix this?
 
 ## Ground rules
 
