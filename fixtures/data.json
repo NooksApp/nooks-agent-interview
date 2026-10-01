@@ -992,37 +992,18 @@
       }
     },
     {
-      "id": "pro_061",
+      "id": "pro_026",
       "accountId": "acc_012",
       "firstName": "Marisol",
       "lastName": "Vega",
-      "title": "Senior Software Engineer, Billing Platform",
+      "title": "Senior Engineer, Mediation Systems",
       "email": "mvega@meridiantelecom.com",
       "phone": "+1-303-555-2021",
       "linkedinUrl": "https://linkedin.com/in/marisol-vega-fake",
       "timezone": "America/Denver",
       "status": "open",
-      "lastContactedAt": "2025-09-12T16:40:00Z",
-      "updatedAt": "2025-09-16T14:02:00Z",
-      "crmContactId": "0039E32AC2B9855",
-      "enrichment": {
-        "notes": "Engineer on the billing platform team; owns the invoice rendering service. Comfortable with Java and Oracle; no public writing on streaming.",
-        "signals": []
-      }
-    },
-    {
-      "id": "pro_026",
-      "accountId": "acc_012",
-      "firstName": "Marisol",
-      "lastName": "Vega",
-      "title": "Principal Engineer, Mediation & CDR",
-      "email": "marisol.vega@meridiantelecom.com",
-      "phone": "+1-303-555-2021",
-      "linkedinUrl": "https://linkedin.com/in/marisol-vega-fake",
-      "timezone": "America/Denver",
-      "status": "open",
       "lastContactedAt": "2026-07-29T18:00:00Z",
-      "updatedAt": "2026-07-29T18:00:00Z",
+      "updatedAt": "2026-07-30T21:17:00Z",
       "crmContactId": "0039E32AC2B9855",
       "enrichment": {
         "notes": "Wrote the current mediation batch job. Skeptical of streaming claims; wants to see a parallel run before anything is cut over.",
@@ -1684,6 +1665,25 @@
       "crmContactId": "00356483E2E86A1",
       "enrichment": {
         "notes": "Ravi Chandrasekaran's peer; owns notebooks and model serving.",
+        "signals": []
+      }
+    },
+    {
+      "id": "pro_061",
+      "accountId": "acc_012",
+      "firstName": "Marisol",
+      "lastName": "Vega",
+      "title": "Principal Engineer, Mediation & CDR",
+      "email": "marisol.vega@meridiantelecom.com",
+      "phone": "+1-303-555-2021",
+      "linkedinUrl": "https://linkedin.com/in/marisol-vega-fake",
+      "timezone": "America/Denver",
+      "status": "open",
+      "lastContactedAt": null,
+      "updatedAt": "2026-09-02T15:40:00Z",
+      "crmContactId": "003D226A41712F7",
+      "enrichment": {
+        "notes": "Principal Engineer, Mediation & CDR at Meridian Telecom since September 2025.",
         "signals": []
       }
     }
@@ -2704,7 +2704,7 @@
     },
     {
       "id": "call_073",
-      "prospectId": "pro_061",
+      "prospectId": "pro_026",
       "accountId": "acc_012",
       "date": "2026-07-29T18:00:00Z",
       "durationSec": 1320,
@@ -4392,6 +4392,16 @@
       "subject": "OSS after the reorg — closing the loop",
       "body": "Serge — closing the loop on this one. If OSS architecture becomes a priority after the cutover, I will be here. No reply needed.",
       "status": "sent"
+    },
+    {
+      "id": "em_161",
+      "prospectId": "pro_061",
+      "accountId": "acc_012",
+      "direction": "inbound",
+      "sentAt": "2026-09-02T15:38:00Z",
+      "subject": "Re: replay semantics",
+      "body": "Writing from my new address — IT retired the old mvega@ aliases last week, so anything sent there bounces. On the parallel run: before I put time into a plan, I want your reconciliation numbers from a collector replay. Take a day of our CDRs, replay it through both paths, and show me record counts and billed minutes side by side, down to the cent. If those match I will join the scoping call with Nadia. If they do not, there is no plan to talk about.",
+      "status": "received"
     }
   ]
 }

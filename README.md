@@ -48,7 +48,7 @@ npm install
 npm run dev              # http://localhost:3100 — the chat UI reps use
 ```
 
-Copy `.env.example` to `.env` and set the `INTERVIEW_GATEWAY_URL` +
+Edit `.env` and set the `INTERVIEW_GATEWAY_URL` +
 `INTERVIEW_TOKEN` your interviewer gave you (or your own `ANTHROPIC_API_KEY`).
 `AGENT_MODEL` overrides which model drafts.
 
@@ -105,11 +105,13 @@ The rep says Marisol's details are right in the CRM.
 > Draft Marisol Vega at Meridian an intro to the parallel-run plan for the
 > mediation feed.
 
-### 3. "It mixed up two of my accounts"
+### 3. "It won't use my CTA"
 
-A rep drafted an email for Northwind Analytics, then — in the same chat — asked
-for one to Harborview Health. The Harborview draft mentioned Airflow and a
-dashboard-freshness incident. Harborview runs neither.
+One rep consistently complains that the agent ends every draft with a
+different call to action. They want every email to close with the same line:
+> Let me know when you have 15 minutes to chat.
+
+How would you fix this?
 
 ## Ground rules
 
