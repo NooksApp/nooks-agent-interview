@@ -52,6 +52,10 @@ export interface Prospect {
   /** 'open' = fair game, 'nurture' = parked. Independent of the account's stage. */
   status: string;
   lastContactedAt: string | null;
+  /** When the CRM sync last wrote this record. */
+  updatedAt: string;
+  /** The contact's id in the rep's CRM. */
+  crmContactId: string;
   /** Vendor research on the person. Free text plus whatever signals were found. */
   enrichment: {
     notes: string;
