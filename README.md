@@ -79,11 +79,6 @@ only way to know what the agent *should* have said.
 
 **Everything else is plumbing** — `src/server.ts` and `web/index.html` are the
 dev server and the chat page, `src/model.ts` and `src/env.ts` are credentials.
-The one thing worth knowing about `src/server.ts` is that it keeps each chat's
-message history and passes all of it to `runAgentTurn`; what the model actually
-sees from that history is decided in `buildTurnInput`. Beyond that you
-shouldn't need to read or change any of it, and nothing in these tickets is
-hiding there.
 
 ## The three tickets
 
@@ -110,18 +105,11 @@ The rep says Marisol's details are right in the CRM.
 > Draft Marisol Vega at Meridian an intro to the parallel-run plan for the
 > mediation feed.
 
-Find out where the wrong details came from and fix it. Assume this isn't the
-only person it happens to.
-
 ### 3. "It mixed up two of my accounts"
 
 A rep drafted an email for Northwind Analytics, then — in the same chat — asked
 for one to Harborview Health. The Harborview draft mentioned Airflow and a
 dashboard-freshness incident. Harborview runs neither.
-
-Reproduce it in the chat UI with those two requests in that order. Fix it
-without breaking the follow-ups reps rely on, like "make that shorter" or
-"send the same angle to her colleague."
 
 ## Ground rules
 
