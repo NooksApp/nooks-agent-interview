@@ -62,9 +62,6 @@ on each tool call, then tokens in/out, model calls and latency for the turn.
 
 ## What to read
 
-The whole agent is six files. These are the ones that matter, roughly in the
-order worth reading them:
-
 | File | What it is |
 |---|---|
 | `src/systemPrompt.ts` | Everything the model is told about who it is and what it's doing. Short. |
@@ -82,10 +79,7 @@ dev server and the chat page, `src/model.ts` and `src/env.ts` are credentials.
 
 ## The three tickets
 
-Work them in whatever order you like, and say out loud which you're on. Nobody
-finishes all three — how you work one is worth more than half-finishing three.
-
-### 1. "The emails aren't context-aware"
+### 1. "The emails seem to lack context"
 
 Several reps on large accounts say the drafts read as though the agent has no
 idea what has already happened with the customer — it misses recent calls,
@@ -96,7 +90,7 @@ Reproduce it, find out why, and fix it. Start with this query in the chat UI:
 > Meridian Telecom — Nadia Kaur asked us to come back to her when their change
 > freeze lifts. Draft that follow-up.
 
-### 2. "It emailed the wrong version of her"
+### 2. "It emailed a duplicate prospect"
 
 A rep on Meridian Telecom asked for an intro email to Marisol Vega. The draft
 used a title Marisol hasn't had in a year and went to an address that bounced.
@@ -126,19 +120,6 @@ How would you fix this?
 
 ### AI tools
 
-- **Ticket 1 is AI-free.** Finding what's wrong is you, your editor, your
-  terminal, grep and this repo — no Claude, Cursor, Copilot, or equivalent. The
-  point of that ticket is watching you read an agent you didn't write, and a
-  coding assistant does that part for you.
-- **After that, AI tools are fair game** — writing the fix for ticket 1 once
-  you've found the problem, and all of tickets 2 and 3. Say when you switch them
-  on, and expect to be asked what you checked in what they gave you.
-- Domain questions to your interviewer are free at any point.
-
-## Notes
-
-- `npm run typecheck` reports two `TS2589` "type instantiation is excessively
-  deep" errors from the AI SDK's generics. Pre-existing, not yours; a bare
-  `tool({…})` call reproduces it.
-- You can drive the tool and the data layer from a scratch script with no
-  credentials.
+- **Debugging should be AI-free.** Important that you build a mental model of the codebase and understand root causes.
+- **Use AI to implement fixes or solutions**
+- **Feel free to ask your interviewer questions!**
