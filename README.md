@@ -79,8 +79,6 @@ only way to know what the agent *should* have said.
 
 **Everything else is plumbing** — `src/server.ts` and `web/index.html` are the
 dev server and the chat page, `src/model.ts` and `src/env.ts` are credentials.
-You shouldn't need to read or change any of it, and nothing in these tickets is
-hiding there.
 
 ## The three tickets
 
@@ -107,14 +105,10 @@ The rep says Marisol's details are right in the CRM.
 > Draft Marisol Vega at Meridian an intro to the parallel-run plan for the
 > mediation feed.
 
-Find out where the wrong details came from and fix it. Assume this isn't the
-only person it happens to.
-
 ### 3. "It won't use my CTA"
 
 One rep consistently complains that the agent ends every draft with a
 different call to action. They want every email to close with the same line:
-
 > Let me know when you have 15 minutes to chat.
 
 How would you fix this?
