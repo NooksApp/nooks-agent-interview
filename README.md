@@ -68,7 +68,7 @@ order worth reading them:
 | File | What it is |
 |---|---|
 | `src/systemPrompt.ts` | Everything the model is told about who it is and what it's doing. Short. |
-| `src/tools/get-account-context.ts` | The agent's only tool: an account, the people at it, and their call and email history. |
+| `src/tools/get-account-context.ts` | The agent's only tool. Today it returns the account record and nothing else. |
 | `src/agent.ts` | The loop — what the model is given for a turn, how the turn runs, and how it gets measured. |
 | `src/nooksClient.mock.ts` | Read-only in-memory data layer over `fixtures/data.json`. Stands in for the Nooks API. |
 | `src/types.ts` | The four record types, field by field, including sync metadata. |
@@ -84,16 +84,28 @@ hiding there.
 
 ## The three tickets
 
-Work them in whatever order you like, and say out loud which you're on. Nobody
-finishes all three — how you work one is worth more than half-finishing three.
+Start with ticket 1; ticket 2 builds on it. Say out loud which one you're on.
+Nobody finishes all three — how you work one is worth more than half-finishing
+three.
 
 ### 1. "The emails aren't context-aware"
 
-Several reps on large accounts say the drafts read as though the agent has no
-idea what has already happened with the customer — it misses recent calls,
-recent replies, and things the prospect explicitly asked for.
+Reps say the drafts read as though the agent has no idea what has already
+happened with the customer — it misses recent calls, recent replies, and things
+the prospect explicitly asked for.
 
-Reproduce it, find out why, and fix it. Start with this query in the chat UI:
+That's because it doesn't know. `getAccountContext` returns the account record
+and nothing else: none of the people at the account, and none of their calls or
+emails. **Give the agent the context it needs to write a good email.**
+
+The catch is size. Meridian Telecom alone has about 40 people, 70 calls and 150
+emails. Returning all of it puts the biggest accounts over the model's context
+window, and every token a tool returns is paid for again on every step after it
+(`npm run payload` shows the sizes). Before you write code, walk us through
+your design.
+
+You're done when this query in the chat UI produces a draft that reflects what
+Nadia actually asked for:
 
 > Meridian Telecom — Nadia Kaur asked us to come back to her when their change
 > freeze lifts. Draft that follow-up.
@@ -110,14 +122,20 @@ The rep says Marisol's details are right in the CRM.
 Find out where the wrong details came from and fix it. Assume this isn't the
 only person it happens to.
 
-### 3. "It won't use my CTA"
+### 3. "It doesn't listen to me"
+
+Two complaints from reps, about the same underlying problem.
 
 One rep consistently complains that the agent ends every draft with a
 different call to action. They want every email to close with the same line:
 
 > Let me know when you have 15 minutes to chat.
 
-How would you fix this?
+Other reps say the agent doesn't listen to their style feedback. They tell it
+"make it shorter" or "make it more casual", and the drafts come back the way
+they were.
+
+How would you fix these?
 
 ## Ground rules
 
@@ -132,13 +150,10 @@ How would you fix this?
 
 ### AI tools
 
-- **Ticket 1 is AI-free.** Finding what's wrong is you, your editor, your
-  terminal, grep and this repo — no Claude, Cursor, Copilot, or equivalent. The
-  point of that ticket is watching you read an agent you didn't write, and a
-  coding assistant does that part for you.
-- **After that, AI tools are fair game** — writing the fix for ticket 1 once
-  you've found the problem, and all of tickets 2 and 3. Say when you switch them
+- **AI tools are fair game** for all three tickets. Say when you switch them
   on, and expect to be asked what you checked in what they gave you.
+- **For ticket 1, explain your design before you generate code.** We want to
+  hear what context you'd give the agent and why, in your own words.
 - Domain questions to your interviewer are free at any point.
 
 ## Notes
