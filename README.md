@@ -68,7 +68,7 @@ order worth reading them:
 | File | What it is |
 |---|---|
 | `src/systemPrompt.ts` | Everything the model is told about who it is and what it's doing. Short. |
-| `src/tools/get-account.ts` | The agent's only tool: an account, the people at it, and their call and email history. |
+| `src/tools/get-account-context.ts` | The agent's only tool: an account, the people at it, and their call and email history. |
 | `src/agent.ts` | The loop — what the model is given for a turn, how the turn runs, and how it gets measured. |
 | `src/nooksClient.mock.ts` | Read-only in-memory data layer over `fixtures/data.json`. Stands in for the Nooks API. |
 | `src/types.ts` | The four record types, field by field, including sync metadata. |

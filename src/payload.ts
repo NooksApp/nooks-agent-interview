@@ -25,7 +25,7 @@ async function main(): Promise<void> {
   const rows: Array<{ name: string; bytes: number; tokens: number; parts: string }> = [];
 
   for (const account of client.listAccounts()) {
-    const output = await tools.getAccount.execute({ account: account.id }, {});
+    const output = await tools.getAccountContext.execute({ account: account.id }, {});
     const json = JSON.stringify(output);
     const record = output as {
       prospects?: unknown[];
@@ -46,7 +46,7 @@ async function main(): Promise<void> {
   rows.sort((a, b) => b.tokens - a.tokens);
 
   const width = Math.max(...rows.map((r) => r.name.length));
-  console.log('getAccount payload, per account:\n');
+  console.log('getAccountContext payload, per account:\n');
   for (const row of rows) {
     console.log(
       `  ${row.name.padEnd(width)}  ${formatBytes(row.bytes).padStart(9)}  ` +

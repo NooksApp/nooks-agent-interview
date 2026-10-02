@@ -3,7 +3,7 @@ import { z } from 'zod';
 import type { ToolContext } from './types';
 
 /**
- * `getAccount` is the agent's only tool: one call, everything the workspace
+ * `getAccountContext` is the agent's only tool: one call, everything the workspace
  * knows about a company and the people at it — the account, the prospects with
  * their research notes, the calls with their summaries and transcripts, and the
  * emails with their bodies.
@@ -17,7 +17,7 @@ import type { ToolContext } from './types';
 /** How many records of each kind one lookup returns. */
 const PAGE_SIZE = 5;
 
-export function createGetAccountTool(ctx: ToolContext) {
+export function createGetAccountContextTool(ctx: ToolContext) {
   return tool({
     description:
       'Look up an account by name, domain, or ID (acc_...). Returns the ' +

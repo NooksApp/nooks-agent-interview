@@ -24,7 +24,7 @@
  *
  * Where to make changes:
  *   - what the model is told      → `src/systemPrompt.ts`
- *   - what a tool returns         → `src/tools/get-account.ts`
+ *   - what a tool returns         → `src/tools/get-account-context.ts`
  *   - a new tool                  → `src/tools/` + one line in `tools/index.ts`
  *   - anything else per-turn      → `buildTurnInput`, below
  */
@@ -140,7 +140,7 @@ function instrumentTools(
 ): ToolSet {
   const wrapped: ToolSet = {};
   for (const [name, definition] of Object.entries(tools)) {
-    // The casts are here for the same reason as the one in `get-account.ts`:
+    // The casts are here for the same reason as the one in `get-account-context.ts`:
     // the AI SDK's tool generics do not survive being handled generically.
     const original = definition.execute as
       | ((input: unknown, options: { toolCallId: string }) => Promise<unknown>)
