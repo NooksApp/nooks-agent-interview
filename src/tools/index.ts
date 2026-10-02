@@ -1,7 +1,7 @@
 /**
  * The agent's toolset — one tool.
  *
- * `getAccountContext` returns the account record.
+ * `getAccountContext` returns basic facts about an account.
  *
  * Adding a capability means adding a file here and one line below.
  */
