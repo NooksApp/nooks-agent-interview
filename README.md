@@ -65,7 +65,7 @@ on each tool call, then tokens in/out, model calls and latency for the turn.
 | File | What it is |
 |---|---|
 | `src/systemPrompt.ts` | Everything the model is told about who it is and what it's doing. Short. |
-| `src/tools/get-account-context.ts` | The agent's only tool. Today it returns the account record and nothing else. |
+| `src/tools/get-account-context.ts` | The agent's only tool. Today it returns a few basic facts about the account and nothing else. |
 | `src/agent.ts` | The loop — what the model is given for a turn, how the turn runs, and how it gets measured. |
 | `src/nooksClient.mock.ts` | Read-only in-memory data layer over `fixtures/data.json`. Stands in for the Nooks API. |
 | `src/types.ts` | The four record types, field by field, including sync metadata. |

@@ -3,15 +3,16 @@ import { z } from 'zod';
 import type { ToolContext } from './types';
 
 /**
- * `getAccountContext` is the agent's only tool. Today it returns the account
- * record and nothing else: no prospects, no calls, no emails.
+ * `getAccountContext` is the agent's only tool. Today it returns a few basic
+ * facts about the account and nothing else: no enrichment research, no
+ * prospects, no calls, no emails.
  */
 
 export function createGetAccountContextTool(ctx: ToolContext) {
   return tool({
     description:
       'Look up an account by name, domain, or ID (acc_...). Returns the ' +
-      'account record: industry, size, stage, and enrichment research.',
+      'account name, domain, industry, size, and stage.',
     inputSchema: z.object({
       account: z.string().describe('Account name, domain, or ID (acc_...).'),
     }),
@@ -40,7 +41,8 @@ export function createGetAccountContextTool(ctx: ToolContext) {
         };
       }
 
-      return { account: found };
+      const { id, name, domain, industry, employeeCount, stage } = found;
+      return { account: { id, name, domain, industry, employeeCount, stage } };
     },
   });
 }

@@ -999,7 +999,7 @@
       "title": "Senior Engineer, Mediation Systems",
       "email": "mvega@meridiantelecom.com",
       "phone": "+1-303-555-2021",
-      "linkedinUrl": "https://linkedin.com/in/marisol-vega-fake",
+      "linkedinUrl": "https://linkedin.com/in/marisol-vega",
       "timezone": "America/Denver",
       "status": "open",
       "lastContactedAt": "2026-07-29T18:00:00Z",
@@ -1676,7 +1676,7 @@
       "title": "Principal Engineer, Mediation & CDR",
       "email": "marisol.vega@meridiantelecom.com",
       "phone": "+1-303-555-2021",
-      "linkedinUrl": "https://linkedin.com/in/marisol-vega-fake",
+      "linkedinUrl": "https://linkedin.com/in/marisol-vega",
       "timezone": "America/Denver",
       "status": "open",
       "lastContactedAt": null,
@@ -2487,7 +2487,7 @@
       "date": "2026-06-18T18:45:00Z",
       "durationSec": 2400,
       "disposition": "connected-positive",
-      "summary": "Working session with Nadia Kaur and two of her engineers on the mediation feed. Agreed the shape: Vector Pipeline reads the same collector output, runs in parallel with the nightly job for a full billing cycle, and nothing is cut over until counts reconcile to the cent. Nadia was explicit about timing — Meridian is in a change freeze for the Horizon cutover until 2026-09-08 and she does not want a proposal, a POC, or a security review started before then. She asked us to come back the week the freeze lifts with a scoped parallel-run plan for the mediation feed, including what her team would have to staff. Said Marisol Vega would be the technical reviewer.",
+      "summary": "Two-hour working session with Nadia Kaur and Marisol Vega on the mediation feed. Went well: agreed on an approach, timing and next steps. Full detail in the transcript.",
       "transcript": [
         {
           "speaker": "Rep",
@@ -4080,7 +4080,7 @@
       "direction": "inbound",
       "sentAt": "2026-06-19T16:22:00Z",
       "subject": "Re: Recap — parallel run on the mediation feed",
-      "body": "That is an accurate recap. Ping me the week of the eighth, not before, and send it to Marisol at the same time.",
+      "body": "That is an accurate recap. Talk then.",
       "status": "received"
     },
     {
@@ -4090,7 +4090,7 @@
       "direction": "outbound",
       "sentAt": "2026-06-19T20:04:00Z",
       "subject": "Recap — parallel run on the mediation feed",
-      "body": "Nadia, recapping yesterday so we are all holding the same plan: parallel run off the collector output for a full billing cycle, no cutover until counts reconcile to the cent, Marisol reviews before you do. You asked us to come back the week the freeze lifts on 8 September with a scoped plan covering staffing, overlap duration, exit criteria and replay semantics. Nothing from us before then, including security.",
+      "body": "Nadia, thanks for the two hours yesterday. Recapping so we are all holding the same plan: we will come back to you and Marisol when we agreed, with what you asked for. Shout if I have misremembered anything.",
       "status": "replied"
     },
     {
