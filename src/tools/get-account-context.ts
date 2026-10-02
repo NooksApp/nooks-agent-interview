@@ -3,27 +3,15 @@ import { z } from 'zod';
 import type { ToolContext } from './types';
 
 /**
- * `getAccount` is the agent's only tool: one call, everything the workspace
- * knows about a company and the people at it — the account, the prospects with
- * their research notes, the calls with their summaries and transcripts, and the
- * emails with their bodies.
- *
- * Each collection is capped at `PAGE_SIZE` records per lookup. Enterprise
- * accounts carry hundreds of activities and returning all of them put the
- * biggest accounts in the book over the model's context window, so the tool
- * returns a page of each instead.
+ * `getAccountContext` is the agent's only tool. Today it returns the account
+ * record and nothing else: no prospects, no calls, no emails.
  */
 
-/** How many records of each kind one lookup returns. */
-const PAGE_SIZE = 5;
-
-export function createGetAccountTool(ctx: ToolContext) {
+export function createGetAccountContextTool(ctx: ToolContext) {
   return tool({
     description:
       'Look up an account by name, domain, or ID (acc_...). Returns the ' +
-      'complete account record, every prospect at the account with their full ' +
-      'research notes, and the complete call and email history including call ' +
-      'summaries, transcripts, and email bodies.',
+      'account record: industry, size, stage, and enrichment research.',
     inputSchema: z.object({
       account: z.string().describe('Account name, domain, or ID (acc_...).'),
     }),
@@ -52,12 +40,7 @@ export function createGetAccountTool(ctx: ToolContext) {
         };
       }
 
-      return {
-        account: found,
-        prospects: ctx.client.listProspects(found.id).slice(0, PAGE_SIZE),
-        calls: ctx.client.listCalls(found.id).slice(0, PAGE_SIZE),
-        emails: ctx.client.listEmails(found.id).slice(0, PAGE_SIZE),
-      };
+      return { account: found };
     },
   });
 }

@@ -65,7 +65,7 @@ on each tool call, then tokens in/out, model calls and latency for the turn.
 | File | What it is |
 |---|---|
 | `src/systemPrompt.ts` | Everything the model is told about who it is and what it's doing. Short. |
-| `src/tools/get-account.ts` | The agent's only tool: an account, the people at it, and their call and email history. |
+| `src/tools/get-account-context.ts` | The agent's only tool. Today it returns the account record and nothing else. |
 | `src/agent.ts` | The loop — what the model is given for a turn, how the turn runs, and how it gets measured. |
 | `src/nooksClient.mock.ts` | Read-only in-memory data layer over `fixtures/data.json`. Stands in for the Nooks API. |
 | `src/types.ts` | The four record types, field by field, including sync metadata. |
@@ -81,14 +81,17 @@ dev server and the chat page, `src/model.ts` and `src/env.ts` are credentials.
 
 ### 1. "The emails seem to lack context"
 
-Several reps on large accounts say the drafts read as though the agent has no
-idea what has already happened with the customer — it misses recent calls,
-recent replies, and things the prospect explicitly asked for.
+Reps say the drafts read as though the agent has no idea what has already
+happened with the customer — it misses recent calls, recent replies, and things
+the prospect explicitly asked for.
 
-Reproduce it, find out why, and fix it. Start with this query in the chat UI:
+`getAccountContext` is the only tool the agent has for fetching context. **Give the agent the context it needs to write a good email.**
+
+You can try writing an email to Nadia Kaur at the account Meridian Telecom to see what kinds of context problems the agent has.
 
 > Meridian Telecom — Nadia Kaur asked us to come back to her when their change
 > freeze lifts. Draft that follow-up.
+
 
 ### 2. "It emailed a duplicate prospect"
 
@@ -99,13 +102,15 @@ The rep says Marisol's details are right in the CRM.
 > Draft Marisol Vega at Meridian an intro to the parallel-run plan for the
 > mediation feed.
 
-### 3. "It won't use my CTA"
+
+### 3. "It doesn't listen to my preferences"
 
 One rep consistently complains that the agent ends every draft with a
-different call to action. They want every email to close with the same line:
-> Let me know when you have 15 minutes to chat.
+different call to action (it sometimes asks for 15 minutes, sometimes asks for 30 minutes). They want every email to close with a very short CTA.
 
-How would you fix this?
+Other reps say the agent doesn't listen to their style feedback. They tell it
+"make it shorter" or "make it more casual", and the drafts come back the way
+they were.
 
 ## Ground rules
 
@@ -119,7 +124,6 @@ How would you fix this?
 - Leave your changes in the working tree — no need to commit.
 
 ### AI tools
-
-- **Debugging should be AI-free.** Important that you build a mental model of the codebase and understand root causes.
-- **Use AI to implement fixes or solutions**
+- **Debugging should be AI-free.** You should try to build a mental model of the codebase and understand root causes.
+- **You are encouraged to use AI to implement fixes or solutions**
 - **Feel free to ask your interviewer questions!**
