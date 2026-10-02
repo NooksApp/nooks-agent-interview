@@ -62,9 +62,6 @@ on each tool call, then tokens in/out, model calls and latency for the turn.
 
 ## What to read
 
-The whole agent is six files. These are the ones that matter, roughly in the
-order worth reading them:
-
 | File | What it is |
 |---|---|
 | `src/systemPrompt.ts` | Everything the model is told about who it is and what it's doing. Short. |
@@ -79,38 +76,24 @@ only way to know what the agent *should* have said.
 
 **Everything else is plumbing** — `src/server.ts` and `web/index.html` are the
 dev server and the chat page, `src/model.ts` and `src/env.ts` are credentials.
-You shouldn't need to read or change any of it, and nothing in these tickets is
-hiding there.
 
 ## The three tickets
 
-Start with ticket 1; ticket 2 builds on it. Say out loud which one you're on.
-Nobody finishes all three — how you work one is worth more than half-finishing
-three.
-
-### 1. "The emails aren't context-aware"
+### 1. "The emails seem to lack context"
 
 Reps say the drafts read as though the agent has no idea what has already
 happened with the customer — it misses recent calls, recent replies, and things
 the prospect explicitly asked for.
 
-That's because it doesn't know. `getAccountContext` returns the account record
-and nothing else: none of the people at the account, and none of their calls or
-emails. **Give the agent the context it needs to write a good email.**
+`getAccountContext` is the only tool the agent has for fetching context. **Give the agent the context it needs to write a good email.**
 
-The catch is size. Meridian Telecom alone has about 40 people, 70 calls and 150
-emails. Returning all of it puts the biggest accounts over the model's context
-window, and every token a tool returns is paid for again on every step after it
-(`npm run payload` shows the sizes). Before you write code, walk us through
-your design.
-
-You're done when this query in the chat UI produces a draft that reflects what
-Nadia actually asked for:
+You can try writing an email to Nadia Kaur at the account Meridian Telecom to see what kinds of context problems the agent has.
 
 > Meridian Telecom — Nadia Kaur asked us to come back to her when their change
 > freeze lifts. Draft that follow-up.
 
-### 2. "It emailed the wrong version of her"
+
+### 2. "It emailed a duplicate prospect"
 
 A rep on Meridian Telecom asked for an intro email to Marisol Vega. The draft
 used a title Marisol hasn't had in a year and went to an address that bounced.
@@ -119,23 +102,15 @@ The rep says Marisol's details are right in the CRM.
 > Draft Marisol Vega at Meridian an intro to the parallel-run plan for the
 > mediation feed.
 
-Find out where the wrong details came from and fix it. Assume this isn't the
-only person it happens to.
 
-### 3. "It doesn't listen to me"
-
-Two complaints from reps, about the same underlying problem.
+### 3. "It doesn't listen to my preferences"
 
 One rep consistently complains that the agent ends every draft with a
-different call to action. They want every email to close with the same line:
-
-> Let me know when you have 15 minutes to chat.
+different call to action (it sometimes asks for 15 minutes, sometimes asks for 30 minutes). They want every email to close with a very short CTA.
 
 Other reps say the agent doesn't listen to their style feedback. They tell it
 "make it shorter" or "make it more casual", and the drafts come back the way
 they were.
-
-How would you fix these?
 
 ## Ground rules
 
@@ -149,17 +124,6 @@ How would you fix these?
 - Leave your changes in the working tree — no need to commit.
 
 ### AI tools
-
-- **AI tools are fair game** for all three tickets. Say when you switch them
-  on, and expect to be asked what you checked in what they gave you.
-- **For ticket 1, explain your design before you generate code.** We want to
-  hear what context you'd give the agent and why, in your own words.
-- Domain questions to your interviewer are free at any point.
-
-## Notes
-
-- `npm run typecheck` reports two `TS2589` "type instantiation is excessively
-  deep" errors from the AI SDK's generics. Pre-existing, not yours; a bare
-  `tool({…})` call reproduces it.
-- You can drive the tool and the data layer from a scratch script with no
-  credentials.
+- **Debugging should be AI-free.** You should try to build a mental model of the codebase and understand root causes.
+- **You are encouraged to use AI to implement fixes or solutions**
+- **Feel free to ask your interviewer questions!**
