@@ -39,6 +39,13 @@ const sessions = new Map<string, ModelMessage[]>();
 
 const SAFE_ID = /^[A-Za-z0-9][A-Za-z0-9_-]*$/;
 
+/**
+ * Sessions with a turn in flight. One turn per chat at a time: two would both
+ * start from the same history, and whichever finished last would erase the
+ * other. The chat page already waits for each reply before sending the next.
+ */
+const busySessions = new Set<string>();
+
 app.post('/api/chat', async (req, res) => {
   const { sessionId, message } = req.body as {
     sessionId?: string;
@@ -48,6 +55,11 @@ app.post('/api/chat', async (req, res) => {
     res.status(400).json({ error: 'sessionId and message are required' });
     return;
   }
+  if (busySessions.has(sessionId)) {
+    res.status(409).json({ error: 'this chat is still answering the last message' });
+    return;
+  }
+  busySessions.add(sessionId);
 
   const history: ModelMessage[] = [
     ...(sessions.get(sessionId) ?? []),
@@ -77,6 +89,8 @@ app.post('/api/chat', async (req, res) => {
     const messageText = err instanceof Error ? err.message : String(err);
     res.write(`data: ${JSON.stringify({ type: 'error', message: messageText })}\n\n`);
     res.write(`data: ${JSON.stringify({ type: 'done' })}\n\n`);
+  } finally {
+    busySessions.delete(sessionId);
   }
   res.end();
 });
