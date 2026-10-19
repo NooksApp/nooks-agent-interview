@@ -1,5 +1,5 @@
 import { tool } from 'ai';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 import type { ToolContext } from './types';
 
 /**
@@ -16,9 +16,7 @@ export function createGetAccountContextTool(ctx: ToolContext) {
     inputSchema: z.object({
       account: z.string().describe('Account name, domain, or ID (acc_...).'),
     }),
-    // The parameter type is spelled out because the AI SDK's generic inference
-    // gives up on this signature (see the typecheck note in the README).
-    execute: async ({ account }: { account: string }) => {
+    execute: async ({ account }) => {
       const found = account.startsWith('acc_')
         ? ctx.client.getAccount(account)
         : ctx.client.findAccountByName(account);

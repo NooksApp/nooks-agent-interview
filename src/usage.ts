@@ -87,7 +87,11 @@ export function formatBytes(n: number): string {
 }
 
 export function formatDuration(ms: number): string {
-  if (ms >= 60_000) return `${Math.floor(ms / 60_000)}m ${Math.round((ms % 60_000) / 1000)}s`;
+  if (ms >= 60_000) {
+    // Round once, so 119.7 s reads "2m 0s" rather than "1m 60s".
+    const s = Math.round(ms / 1000);
+    return `${Math.floor(s / 60)}m ${s % 60}s`;
+  }
   if (ms >= 1000) return `${(ms / 1000).toFixed(1)} s`;
   return `${Math.round(ms)} ms`;
 }

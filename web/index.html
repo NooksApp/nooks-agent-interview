@@ -389,7 +389,10 @@ function formatTokens(n) {
 }
 
 function formatDuration(ms) {
-  if (ms >= 60000) return Math.floor(ms / 60000) + 'm ' + Math.round((ms % 60000) / 1000) + 's';
+  if (ms >= 60000) {
+    const s = Math.round(ms / 1000);
+    return Math.floor(s / 60) + 'm ' + (s % 60) + 's';
+  }
   if (ms >= 1000) return (ms / 1000).toFixed(1) + ' s';
   return Math.round(ms) + ' ms';
 }
@@ -464,7 +467,9 @@ composer.onsubmit = async (e) => {
           if (!assistantEl) assistantEl = addAssistantEl();
           assistantEl.textContent += event.delta;
         } else if (event.type === 'tool-call') {
-          assistantEl = null; // next text starts a fresh block
+          // Next text starts a fresh block; this one is finished streaming.
+          if (assistantEl) assistantEl.classList.remove('streaming');
+          assistantEl = null;
           rows.set(event.toolCallId, addToolRow(event));
         } else if (event.type === 'tool-result') {
           finishToolRow(rows.get(event.toolCallId), event);

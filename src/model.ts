@@ -31,7 +31,7 @@ export function getModel(modelId: string = AGENT_MODEL): LanguageModel {
   }
 
   throw new Error(
-    'No LLM credentials. Copy .env.example to .env and set ' +
+    'No LLM credentials. Edit .env and set ' +
       'INTERVIEW_GATEWAY_URL + INTERVIEW_TOKEN (provided by your interviewer), ' +
       'or set ANTHROPIC_API_KEY to use your own key.',
   );

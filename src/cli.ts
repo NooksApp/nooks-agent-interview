@@ -50,6 +50,7 @@ async function main(): Promise<void> {
       `${summary.assistantText.length} chars of text ---`,
   );
   console.log(`--- cost: ${formatTurnMetrics(summary.metrics)} ---`);
+  if (summary.streamErrors.length > 0) process.exitCode = 1;
 }
 
 main().catch((err) => {

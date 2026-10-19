@@ -51,6 +51,8 @@ export class NooksClient {
    */
   findAccountByName(name: string): Account | Account[] | null {
     const needle = name.trim().toLowerCase();
+    // An empty needle is a substring of every name; it matches nothing.
+    if (!needle) return null;
     const exact = this.data.accounts.find(
       (a) => a.name.toLowerCase() === needle || a.domain.toLowerCase() === needle,
     );
