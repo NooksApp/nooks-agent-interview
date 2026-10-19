@@ -34,7 +34,7 @@ async function main(): Promise<void> {
     };
     rows.push({
       name: account.name,
-      bytes: json.length,
+      bytes: Buffer.byteLength(json),
       tokens: estimateTokens(json),
       parts:
         `${record.prospects?.length ?? 0} prospects, ` +

@@ -140,8 +140,8 @@ function instrumentTools(
 ): ToolSet {
   const wrapped: ToolSet = {};
   for (const [name, definition] of Object.entries(tools)) {
-    // The casts are here for the same reason as the one in `get-account-context.ts`:
-    // the AI SDK's tool generics do not survive being handled generically.
+    // The casts are here because the AI SDK's tool generics do not survive
+    // being handled generically.
     const original = definition.execute as
       | ((input: unknown, options: { toolCallId: string }) => Promise<unknown>)
       | undefined;
@@ -198,11 +198,26 @@ export async function runAgentTurn(
     messages: input.messages,
     tools: instrumentTools(input.tools, turn.toolDurations),
     stopWhen: stepCountIs(MAX_STEPS),
+    // Errors are recorded and emitted from the stream below; without this the
+    // SDK also dumps every one to the console.
+    onError: () => {},
   });
 
   // Text, tool calls and tool results, in the order the model produced them.
   for await (const part of result.fullStream) {
     recordPart(part, turn);
+  }
+
+  // A failed model call has already gone out as an `error` event. The result
+  // promises below would only reject again with a generic "No output
+  // generated", so end the turn here instead.
+  // Steps that finished before the failure were still billed; their usage was
+  // recorded from `finish-step` parts as they arrived.
+  if (turn.summary.streamErrors.length > 0) {
+    turn.summary.metrics.durationMs = performance.now() - startedAt;
+    turn.emit({ type: 'usage', metrics: turn.summary.metrics });
+    turn.emit({ type: 'done' });
+    return { summary: turn.summary, responseMessages: [] };
   }
 
   // Available once the stream is finished. `totalUsage` is the provider's own
@@ -258,6 +273,16 @@ function recordPart(part: TextStreamPart<ToolSet>, turn: TurnRecorder): void {
     }
     case 'tool-error': {
       finishToolCall(turn, part, { error: String(part.error) });
+      break;
+    }
+    case 'finish-step': {
+      // A running count, so a turn that fails partway still reports what its
+      // completed steps cost. A finished turn replaces it with `totalUsage`.
+      const totals = turn.summary.metrics;
+      totals.modelCalls += 1;
+      totals.inputTokens += part.usage.inputTokens ?? 0;
+      totals.outputTokens += part.usage.outputTokens ?? 0;
+      totals.cachedInputTokens += part.usage.inputTokenDetails?.cacheReadTokens ?? 0;
       break;
     }
     case 'error': {
@@ -340,7 +365,7 @@ function measureToolResult(
   const serialized = JSON.stringify(output ?? null);
   const metrics: ToolMetrics = {
     durationMs: turn.toolDurations.get(toolCallId) ?? 0,
-    bytes: serialized.length,
+    bytes: Buffer.byteLength(serialized),
     estTokens: estimateTokens(serialized),
   };
 
