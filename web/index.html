@@ -55,6 +55,9 @@
     flex-direction: column; gap: 14px; max-width: 860px; width: 100%;
     margin: 0 auto;
   }
+  /* One per chat; only the open chat's is shown. */
+  .chat-log { display: contents; }
+  .chat-log[hidden] { display: none; }
   .msg-user {
     align-self: flex-end; background: var(--user-bubble);
     border-radius: 14px 14px 4px 14px; padding: 10px 14px; max-width: 75%;
@@ -214,8 +217,8 @@ const composer = document.getElementById('composer');
 const input = document.getElementById('input');
 const sendBtn = document.getElementById('send');
 const inspector = document.getElementById('inspector');
+const DEFAULT_PLACEHOLDER = input.placeholder;
 
-let sessionId = crypto.randomUUID();
 let selectedRow = null;
 
 // Thresholds for colouring a cost readout. Not a rule the agent obeys — just
@@ -229,27 +232,68 @@ const session = { turns: 0, inputTokens: 0, outputTokens: 0, durationMs: 0 };
 
 // ---------- chats ----------
 
-const chats = new Map(); // sessionId -> { title, turns }
+/**
+ * Chats that have sent at least one message, oldest first. Each keeps its own
+ * transcript element under #messages, so opening a chat only changes which one
+ * is visible — its tool rows and cost readouts are the originals.
+ *
+ * `stale` means the server restarted since this chat last spoke, so its history
+ * is gone; the chat can be read but not continued.
+ */
+const chats = [];
 
-function refreshSidebar(activeId) {
+/** The chat on screen. Joins `chats` when its first message is sent. */
+let current = createChat();
+
+/** A reply is streaming. The page sends one message at a time, across all chats. */
+let busy = false;
+
+function createChat() {
+  const log = document.createElement('div');
+  log.className = 'chat-log';
+  messagesEl.appendChild(log);
+  return { id: crypto.randomUUID(), title: '', turns: 0, log, stale: false };
+}
+
+function showChat(chat) {
+  if (chat === current) return;
+  // A chat that never sent anything has nothing to come back to.
+  if (current.turns === 0) current.log.remove();
+  else current.log.hidden = true;
+  current = chat;
+  chat.log.hidden = false;
+  closeInspector();
+  syncComposer();
+  refreshSidebar();
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function refreshSidebar() {
   const el = document.getElementById('chatList');
   el.innerHTML = '';
-  for (const [id, chat] of [...chats.entries()].reverse()) {
+  for (const chat of [...chats].reverse()) {
     const div = document.createElement('div');
-    div.className = 'item' + (id === activeId ? ' active' : '');
+    div.className = 'item' + (chat === current ? ' active' : '');
     div.innerHTML = '<span class="meta"></span>';
     div.insertBefore(document.createTextNode(chat.title), div.firstChild);
     div.querySelector('.meta').textContent =
-      chat.turns + ' turn' + (chat.turns === 1 ? '' : 's');
+      chat.turns + ' turn' + (chat.turns === 1 ? '' : 's') +
+      (chat.stale ? ' · read-only' : '');
+    div.onclick = () => showChat(chat);
     el.appendChild(div);
   }
 }
 
+function syncComposer() {
+  input.disabled = current.stale;
+  sendBtn.disabled = busy || current.stale;
+  input.placeholder = current.stale
+    ? 'The server restarted, so this chat is read-only — start a new chat'
+    : DEFAULT_PLACEHOLDER;
+}
+
 document.getElementById('newChat').onclick = () => {
-  sessionId = crypto.randomUUID();
-  messagesEl.innerHTML = '';
-  closeInspector();
-  refreshSidebar(sessionId);
+  if (current.turns > 0) showChat(createChat());
   input.focus();
 };
 
@@ -257,8 +301,12 @@ document.getElementById('newChat').onclick = () => {
 
 // The server restarts on every save under src/, which wipes its in-memory chat
 // sessions. Rather than let the next message continue a conversation the server
-// has forgotten, start a new one and say so — the transcript above stays on
-// screen so you can read the last draft while the new code loads.
+// has forgotten:
+//
+//   - the chat on screen carries on under a new session id, with a divider
+//     marking where the model's memory starts — the transcript above stays so
+//     you can read the last draft while the new code loads;
+//   - every other chat becomes read-only, since there is no way to resume it.
 (function live() {
   let bootId = null;
   const source = new EventSource('/api/live');
@@ -269,33 +317,45 @@ document.getElementById('newChat').onclick = () => {
     if (bootId === null) { bootId = event.bootId; return; }
     if (event.bootId === bootId) return;   // same process, just a dropped socket
     bootId = event.bootId;
-    sessionId = crypto.randomUUID();
-    const el = document.createElement('div');
-    el.className = 'reloaded';
-    el.textContent = 'server reloaded — new chat, your changes are live';
-    messagesEl.appendChild(el);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-    refreshSidebar(sessionId);
+    for (const chat of chats) {
+      if (chat === current || chat.stale) continue;
+      chat.stale = true;
+      addNotice(chat.log, 'server restarted — this chat is read-only');
+    }
+    if (current.turns > 0 && !current.stale) {
+      current.id = crypto.randomUUID();
+      addNotice(current.log, 'server reloaded — the model starts fresh here, your changes are live');
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+    syncComposer();
+    refreshSidebar();
   };
 })();
 
 // ---------- rendering ----------
 
-function addUserBubble(text) {
+function addNotice(log, text) {
+  const el = document.createElement('div');
+  el.className = 'reloaded';
+  el.textContent = text;
+  log.appendChild(el);
+}
+
+function addUserBubble(log, text) {
   const el = document.createElement('div');
   el.className = 'msg-user';
   el.textContent = text;
-  messagesEl.appendChild(el);
+  log.appendChild(el);
 }
 
-function addAssistantEl() {
+function addAssistantEl(log) {
   const el = document.createElement('div');
   el.className = 'msg-assistant streaming';
-  messagesEl.appendChild(el);
+  log.appendChild(el);
   return el;
 }
 
-function addToolRow(event) {
+function addToolRow(log, event) {
   const row = document.createElement('div');
   row.className = 'tool-row';
   row.innerHTML =
@@ -307,7 +367,7 @@ function addToolRow(event) {
   row.dataset.output = '(no output yet)';
   row.dataset.tool = event.toolName;
   row.onclick = () => openInspector(row);
-  messagesEl.appendChild(row);
+  log.appendChild(row);
   return row;
 }
 
@@ -336,7 +396,7 @@ function finishToolRow(row, event) {
 }
 
 /** What the whole turn cost, appended under the reply. */
-function addTurnCost(metrics) {
+function addTurnCost(log, metrics) {
   const el = document.createElement('div');
   el.className = 'turn-cost';
   const toolShare = metrics.inputTokens
@@ -355,7 +415,7 @@ function addTurnCost(metrics) {
     cell('tool output', '≈' + formatTokens(metrics.toolResultTokens) +
       ' (' + toolShare + '% of input)') +
     cell('latency', formatDuration(metrics.durationMs));
-  messagesEl.appendChild(el);
+  log.appendChild(el);
 
   session.turns += 1;
   session.inputTokens += metrics.inputTokens;
@@ -369,11 +429,11 @@ function addTurnCost(metrics) {
     formatDuration(session.durationMs) + '</b>';
 }
 
-function addError(message) {
+function addError(log, message) {
   const el = document.createElement('div');
   el.className = 'error';
   el.textContent = message;
-  messagesEl.appendChild(el);
+  log.appendChild(el);
 }
 
 function formatBytes(n) {
@@ -430,14 +490,21 @@ document.addEventListener('keydown', (e) => {
 composer.onsubmit = async (e) => {
   e.preventDefault();
   const text = input.value.trim();
-  if (!text || sendBtn.disabled) return;
+  if (!text || busy || current.stale) return;
   input.value = '';
-  sendBtn.disabled = true;
+  busy = true;
+  syncComposer();
 
-  addUserBubble(text);
-  const chat = chats.get(sessionId) ?? { title: text.slice(0, 64), turns: 0 };
+  // The reply goes to the chat it was sent from, even if you open another one
+  // while it streams.
+  const chat = current;
+  if (chat.turns === 0) {
+    chat.title = text.slice(0, 64);
+    chats.push(chat);
+  }
   chat.turns += 1;
-  chats.set(sessionId, chat);
+  refreshSidebar();
+  addUserBubble(chat.log, text);
 
   let assistantEl = null;
   const rows = new Map();
@@ -446,7 +513,7 @@ composer.onsubmit = async (e) => {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId, message: text }),
+      body: JSON.stringify({ sessionId: chat.id, message: text }),
     });
     if (!res.ok || !res.body) throw new Error('HTTP ' + res.status);
 
@@ -464,33 +531,34 @@ composer.onsubmit = async (e) => {
         if (!line) continue;
         const event = JSON.parse(line.slice(6));
         if (event.type === 'text') {
-          if (!assistantEl) assistantEl = addAssistantEl();
+          if (!assistantEl) assistantEl = addAssistantEl(chat.log);
           assistantEl.textContent += event.delta;
         } else if (event.type === 'tool-call') {
           // Next text starts a fresh block; this one is finished streaming.
           if (assistantEl) assistantEl.classList.remove('streaming');
           assistantEl = null;
-          rows.set(event.toolCallId, addToolRow(event));
+          rows.set(event.toolCallId, addToolRow(chat.log, event));
         } else if (event.type === 'tool-result') {
           finishToolRow(rows.get(event.toolCallId), event);
         } else if (event.type === 'error') {
-          addError(event.message);
+          addError(chat.log, event.message);
         } else if (event.type === 'usage') {
           if (assistantEl) assistantEl.classList.remove('streaming');
-          addTurnCost(event.metrics);
+          addTurnCost(chat.log, event.metrics);
         } else if (event.type === 'done' && assistantEl) {
           assistantEl.classList.remove('streaming');
         }
-        messagesEl.scrollTop = messagesEl.scrollHeight;
+        if (chat === current) messagesEl.scrollTop = messagesEl.scrollHeight;
       }
     }
   } catch (err) {
-    addError(String(err));
+    addError(chat.log, String(err));
   } finally {
     if (assistantEl) assistantEl.classList.remove('streaming');
-    sendBtn.disabled = false;
-    input.focus();
-    refreshSidebar(sessionId);
+    busy = false;
+    syncComposer();
+    if (chat === current) input.focus();
+    refreshSidebar();
   }
 };
 
