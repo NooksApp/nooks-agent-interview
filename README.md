@@ -10,14 +10,14 @@ to address them and make the agent better.**
 
 Vector Labs sells a data pipeline platform. The assistant in this repo is the tool
 a seller for Vector Labs talks to while doing that — it reads their book of business and **drafts
-emails**. 
+emails**.
 
-Four records:
+The workspace is the seller, and it holds four kinds of record:
 
 ```
 workspace              the seller — one per install ("Vector Labs")
    │
-   └── account         a company we sell TO ("Northwind Analytics", acc_001)
+   └── account         a company the workspace sells TO ("Northwind Analytics", acc_001)
           │            has a stage and enrichment research
           │
           └── prospect a PERSON at that account ("Maya Chen", pro_001)
@@ -37,7 +37,7 @@ workspace              the seller — one per install ("Vector Labs")
 | account → prospect | one-to-many. A prospect belongs to **exactly one** account. |
 | prospect → call / email | one-to-many, each pointing back with `prospectId` + `accountId`. |
 
-The workspace is 12 accounts, 60 people, and about 240 calls and emails, all
+The workspace holds 12 accounts, 61 people, and about 240 calls and emails, all
 synthetic. Reading one account end to end in `fixtures/data.json` is worth two
 minutes.
 
