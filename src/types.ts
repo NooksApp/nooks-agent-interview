@@ -1,8 +1,8 @@
 /**
  * Shared domain types for the mock Nooks data layer.
  *
- * Four records: account → prospect → call / email. The README draws the same
- * graph. No sales background is needed for this exercise.
+ * The workspace (the seller) holds four records: account → prospect → call /
+ * email. The README draws the same graph. No sales background is needed for this exercise.
  */
 
 /** The seller — one per install. Vector Labs, here. */
@@ -20,7 +20,7 @@ export interface Signal {
   confidence: string;
 }
 
-/** A company we sell to. */
+/** A company the workspace sells to. */
 export interface Account {
   id: string;
   name: string;
